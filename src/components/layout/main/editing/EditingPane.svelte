@@ -3,7 +3,7 @@
     import { DialogProperty } from "../../../../utils/types";
     import { StickyNoteIcon, FileTextIcon } from 'lucide-svelte';
     import { getUnit } from "../../../../../lib/util";
-    import { getDerivedFiles, selectedFile as selectedFileStore } from "../../../../stores/data";
+    import { getDerivedFiles, selectedFile as selectedFileStore, selectedUnit } from "../../../../stores/data";
     import { openDialog } from "../../../../stores/uiStores";
     import Button from "../../../shared/Button.svelte";
     import UnitInfo from "./UnitInfo.svelte";
@@ -12,7 +12,6 @@
     import ActionRow from "./ActionRow.svelte";
     import Context from "./Context.svelte";
     import ContextDialog from "../../../overlay/dialogs/ContextDialog.svelte";
-    export let selectedUnit: Unit;
     export let selectedFile: TranslationFile;
 
     let srcElement: Node;
@@ -27,56 +26,54 @@
     }1
 
     function updateEditStatus() {
-        if(selectedUnit === null) {
+        if($selectedUnit === null) {
             edited = false;
         } else {
             if(selectedFile.isSource) {
-                edited = selectedUnit.source != targetElement.textContent;
+                edited = $selectedUnit.source != targetElement.textContent;
             } else {
-                edited = (selectedUnit.target ?? "") != targetElement.textContent;
+                edited = ($selectedUnit.target ?? "") != targetElement.textContent;
             }
         }
     }
 
     function save() {
-        let newEntry = selectedUnit;
+        let newEntry = $selectedUnit;
         if(selectedFile.isSource) {
-            newEntry.source = targetElement.textContent;
-            newEntry.target = null;
-        } else {
-            if (targetElement.textContent.length > 0) {
-                newEntry.target = targetElement.textContent;
-            } else {
-                newEntry.target = null;
-            }
-        }
+            // Edit Source
+            $selectedUnit.source = targetElement.textContent;
 
-        if(selectedFile.isSource) {
+            // Apply to all file
             for(let file of getDerivedFiles(selectedFile)) {
-                let targetUnit = getUnit(file.rootGroup, selectedUnit.getFullPath());
+                let targetUnit = getUnit(file.rootGroup, $selectedUnit.getFullPath());
                 if(targetUnit == null) continue; // TODO: We should sync the entry to there as well
                 targetUnit.source = newEntry.source;
                 targetUnit = targetUnit;
             }
+        } else {
+            $selectedUnit.target = targetElement.textContent ? targetElement.textContent : null;
         }
 
-        selectedUnit = newEntry.clone();
         $selectedFileStore = $selectedFileStore;
     }
 
-    function selectedEntryChanged() {
-        setTargetText(selectedUnit?.target ?? (selectedFile?.isSource ? selectedUnit.source : ""));
+    function selectedEntryChanged(unit: Unit) {
+        if(unit == null) {
+            setTargetText("");
+        } else {
+            setTargetText(unit?.target ?? (selectedFile?.isSource ? unit.source : ""));
+        }
     }
 
     function addNote() {
         openDialog(new DialogProperty(NoteDialog, {units: getUnits()}, () => {
-            selectedUnit.notes = selectedUnit.notes;
+            $selectedUnit.notes = $selectedUnit.notes;
         }));
     }
 
     function addContexts() {
         openDialog(new DialogProperty(ContextDialog, {units: getUnits()}, () => {
-            selectedUnit.contextGroups = selectedUnit.contextGroups;
+            $selectedUnit.contextGroups = $selectedUnit.contextGroups;
         }));
     }
 
@@ -84,7 +81,7 @@
         let entries = [];
 
         for(let file of getDerivedFiles(selectedFile)) {
-            let unitInFile = getUnit(file.rootGroup, selectedUnit.getFullPath());
+            let unitInFile = getUnit(file.rootGroup, $selectedUnit.getFullPath());
             if(unitInFile != null) entries.push(unitInFile);
         }
 
@@ -92,30 +89,30 @@
     }
 
     function removeNote(noteObject) {
-        selectedUnit.notes.splice(selectedUnit.notes.indexOf(noteObject), 1);
-        selectedUnit.notes = selectedUnit.notes;
+        $selectedUnit.notes.splice($selectedUnit.notes.indexOf(noteObject), 1);
+        $selectedUnit.notes = $selectedUnit.notes;
     }
 
     function removeContext(contextObject) {
-        selectedUnit.contextGroups.splice(selectedUnit.contextGroups.indexOf(contextObject));
-        selectedUnit.contextGroups = selectedUnit.contextGroups;
+        $selectedUnit.contextGroups.splice($selectedUnit.contextGroups.indexOf(contextObject));
+        $selectedUnit.contextGroups = $selectedUnit.contextGroups;
     }
 
-    $: if(selectedUnit) selectedEntryChanged();
+    $: selectedEntryChanged($selectedUnit);
 </script>
 
 <div class="editing">
-    {#if selectedUnit != null && selectedUnit.notes.length > 0}
+    {#if $selectedUnit != null && $selectedUnit.notes.length > 0}
         <div id="notes">
-            {#each selectedUnit.getNotes() as note}
+            {#each $selectedUnit.getNotes() as note}
                 <Note on:remove={removeNote} {note}/>
             {/each}
         </div>
     {/if}
 
-    {#if selectedUnit != null && selectedUnit.contextGroups.length > 0}
+    {#if $selectedUnit != null && $selectedUnit.contextGroups.length > 0}
         <div id="contexts">
-            {#each selectedUnit.contextGroups as contextGrp}
+            {#each $selectedUnit.contextGroups as contextGrp}
                 <Context {contextGrp} on:remove={removeContext} />
             {/each}
         </div>
@@ -123,38 +120,36 @@
 
     <div id="src" class="box source-panel">
         <p class="source-string">Source String</p>
-        <p bind:this={srcElement}>{selectedUnit?.source ?? ""}</p>
+        <p bind:this={srcElement}>{$selectedUnit?.source ?? ""}</p>
     </div>
 
-    {#if selectedUnit != null}
-        <ActionRow unit={selectedUnit} {selectedFile} {srcElement} {edited} on:setTargetText={(e) => setTargetText(e.detail)} />
+    {#if $selectedUnit != null}
+        <ActionRow unit={$selectedUnit} {selectedFile} {srcElement} {edited} on:setTargetText={(e) => setTargetText(e.detail)} />
     {/if}
 
-    <div class="editContainer">        
+    <div class="editContainer">
         <div
             class="box editBox"
             spellcheck="true"
             bind:this={targetElement}
-            class:disabled={selectedUnit == null}
-            contenteditable={selectedUnit != null ? "true" : "false"}
+            class:disabled={$selectedUnit == null}
+            contenteditable={$selectedUnit != null ? "true" : "false"}
             on:keyup={() => updateEditStatus()}>
         </div>
         <div class="save-button">
-            <Button on:click={save} disabled={selectedUnit == null || !edited}>
+            <Button on:click={save} disabled={$selectedUnit == null || !edited}>
                 {selectedFile?.isSource ? "Edit Source" : "Save Changes"}
             </Button>
         </div>
     </div>
 
-    {#if selectedUnit != null}
+    {#if $selectedUnit != null}
         <div class="option">
             <button on:click={addNote}><StickyNoteIcon size={16} /> Add Note</button>
             <button on:click={addContexts}><StickyNoteIcon size={16} /> Add Contexts</button>
         </div>
-    {/if}
 
-    {#if selectedUnit != null}
-        <UnitInfo unit={selectedUnit}/>
+        <UnitInfo unit={$selectedUnit}/>
     {/if}
 </div>
 
@@ -171,12 +166,16 @@
         min-height: 150px;
         padding: 1em;
         word-break: break-word;
+    }
+
+    .box > * {
         white-space: pre-wrap;
     }
 
     .editBox {
         padding-bottom: 4em;
         outline: none;
+        white-space: pre-wrap;
     }
 
     .editBox:focus {

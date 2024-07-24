@@ -3,15 +3,9 @@
     import { copyToClipboard } from "../../../../utils/util";
     import Tooltip from "../../../shared/Tooltip.svelte";
     import { Copy, CornerUpLeft } from "lucide-svelte";
-    import type { Unit } from "../../../../../lib/types";
-    import {
-        projects,
-        selectedUnits,
-        selectedFile,
-    } from "../../../../stores/data";
+    import { selectedUnit, selectedFile } from "../../../../stores/data";
 
-    export let unit;
-    export let selectedUnit: Unit;
+    export let suggestion;
 
     const dispatch = createEventDispatcher();
 
@@ -21,52 +15,38 @@
         });
     }
 
-    function jumpToPathAndLang(suggestionUnit) {
-        $selectedUnits = [suggestionUnit.unit.getFullPathStr()];
-        let lang = $projects.files.filter(
-            (e) => e.uuid == suggestionUnit.uuid,
-        )[0];
-        $selectedFile = lang;
+    function jumpToSuggestion(suggestionUnit) {
+        $selectedUnit = suggestionUnit.unit;
+        $selectedFile = suggestionUnit.lang;
     }
 </script>
 
 <div class="entry">
     <div class="percentMatch">
         <div class="percentSquare">
-            <span class="percentage">{unit.match}%</span>
+            <span class="percentage">{suggestion.match}%</span>
             <br />match
         </div>
     </div>
     <div class="detail">
-        <p class="string" title="Translated string">{unit.unit.target}</p>
-        <p class="target string" title="Source string">{unit.unit.source}</p>
+        <p class="string" title="Translated string">{suggestion.unit.target}</p>
+        <p class="target string" title="Source string">{suggestion.unit.source}</p>
         <p class="source">
-            {#if unit.unit.getFullPath() != selectedUnit.getFullPathStr()}
-                <button
-                    class="unstyled-button link-button srcpath"
-                    on:click={() => jumpToPathAndLang(unit)}
-                    >{unit.unit.getFullPathStr()}</button
-                >
-            {:else}
-                <span class="srcpath matchpath">{unit.unit.getFullPathStr()}</span>
-            {/if} &bull;
-            <span class="langname">{unit.targetLang}</span>
+            <button class="link-button srcpath"
+                class:matchpath={suggestion.unit.getFullPathStr() == $selectedUnit?.getFullPathStr()}
+                on:click={() => jumpToSuggestion(suggestion)}>{suggestion.unit.getFullPathStr()}</button>
+             &bull;
+            <span class="langname">{suggestion.lang.targetLanguage}</span>
         </p>
     </div>
     <div class="action">
         <Tooltip tooltip="Copy">
-            <button
-                class="action-button"
-                on:click={() => copyToClipboard(unit.unit.target)}
-            >
+            <button class="action-button" on:click={() => copyToClipboard(suggestion.unit.target)}>
                 <Copy size={18} />
             </button>
         </Tooltip>
         <Tooltip tooltip="Use">
-            <button
-                class="action-button"
-                on:click={() => setTargetText(unit.unit.target)}
-            >
+            <button class="action-button" on:click={() => setTargetText(suggestion.unit.target)}>
                 <CornerUpLeft size={18} />
             </button>
         </Tooltip>
@@ -115,14 +95,6 @@
         padding: 4px;
         aspect-ratio: 1/1;
         align-items: center;
-    }
-
-    .unstyled-button {
-        margin: 0;
-        padding: 0;
-        background: none;
-        border: none;
-        font: inherit;
     }
 
     .link-button {

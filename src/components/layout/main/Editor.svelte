@@ -4,12 +4,7 @@
     import EditingPane from "./editing/EditingPane.svelte";
     import SuggestionPane from "./subpane/SuggestionPane.svelte";
     export let selectedFile: TranslationFile;
-    let selectedUnit: Unit;
     let editingPane: EditingPane;
-
-    function onEntryClick(event) {
-        selectedUnit = event.detail.entry;
-    }
 
     function setTargetText(event) {
         editingPane.setTargetText(event.detail.text);
@@ -19,13 +14,13 @@
 <div class="editor-wrapper">
     <div class="grid-container">
         <div class="browser">
-            <Listing on:handleClick={onEntryClick}/>
+            <Listing />
         </div>
         <div class="editor">
-            <EditingPane bind:this={editingPane} selectedUnit={selectedUnit} {selectedFile}/>
+            <EditingPane bind:this={editingPane} {selectedFile}/>
         </div>
         <div class="suggestion">
-            <SuggestionPane {selectedUnit} on:applyTargetText={setTargetText} {selectedFile}/>
+            <SuggestionPane on:applyTargetText={setTargetText} {selectedFile}/>
         </div>
     </div>
 </div>

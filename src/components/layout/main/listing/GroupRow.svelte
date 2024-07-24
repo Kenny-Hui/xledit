@@ -6,7 +6,7 @@
     import CreateDialog from '../../../overlay/dialogs/create/CreateDialog.svelte';
     import { Group, Unit } from '../../../../../lib/types';
 	import { DialogProperty, type SearchQuery } from '../../../../utils/types';
-    import { selectedFile, selectedUnits } from '../../../../stores/data';
+    import { selectedFile, selectedUnit } from '../../../../stores/data';
     import { haveUnit, removeGroup } from '../../../../../lib/util';
     import Tooltip from '../../../shared/Tooltip.svelte';
 	export let expanded = false;
@@ -47,7 +47,7 @@
 
 	$: group.groups, group.units, items = group.groups.filter(e => meetCriteria(e, searchQuery)).length + group.units.filter(e => meetCriteria(e, searchQuery)).length;
 
-	$: if($selectedUnits.some(e => e.startsWith(group.path.join("/")))) expanded = true;
+	$: if($selectedUnit && $selectedUnit.getFullPathStr().startsWith(group.path.join("/"))) expanded = true;
 
     function remove() {
         removeGroup($selectedFile.rootGroup, group.path);
@@ -95,11 +95,11 @@
 				<li>
 					{#if meetCriteria(subgroup, searchQuery)}	
 						{#if subgroup != null}
-							<svelte:self group={subgroup} {searchQuery} on:handleClick/>
+							<svelte:self group={subgroup} {searchQuery} />
 						{:else}
 							{#each subgroup.units as entry}
 								{#if meetCriteria(entry, searchQuery)}
-									<UnitRow {entry} on:handleClick />
+									<UnitRow {entry} />
 								{/if}
 							{/each}
 						{/if}
@@ -108,7 +108,7 @@
 			{/each}
 			{#each group.units as entry}
 				{#if meetCriteria(entry, searchQuery)}
-					<UnitRow {entry} on:handleClick />
+					<UnitRow {entry} />
 				{/if}
 			{/each}
 		</ul>

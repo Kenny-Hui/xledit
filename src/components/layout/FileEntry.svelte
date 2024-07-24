@@ -3,8 +3,8 @@
     import { shortHandedLang } from '../../utils/types';
     import { preferences } from '../../stores/preferenceStore';
     import { ArrowRight } from 'lucide-svelte';
-    import { projects, selectedFile } from '../../stores/data';
-    import { forEachBlocking } from '../../../lib/util';
+    import { projects, selectedFile, selectedUnit } from '../../stores/data';
+    import { forEachBlocking, getUnit } from '../../../lib/util';
     import Tooltip from '../shared/Tooltip.svelte';
 
     export let file: TranslationFile;
@@ -14,6 +14,9 @@
 
     function select() {
         selectedFile.set(file);
+        if($selectedUnit != null) {
+            $selectedUnit = getUnit(file.rootGroup, $selectedUnit.getFullPath());
+        }
     }
 
     function getLangName(nameType, langCode: string) {

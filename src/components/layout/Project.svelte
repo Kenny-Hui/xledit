@@ -92,12 +92,10 @@
 </script>
     
 <main>
-    <div>
-        <div class="add-button">
-            <Button on:click={addFiles}>
-                <Plus size={18} /> Add Files
-            </Button>
-        </div>
+    <div class="add-button">
+        <Button on:click={addFiles}>
+            <Plus size={18} /> Add Files
+        </Button>
     </div>
 
     <div class="btn-row">

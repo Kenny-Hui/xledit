@@ -36,7 +36,7 @@ import { selectedFile } from '../../../../stores/data';
         {/if}
       </div>
     </div>
-    <Group {searchQuery} bind:group={$selectedFile.rootGroup} on:handleClick />
+    <Group {searchQuery} bind:group={$selectedFile.rootGroup} />
   {/if}
 </div>
 

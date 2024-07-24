@@ -4,26 +4,21 @@
     import Button from "../../../shared/Button.svelte";
     import OptionEntry from "../../../shared/OptionEntry.svelte";
     import { createUnit } from "../../../../../lib/util";
-    import { projects, selectedFile } from "../../../../stores/data";
+    import { getDerivedFiles, selectedFile, selectedUnit } from "../../../../stores/data";
 
     export let dialog: DialogProperty;
 
-    let unit = new Unit("", null, null, dialog.data.path, [], []);
+    let unit = new Unit("", "", null, dialog.data.path, [], [], document.createElement("span").attributes);
 
-    function createNewUnit(event) {
-        let fileAffected: TranslationFile[];
+    function createNewUnit() {
+        let fileAffected: TranslationFile[] = getDerivedFiles($selectedFile);
 
-        if($selectedFile.isSource) {
-            fileAffected = $projects.files.filter(e => e.original == $selectedFile.filename);
-        } else {
-            fileAffected = [$selectedFile];
-        }
         for(let file of fileAffected) {
-            createUnit(unit, file.rootGroup);
+            let newUnit = createUnit(unit, file.rootGroup);
+            if($selectedFile === file) $selectedUnit = newUnit;
         }
         
         $selectedFile = $selectedFile;
-
         dialog.callback();
     }
 </script>

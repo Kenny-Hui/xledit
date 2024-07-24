@@ -20,7 +20,7 @@
                 {#if note.from != null}
                 <span class="small-text">
                     from 
-                    <span contenteditable bind:textContent={note.from}></span>
+                    <input class="small-text" size="8" bind:value={note.from} />
                     </span>
                 {/if}
             </p>
@@ -90,19 +90,20 @@
     }
 
     [contenteditable], input, select {
+        background: none;
         border: 1px solid rgba(0,  0, 0, 0.2);
         border-radius: 4px;
         padding: 0.1rem;
     }
 
-    [contenteditable]:hover {
+    [contenteditable]:hover, input:hover {
         border: 1px solid gray;
         border-radius: 3px;
     }
 
     .small-text {
         color: #666;
-        font-size: 0.7em;
+        font-size: 0.8rem;
         margin: 4px;
     }
 

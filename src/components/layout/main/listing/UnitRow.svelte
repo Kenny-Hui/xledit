@@ -1,37 +1,23 @@
 <script lang="ts">
     import type { Unit } from "../../../../../lib/types";
-    import { selectedUnits } from '../../../../stores/data';
-    import { createEventDispatcher } from "svelte";
+    import { selectedUnit } from '../../../../stores/data';
     import Tooltip from '../../../shared/Tooltip.svelte';
     export let entry: Unit;
-    let container: HTMLElement;
-
-    const dispatch = createEventDispatcher();
-
-    function selectUnit() {
-        $selectedUnits = [entry.getFullPathStr()];
-        dispatch('handleClick', {entry: entry});
-    }
-    
-    $: thisSelected = $selectedUnits.includes(entry.getFullPathStr());
-    $: if(entry != null && thisSelected) selectUnit();
 </script>
 
-{#if entry != null}
-    <button class="container" bind:this={container} class:active={thisSelected} on:click={selectUnit}>
-        <div class="translate-status">
-            <Tooltip tooltip="{entry.target == null ? "Not " : ""}Translated">
-                <span class="status" class:translated={entry.target != null}></span>
-            </Tooltip>
-        </div>
-        <div class="srctrg">
-            {entry.source}
-        </div>
-        <div class="srctrg">
-            {entry.target ?? ""}
-        </div>
-    </button>
-{/if}
+<button class="container" class:active={$selectedUnit == entry} on:click={() => $selectedUnit = entry}>
+    <div class="translate-status">
+        <Tooltip tooltip="{entry.target == null ? "Not " : ""}Translated">
+            <span class="status" class:translated={entry.target != null}></span>
+        </Tooltip>
+    </div>
+    <div class="srctrg">
+        {entry.source}
+    </div>
+    <div class="srctrg">
+        {entry.target ?? ""}
+    </div>
+</button>
 
 <style>
     .container {

@@ -1,9 +1,9 @@
 import { get, writable, type Writable } from "svelte/store";
 import { Project } from "../utils/types";
-import { TranslationFile } from "../../lib/types";
+import { TranslationFile, Unit } from "../../lib/types";
 
 export const projects = writable(new Project("Untitled"));
-export const selectedUnits = writable([]);
+export const selectedUnit: Writable<Unit> = writable();
 export const selectedFile: Writable<TranslationFile> = writable(null);
 
 export function getDerivedFiles(file: TranslationFile) {
