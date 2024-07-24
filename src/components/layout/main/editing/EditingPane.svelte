@@ -61,7 +61,7 @@
         if(unit == null) {
             setTargetText("");
         } else {
-            setTargetText(unit?.target ?? (selectedFile?.isSource ? unit.source : ""));
+            setTargetText(unit.target ?? (selectedFile?.isSource ? unit.source : ""));
         }
     }
 
