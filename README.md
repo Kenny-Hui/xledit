@@ -31,7 +31,7 @@ Mood-driven~
 
 ## FAQ
 ### I tried importing my XLIFF file and some parts doesn't behave as I expected
-The XLIFF format is quite versatial, as such there are likely lots of cases where things would go wrong and that I have not accounted for.
+The XLIFF format is quite versatile, as such there are likely lots of cases where things would go wrong and that I have not accounted for.
 In any case, [Please raise an issue here](https://github.com/Kenny-Hui/xledit/issues), along with a sample xliff file that can reproduce the issue, and when I feel good one day I may have a look at it :)
 
 ### What happens if I mix different XLIFF files together?
