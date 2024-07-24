@@ -31,6 +31,7 @@
         padding: 1rem;
         border-top: 1px solid #CCC;
         cursor: pointer;
+        align-items: center;
         transition: background-color .1s;
 	}
 
@@ -42,7 +43,6 @@
 
     .translate-status {
         display: flex;
-        align-items: center;
     }
 
     .status {

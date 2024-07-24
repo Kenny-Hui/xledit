@@ -1,5 +1,5 @@
 # XLEdit
-XLEdit is a web-based editor for the translation format [XLIFF](https://en.wikipedia.org/wiki/XLIFF) (1.2) .
+XLEdit is a web-based editor for the [XLIFF](https://en.wikipedia.org/wiki/XLIFF) localization format.
 
 <img src="./assets/readme-preview.png">
 

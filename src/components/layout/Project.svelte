@@ -33,30 +33,32 @@
 
         forEachBlocking($selectedFile.rootGroup, (data: Group | Unit) => {
             for(let file of derivedFiles) {
-                if(file != $selectedFile) {
-                    if(data instanceof Group) {
-                        let gp = findGroup(file.rootGroup, data.path);
-                        if(gp == null) {
-                            let group = createGroup(data, file.rootGroup);
-                            for(let units of group.units) {
-                                units.target = null;
-                            }
+                if(file == $selectedFile) continue;
+
+                if(data instanceof Group) {
+                    let gp = findGroup(file.rootGroup, data.path);
+                    if(gp == null) { // Add missing groups
+                        let group = createGroup(data, file.rootGroup);
+                        for(let units of group.units) {
+                            units.target = null;
                         }
                     }
+                }
 
-                    if(data instanceof Unit) {
-                        let un = getUnit(file.rootGroup, data.getFullPath());
-                        if(un == null) {
-                            let newUnit = createUnit(data, file.rootGroup);
-                            newUnit.target = null;
-                        }
+                if(data instanceof Unit) {
+                    let un = getUnit(file.rootGroup, data.getFullPath());
+                    if(un == null) { // Add missing units
+                        let newUnit = createUnit(data, file.rootGroup);
+                        newUnit.target = null;
+                    } else {
+                        un.source = data.source; // Sync source text
                     }
                 }
             }
             $projects.files = $projects.files;
         });
 
-        addToast(`Added missing group/unit to ${derivedFiles.length - 1} derived files`, "success", 4000);
+        addToast(`Synchronized ${derivedFiles.length - 1} files`, "success", 4000);
     }
 
     function exportFile(targetFile: TranslationFile) {
