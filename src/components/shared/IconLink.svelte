@@ -1,0 +1,32 @@
+<script lang="ts">
+    import Tooltip from "./Tooltip.svelte";
+
+    export let link: string;
+    export let target: string = "_self";
+    export let tooltip: string = null
+
+</script>
+
+<Tooltip tooltip={tooltip}>
+    <a href={link} {target}>
+        <slot />
+    </a>
+</Tooltip>
+
+<style>
+    a {
+        line-height: 1;
+        display: inline-block;
+        border: 1px solid transparent;
+        padding: .25rem;
+        transition: background-color .2s;
+        border-radius: .3rem;
+        aspect-ratio: 1 / 1;
+        color: #444;
+        background-color: transparent;
+    }
+
+    a:hover {
+        background-color: rgba(0, 0, 0, 0.15);
+    }
+</style>

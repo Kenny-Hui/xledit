@@ -1,0 +1,117 @@
+<script lang="ts">
+    import { PlusIcon, Trash } from "lucide-svelte";
+    import type { Unit } from "../../../../../lib/types";
+    import IconButton from "../../../shared/IconButton.svelte";
+    import { getDerivedFiles, selectedFile } from "../../../../stores/data";
+    import { getUnit } from "../../../../../lib/util";
+    import AttributeDialog from "../../../overlay/dialogs/AttributeDialog.svelte";
+    import { DialogProperty } from "../../../../utils/types";
+    import { openDialog } from "../../../../stores/uiStores";
+    export let unit: Unit;
+
+    function onPathType(e) {
+        let newId = e.srcElement.value;
+        
+        if($selectedFile.isSource) {
+            for(let unit of getUnits()) {
+                unit.id = newId;
+            }
+        } else {
+            unit.id = newId;
+        }
+
+        unit = unit;
+    }
+
+    function removeAttribute(attrName: string) {
+        unit.attributes.removeNamedItem(attrName);
+        unit = unit;
+    }
+
+    function getUnits() {
+        let entries = [unit];
+
+        for(let file of getDerivedFiles($selectedFile)) {
+            let unitInFile = getUnit(file.rootGroup, unit.getFullPath());
+            if(unitInFile != null) entries.push(unitInFile);
+        }
+
+        return entries;
+    }
+
+    function addAttribute() {
+        openDialog(new DialogProperty(AttributeDialog, { unit: unit }, () => {
+            unit = unit;
+		}));
+    }
+</script>
+
+<div class="unitinfo">
+    {#if unit != null}
+        <h1>ID</h1>
+        <input type="text" on:keyup={onPathType} value={unit.id}>
+        <h1>Full Path</h1>
+        <p>{unit.getFullPathStr()}</p>
+
+        {#each unit.attributes as attr}
+            {#if attr.name != "id"}
+                <h1>{attr.name} <IconButton tooltip="Delete Attribute" on:click={() => removeAttribute(attr.name)}><Trash size={16}/></IconButton></h1>
+                <input type="text" bind:value={attr.value}>
+            {/if}
+        {/each}
+        <button on:click={addAttribute}><PlusIcon size={16} /> Add Attribute</button>
+    {/if}
+</div>
+
+<style>
+    .unitinfo {
+        font-family: var(--primary-font-set);
+        line-height: 1.5;
+        font-size: 16px;
+        padding: 1em;
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+        word-break: break-all;
+    }
+
+    button {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        border: 1px solid var(--border);
+        padding: 0.4rem;
+        color: #555;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+    button:hover {
+        background-color: #DDD;
+    }
+
+    h1 {
+        font-weight: 500;
+    }
+
+    p, input {
+        font-family: var(--secondary-font-set);
+        border: none;
+        padding: 4px 0;
+        font-weight: 400;
+        font-size: 14px;
+        color: #666;
+    }
+
+    input {
+        border-radius: 4px;
+        width: 100%;
+    }
+
+    input:hover {
+        outline: 1px solid var(--border);
+    }
+
+    input:focus{
+        outline: 1px solid gray;
+    }
+</style>
