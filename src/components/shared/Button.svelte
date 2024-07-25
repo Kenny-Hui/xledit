@@ -1,3 +1,11 @@
+<script lang="ts">
+    export let disabled = false;
+</script>
+
+<button {disabled} on:click on:dragover on:drop>
+    <slot />
+</button>
+
 <style>
     button {
         display: flex;
@@ -35,11 +43,3 @@
         }
 	}
 </style>
-
-<script lang="ts">
-    export let disabled = false;
-</script>
-
-<button disabled={disabled} on:click on:dragover on:drop>
-    <slot />
-</button>
