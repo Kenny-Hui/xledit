@@ -54,8 +54,11 @@
 <div class="file-pane" on:dragenter={() => dragged = true}>
     {#if dragged}
         <div class="overlay" on:dragenter={() => dragged = true} on:dragover|preventDefault on:drop={onFileDrop} on:dragleave={() => dragged = false} transition:fade={{ duration: 100 }}>
-            <ImportIcon size={64} />
-            Import files
+            <div class="overlay-content">
+                <ImportIcon size={64} />
+                <br>    
+                Import files
+            </div>
         </div>
     {/if}
 
@@ -86,8 +89,8 @@
 
     .overlay {
         display: flex;
-        flex-direction: column;
         justify-content: center;
+        flex-direction: column;
         align-items: center;
         position: absolute;
         top: 0;
@@ -95,9 +98,13 @@
         width: 100%;
         height: 100%;
         color: white;
-        gap: 1rem;
         background: rgba(0, 0, 0, 0.75);
         z-index: 1;
+    }
+
+    .overlay-content {  
+        pointer-events: none;   
+        text-align: center;
     }
 
     .message {
