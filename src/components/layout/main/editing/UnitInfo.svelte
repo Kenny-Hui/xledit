@@ -11,13 +11,12 @@
 
     function onPathType(e) {
         let newId = e.srcElement.value;
+        let files = getDerivedFiles($selectedFile);
+        let oldPath = unit.getFullPath();
         
-        if($selectedFile.isSource) {
-            for(let unit of getUnits()) {
-                unit.id = newId;
-            }
-        } else {
-            unit.id = newId;
+        for(let file of files) {
+            let unitInFile = getUnit(file.rootGroup, oldPath);
+            if(unitInFile != null) unitInFile.id = newId;
         }
 
         unit = unit;
@@ -26,17 +25,6 @@
     function removeAttribute(attrName: string) {
         unit.attributes.removeNamedItem(attrName);
         unit = unit;
-    }
-
-    function getUnits() {
-        let entries = [unit];
-
-        for(let file of getDerivedFiles($selectedFile)) {
-            let unitInFile = getUnit(file.rootGroup, unit.getFullPath());
-            if(unitInFile != null) entries.push(unitInFile);
-        }
-
-        return entries;
     }
 
     function addAttribute() {

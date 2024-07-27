@@ -20,6 +20,7 @@
 
         for(let file of files) {
             let unit = getUnit(file.rootGroup, unitPath);
+            if(unit == null) continue;
             let oldGrp = findGroup(file.rootGroup, unit.path);
             oldGrp!.units.splice(oldGrp!.units.indexOf(unit), 1);
 
@@ -27,7 +28,7 @@
 
             let grp = findGroup(file.rootGroup, unit.path);
             grp.addUnit(unit);
-        }        
+        }
 
         dialog.callback();
         dispatch('close', null);
