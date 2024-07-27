@@ -6,7 +6,7 @@
     import { getDerivedFiles, projects, selectedFile } from '../../stores/data';
     import { parseAndAddXliff } from '../../utils/util';
     import { exportXliff } from '../../../lib/xlfExporter';
-    import Editor from './main/Editor.svelte';
+    import Editor from './editor/Editor.svelte';
     import Button from '../shared/Button.svelte';
     import FilePane from './FilePane.svelte';
     import { Group, Unit, type TranslationFile } from '../../../lib/types';

@@ -3,7 +3,7 @@
     import { DialogProperty } from "../../../utils/types";
     import { Context, ContextGroup, ContextGroupPurpose, ContextType, Unit } from "../../../../lib/types";
     import Button from "../../shared/Button.svelte";   
-    import ContextComponent from "../../layout/main/editing/Context.svelte";
+    import ContextComponent from "../../layout/editor/editing/Context.svelte";
     export let dialog: DialogProperty;
 
     export let dialogTitle;

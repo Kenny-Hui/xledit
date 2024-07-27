@@ -3,7 +3,7 @@
     import { DialogProperty } from "../../../utils/types";
     import { Note, Unit } from "../../../../lib/types";
     import Button from "../../shared/Button.svelte";   
-    import NoteComponent from "../../layout/main/editing/Note.svelte";
+    import NoteComponent from "../../layout/editor/editing/Note.svelte";
     import { preferences } from "../../../stores/preferenceStore";
     export let dialog: DialogProperty;
 

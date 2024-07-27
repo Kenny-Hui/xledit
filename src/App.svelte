@@ -2,6 +2,23 @@
   import ProjectComponent from './components/layout/Project.svelte';
   import Header from './components/Header.svelte';
   import UiOverlay from './components/overlay/Overlay.svelte';
+  import About from './components/layout/about/About.svelte';
+  import { states } from './stores/preferenceStore';
+
+  const tabs = [
+      {
+          name: "About",
+          component: About
+      },
+      {
+          name: "Editor",
+          component: ProjectComponent,
+      },
+      {
+          name: "Tools",
+          component: About
+      }
+  ];
 </script>
 
 <svelte:head>
@@ -11,5 +28,6 @@
 </svelte:head>
   
 <UiOverlay />
-<Header />
-<ProjectComponent/>
+<Header bind:selectedTab={$states.selectedTab} />
+
+<svelte:component this={tabs[$states.selectedTab].component} />
