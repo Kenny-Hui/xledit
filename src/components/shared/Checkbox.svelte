@@ -3,7 +3,7 @@
     export let checked = false;
     export let tooltips: string = null;
     import { activeTooltip } from "../../stores/uiStores";
-    function onHover(e) {
+    function onHover(e: any) {
         if(tooltips != null) {
             if(e === null) {
                 let newTooltip = get(activeTooltip);

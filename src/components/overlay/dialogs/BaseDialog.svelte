@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { XIcon } from "lucide-svelte";
+    import { X } from "lucide-svelte";
     import { closeDialog } from "../../../stores/uiStores";
     import { DialogProperty } from "../../../utils/types";
 
@@ -13,7 +13,7 @@
         <h1>{dialogTitle}</h1>
     </div>
     <button class="close-button" on:click={closeDialog}>
-        <XIcon />
+        <X />
     </button>
 </div>
 

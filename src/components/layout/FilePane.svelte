@@ -4,12 +4,12 @@
     import { preferences } from '../../stores/preferenceStore';
     import FileEntry from './FileEntry.svelte';
     import { parseAndAddXliff } from '../../utils/util';
-    import { ImportIcon } from 'lucide-svelte';
+    import { Import } from 'lucide-svelte';
     import { fade } from 'svelte/transition';
     export let languages: TranslationFile[];
     $: displayFileName = $preferences.langSelect.displayName;
 
-    function getLangName(nameType, langCode: string) {
+    function getLangName(nameType: string, langCode: string) {
         if(nameType == 'filename') {
             let targetFile = languages.filter(l => (l.targetLanguage ?? l.sourceLanguage) == langCode);
             if(targetFile.length > 0) {
@@ -55,7 +55,7 @@
     {#if dragged}
         <div class="overlay" on:dragenter={() => dragged = true} on:dragover|preventDefault on:drop={onFileDrop} on:dragleave={() => dragged = false} transition:fade={{ duration: 100 }}>
             <div class="overlay-content">
-                <ImportIcon size={64} />
+                <Import size={64} />
                 <br>    
                 Import files
             </div>

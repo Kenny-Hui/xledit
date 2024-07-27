@@ -1,7 +1,7 @@
 <script lang="ts">
     import { type Unit, type TranslationFile } from "../../../../../lib/types";
     import { DialogProperty } from "../../../../utils/types";
-    import { StickyNoteIcon, FileTextIcon } from 'lucide-svelte';
+    import { StickyNote } from 'lucide-svelte';
     import { getUnit } from "../../../../../lib/util";
     import { getDerivedFiles, selectedFile as selectedFileStore, selectedUnit } from "../../../../stores/data";
     import { openDialog } from "../../../../stores/uiStores";
@@ -88,12 +88,12 @@
         return entries;
     }
 
-    function removeNote(noteObject) {
+    function removeNote(noteObject: any) {
         $selectedUnit.notes.splice($selectedUnit.notes.indexOf(noteObject), 1);
         $selectedUnit.notes = $selectedUnit.notes;
     }
 
-    function removeContext(contextObject) {
+    function removeContext(contextObject: any) {
         $selectedUnit.contextGroups.splice($selectedUnit.contextGroups.indexOf(contextObject));
         $selectedUnit.contextGroups = $selectedUnit.contextGroups;
     }
@@ -145,8 +145,8 @@
 
     {#if $selectedUnit != null}
         <div class="option">
-            <button on:click={addNote}><StickyNoteIcon size={16} /> Add Note</button>
-            <button on:click={addContexts}><StickyNoteIcon size={16} /> Add Contexts</button>
+            <button on:click={addNote}><StickyNote size={16} /> Add Note</button>
+            <button on:click={addContexts}><StickyNote size={16} /> Add Contexts</button>
         </div>
 
         <UnitInfo unit={$selectedUnit}/>

@@ -22,7 +22,7 @@ export function exportXliff(files: TranslationFile[]) {
     return xml;
 }
 
-export function escapeXml(unsafe) {
+export function escapeXml(unsafe: string) {
     return unsafe.replace(/[<>&'"]/g, function (c) {
         switch (c) {
             case '<': return '&lt;';

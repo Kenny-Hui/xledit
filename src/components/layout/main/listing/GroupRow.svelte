@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { fly } from 'svelte/transition';
-	import { ChevronDown, ChevronRight, PlusIcon, TrashIcon } from 'lucide-svelte';
+	import { ChevronDown, ChevronRight, Plus, Trash } from 'lucide-svelte';
 	import UnitRow from "./UnitRow.svelte";
     import { openDialog } from '../../../../stores/uiStores';
     import CreateDialog from '../../../overlay/dialogs/create/CreateDialog.svelte';
@@ -79,12 +79,12 @@
 		<div class="action-row">
 			{#if !group.isRoot}
 				<Tooltip tooltip="Delete Group">
-					<button on:click={remove}><TrashIcon size={20} color="red" /></button>
+					<button on:click={remove}><Trash size={20} color="red" /></button>
 				</Tooltip>
 			{/if}
 			
 			<Tooltip tooltip="Create...">
-				<button on:click={add}><PlusIcon size={20} /></button>
+				<button on:click={add}><Plus size={20} /></button>
 			</Tooltip>
 		</div>
 	</div>
@@ -99,7 +99,7 @@
 						{:else}
 							{#each subgroup.units as entry}
 								{#if meetCriteria(entry, searchQuery)}
-									<UnitRow {entry} />
+									<UnitRow unit={entry} />
 								{/if}
 							{/each}
 						{/if}
@@ -108,7 +108,7 @@
 			{/each}
 			{#each group.units as entry}
 				{#if meetCriteria(entry, searchQuery)}
-					<UnitRow {entry} />
+					<UnitRow unit={entry} />
 				{/if}
 			{/each}
 		</ul>

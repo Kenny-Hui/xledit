@@ -2,7 +2,7 @@
     export let items = [];
     export let selectedIndex: number;
 
-    function onEntrySelected(i: number) {
+    function onEntrySelected(i: number): void {
         selectedIndex = i;
     }
 </script>

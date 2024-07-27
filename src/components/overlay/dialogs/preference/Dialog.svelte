@@ -5,7 +5,6 @@
     import Export from "./Export.svelte";
     import File from "./File.svelte";
 
-    export let dialog: DialogProperty;
     export let dialogTitle;
     dialogTitle = "Preferences";
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { PlusIcon, Trash } from "lucide-svelte";
+    import { Plus, Trash } from "lucide-svelte";
     import type { Unit } from "../../../../../lib/types";
     import IconButton from "../../../shared/IconButton.svelte";
     import { getDerivedFiles, selectedFile } from "../../../../stores/data";
@@ -59,7 +59,7 @@
                 <input type="text" bind:value={attr.value}>
             {/if}
         {/each}
-        <button on:click={addAttribute}><PlusIcon size={16} /> Add Attribute</button>
+        <button on:click={addAttribute}><Plus size={16} /> Add Attribute</button>
     {/if}
 </div>
 

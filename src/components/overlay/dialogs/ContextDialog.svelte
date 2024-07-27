@@ -13,7 +13,7 @@
 
     let contextGroup = new ContextGroup(ContextGroupPurpose.information, [new Context("Your Context Here", ContextType.database)]);
 
-    function addContexts() {
+    function addContexts(): void {
         let units: Unit[] = dialog.data?.units;
 
         for(let unit of units) {

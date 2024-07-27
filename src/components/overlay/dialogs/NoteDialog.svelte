@@ -14,7 +14,7 @@
 
     let note = new Note($preferences.editPane.noteAuthor, "Your note here.");
 
-    function addNotes() {
+    function addNotes(): void {
         let units: Unit[] = dialog.data?.units;
 
         for(let unit of units) {

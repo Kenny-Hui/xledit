@@ -93,7 +93,7 @@ export class Group extends XliffElement {
         this.groups.push(group);
     }
 
-    clone() {
+    clone(): Group {
         return new Group(this.id, this.isRoot, [...this.path], this.groups.map(e => e.clone()), this.units.map(e => e.clone()), this.attributes);
     }
 

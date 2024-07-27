@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { FilterIcon, SearchIcon } from 'lucide-svelte';
-import { selectedFile } from '../../../../stores/data';
+  import { Filter, Search } from 'lucide-svelte';
+  import { selectedFile } from '../../../../stores/data';
   import Group from './GroupRow.svelte';
-    import type { SearchQuery } from '../../../../utils/types';
-    import IconButton from '../../../shared/IconButton.svelte';
+  import type { SearchQuery } from '../../../../utils/types';
+  import IconButton from '../../../shared/IconButton.svelte';
 
   let searchQuery: SearchQuery = {
     searchTerm: "",
@@ -19,11 +19,11 @@ import { selectedFile } from '../../../../stores/data';
   {#if $selectedFile != null}  
     <div class="searchbox">
       <div class="search-icon">
-        <SearchIcon size={20} />
+        <Search size={20} />
       </div>
       <input placeholder="Search Here..." type="text" bind:value={searchQuery.searchTerm}>
       <div class="filter-icon">
-        <IconButton tooltip="Filter..." on:click={() => visible = !visible}><FilterIcon color={(!searchQuery.showTranslated || !searchQuery.showUntranslated || !searchQuery.showNumericOnly) ? "#005FAA" : "#000"} size={20} /></IconButton>
+        <IconButton tooltip="Filter..." on:click={() => visible = !visible}><Filter color={(!searchQuery.showTranslated || !searchQuery.showUntranslated || !searchQuery.showNumericOnly) ? "#005FAA" : "#000"} size={20} /></IconButton>
         {#if visible}
           <div class="filter-popmenu" on:focusout={() => visible = false}>
             <p>Search Filter...</p>

@@ -1,4 +1,4 @@
-import { SvelteComponent } from "svelte";
+import { SvelteComponent, type ComponentType } from "svelte";
 import { getISO639 } from "./util";
 import { TranslationFile } from "../../lib/types";
 
@@ -61,7 +61,7 @@ export class DialogProperty {
     data: any;
     callback: Function;
 
-    constructor(component: typeof SvelteComponent, data: any = null, callback: Function = null) {
+    constructor(component: ComponentType, data: any = null, callback: Function = null) {
         this.component = component;
         this.data = data;
         this.callback = callback;

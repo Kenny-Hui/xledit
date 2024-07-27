@@ -1,5 +1,5 @@
 <script>
-    import { Github, GithubIcon } from 'lucide-svelte';
+    import { Github } from 'lucide-svelte';
     import { openDialog } from '../stores/uiStores';
     import { DialogProperty } from '../utils/types';
     import PreferenceDialog from './overlay/dialogs/preference/Dialog.svelte';

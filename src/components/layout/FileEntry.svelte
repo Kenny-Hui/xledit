@@ -19,7 +19,7 @@
         }
     }
 
-    function getLangName(nameType, langCode: string) {
+    function getLangName(nameType: string, langCode: string) {
         if(nameType == 'filename') {
             let srcFile = $projects.files.filter(e => (e.targetLanguage ?? e.sourceLanguage) == langCode);
             if(srcFile.length > 0) {
