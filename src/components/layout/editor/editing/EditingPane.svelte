@@ -12,6 +12,7 @@
     import ActionRow from "./ActionRow.svelte";
     import Context from "./Context.svelte";
     import ContextDialog from "../../../overlay/dialogs/ContextDialog.svelte";
+    import { onMount } from "svelte";
     export let selectedFile: TranslationFile;
 
     let srcElement: Node;
@@ -99,6 +100,10 @@
     }
 
     $: selectedEntryChanged($selectedUnit);
+
+    onMount(() => {
+        selectedEntryChanged($selectedUnit);
+    })
 </script>
 
 <div class="editing">
