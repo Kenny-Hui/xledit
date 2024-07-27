@@ -86,18 +86,6 @@
         background-color: var(--border);
     }
 
-    button {
-        padding: 8px;
-        background: none;
-        cursor: pointer;
-        border-radius: 6px;
-        transition: background-color 0.2s;
-    }
-
-    button:hover, button:focus-visible {
-        background-color: #DDD;
-    }
-
     .version-tag {
         background-color: var(--light-blue);
         padding: .5rem;

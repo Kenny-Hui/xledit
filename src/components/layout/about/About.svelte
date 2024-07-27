@@ -20,6 +20,8 @@
     main {
         font-family: var(--primary-font-set);
         width: 1024px;
+        padding: 1rem;
+        box-sizing: border-box;
         margin: auto;
         max-width: 100%;
         font-size: 18px;
