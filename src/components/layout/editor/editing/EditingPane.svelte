@@ -27,10 +27,10 @@
     }1
 
     function updateEditStatus() {
-        if($selectedUnit === null) {
+        if($selectedUnit == null) {
             edited = false;
         } else {
-            if(selectedFile.isSource) {
+            if(selectedFile?.isSource) {
                 edited = $selectedUnit.source != targetElement.textContent;
             } else {
                 edited = ($selectedUnit.target ?? "") != targetElement.textContent;

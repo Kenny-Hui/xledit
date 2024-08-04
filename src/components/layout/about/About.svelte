@@ -1,18 +1,34 @@
 <script>
+    import { onMount } from "svelte";
     import { states } from "../../../stores/preferenceStore";
     import Button from "../../shared/Button.svelte";
 
+    let versions = [];
+
+    onMount(() => {
+        fetch("https://api.github.com/repos/Kenny-Hui/xledit/releases").then(e => e.json()).then(data => versions = data);
+    });
 </script>
 <main>
     <section>
         <img alt="XLEdit Logo" src="preview.png">
         <h1>Welcome to XLEdit!</h1>
+        <hr>
         <p>XLEdit is an open-source web-based XLIFF Editor, supporting the XLIFF 1.2 format.</p>
         <p style="display: flex;justify-content:center"><Button on:click={() => $states.selectedTab = 1}>Get Started!</Button></p>
     </section>
     <section>
         <h1>Changelogs</h1>
-        <p>WIP</p>
+        <hr>
+        <div class="changelogs">
+            {#each versions as version}
+                <hr>    
+                <h2>{version.name}</h2>
+                {#each version.body.split("\r\n") as line}
+                    <p>{line}</p>
+                {/each}
+            {/each}
+        </div>
     </section>
 </main>
 
@@ -39,7 +55,14 @@
         font-size: 2rem;
         padding: 1rem;
         margin: 1rem;
-        border-bottom: 1px solid var(--border);
+    }
+
+    .changelogs {
+        text-align: left;
+    }
+
+    h2 {
+        font-size: 1.5rem;
     }
 
     section {
