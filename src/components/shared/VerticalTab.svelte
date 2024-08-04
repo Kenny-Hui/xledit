@@ -32,8 +32,8 @@
         font-weight: 400;
         text-align: left;
         width: 100%;
-        padding: 10px 20px;
-        margin: 5px 0;
+        padding: .75rem 1.25rem;
+        margin: .25rem 0;
         border: none;
         border-radius: 8px 0 0 8px;
         cursor: pointer;

@@ -77,7 +77,7 @@
         
         zip.generateAsync({type:"blob"})
         .then(content => {
-            saveAs(content, "xledit.zip");
+            saveAs(content, `${$preferences.export.filename}.zip`);
         });
     }
 

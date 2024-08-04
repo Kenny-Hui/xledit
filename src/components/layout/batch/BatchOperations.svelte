@@ -69,6 +69,7 @@
         max-width: 100%;
         margin: 2rem auto;
     }
+    
     h1 {
         font-size: 2rem;
         margin: 1rem 0;
