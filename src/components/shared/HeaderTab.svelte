@@ -1,9 +1,9 @@
 <script lang="ts">
+    import {push, location} from 'svelte-spa-router'
     export let items: any[];
-    export let selectedIndex: number;
 
     function onEntrySelected(i: number): void {
-        selectedIndex = i;
+        push(items[i].link);
     }
 </script>
     
@@ -11,7 +11,7 @@
     {#each items as item, i}    
         {#if item != null}
             <li>
-                <button on:click={() => onEntrySelected(i)} on:keydown={() => onEntrySelected(i)} class:selected={selectedIndex == i}>
+                <button on:click={() => onEntrySelected(i)} on:keydown={() => onEntrySelected(i)} class:selected={$location == item.link}>
                     {item.name}
                 </button>
             </li>

@@ -1,7 +1,8 @@
 <script>
     import { onMount } from "svelte";
-    import { states } from "../../../stores/preferenceStore";
     import Button from "../../shared/Button.svelte";
+    import { Pencil } from "lucide-svelte";
+    import { push } from "svelte-spa-router";
 
     let versions = [];
 
@@ -15,7 +16,9 @@
         <h1>Welcome to XLEdit!</h1>
         <hr>
         <p>XLEdit is an open-source web-based XLIFF Editor, supporting the XLIFF 1.2 format.</p>
-        <p style="display: flex;justify-content:center"><Button on:click={() => $states.selectedTab = 1}>Get Started!</Button></p>
+        <div class="action-row">
+            <Button on:click={() => push("/edit")}><Pencil size={16} />Get Started!</Button>
+        </div>
     </section>
     <section>
         <h1>Changelogs</h1>
@@ -53,19 +56,30 @@
 
     h1 {
         font-size: 2rem;
-        padding: 1rem;
         margin: 1rem;
     }
 
+    hr {
+        margin: 1rem;
+        box-sizing: border-box;
+    }
+
+    
+    h2 {
+        font-size: 1.5rem;
+    }
+    
+    section {
+        text-align: center;
+    }
+    
     .changelogs {
         text-align: left;
     }
 
-    h2 {
-        font-size: 1.5rem;
-    }
-
-    section {
-        text-align: center;
+    .action-row {
+        margin: 0.5rem;
+        display: flex;
+        justify-content: center;
     }
 </style>

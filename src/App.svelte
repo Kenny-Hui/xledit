@@ -3,23 +3,29 @@
   import Header from './components/Header.svelte';
   import UiOverlay from './components/overlay/Overlay.svelte';
   import About from './components/layout/about/About.svelte';
-  import { states } from './stores/preferenceStore';
-    import BatchOperation from './components/layout/batch/Tools.svelte';
+  import BatchOperation from './components/layout/batch/BatchOperations.svelte';
+  import Router from 'svelte-spa-router';
 
   const tabs = [
       {
           name: "About",
-          component: About
+          link: '/'
       },
       {
           name: "Editor",
-          component: ProjectComponent,
+          link: '/edit'
       },
       {
           name: "Tools",
-          component: BatchOperation
+          link: '/tools'
       }
   ];
+
+  const routes = {
+    '/': About,
+    '/edit': ProjectComponent,
+    '/tools': BatchOperation
+  }
 </script>
 
 <svelte:head>
@@ -29,6 +35,5 @@
 </svelte:head>
   
 <UiOverlay />
-<Header {tabs} bind:selectedTab={$states.selectedTab} />
-
-<svelte:component this={tabs[$states.selectedTab].component} />
+<Header {tabs} />
+<Router {routes}/>

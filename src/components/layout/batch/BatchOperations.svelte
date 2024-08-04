@@ -42,26 +42,33 @@
         return i;
     }
 </script>
-<h1>Tools</h1>
-<hr>
-<h2>Duplicated Unit ID</h2>
-<input id="a" type="radio" value={true} bind:group={deleteEntry} name="dupm">
-<label for="a">Delete entry</label>
 
-<input id="b" type="radio" value={false} bind:group={deleteEntry} name="dupm">
-<label for="b">Rename entry</label>
-
-{#if !deleteEntry}
-    <div>
-        <input bind:value={prefix} placeholder="Prefix">
-        <br>
-        <input bind:value={suffix} placeholder="Suffix">
-    </div>
-{/if}
-
-<Button on:click={removeDuplicatedAction}>Perform</Button>
+<main>
+    <h1>Batch Operations</h1>
+    <hr>
+    <h2>Duplicated Unit ID</h2>
+    <input id="a" type="radio" value={true} bind:group={deleteEntry} name="dupm">
+    <label for="a">Delete entry</label>
+    
+    <input id="b" type="radio" value={false} bind:group={deleteEntry} name="dupm">
+    <label for="b">Rename entry</label>
+    
+    {#if !deleteEntry}
+        <div>
+            <input bind:value={prefix} placeholder="Prefix">
+            <br>
+            <input bind:value={suffix} placeholder="Suffix">
+        </div>
+    {/if}
+    <Button on:click={removeDuplicatedAction}>Perform</Button>
+</main>
 
 <style>
+    main {
+        width: 1024px;
+        max-width: 100%;
+        margin: 2rem auto;
+    }
     h1 {
         font-size: 2rem;
         margin: 1rem 0;

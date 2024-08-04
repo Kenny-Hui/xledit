@@ -8,7 +8,6 @@
     import IconButton from './shared/IconButton.svelte';
     import constants from '../stores/constants';
 
-    export let selectedTab;
     export let tabs;
 </script>
 
@@ -19,8 +18,7 @@
         </div>
         <span class="separator" />
         <div class="area">
-            <HeaderTab items={tabs} bind:selectedIndex={selectedTab}>
-            </HeaderTab>
+            <HeaderTab items={tabs} />
         </div>
     </div>
     <div class="right">
