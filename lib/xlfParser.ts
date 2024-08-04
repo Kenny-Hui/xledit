@@ -55,10 +55,7 @@ function groupParser(el, prefix: string[] = null): Group {
     thisGroup.path = prefix;
 
     let p = prefix;
-
-    // Handle Duplication
-    let seenUnitId = [];
-
+    
     for(let element of el.childNodes) {
         if(element.nodeName == "group") {
             prefix.push(element.getAttribute("id"));
@@ -68,12 +65,6 @@ function groupParser(el, prefix: string[] = null): Group {
 
         if(element.nodeName == "trans-unit") {
             let unit = parseUnit(element, prefix);
-            if(seenUnitId.includes(unit.id)) {
-                console.warn(unit.getFullPathStr() + " already exists!");
-                unit.id += "-XL-DUPLICATED"
-            } else {
-                seenUnitId.push(unit.id);
-            }
             thisGroup.addUnit(unit);
         }
         prefix = [...p];

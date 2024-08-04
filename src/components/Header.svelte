@@ -9,18 +9,7 @@
     import constants from '../stores/constants';
 
     export let selectedTab;
-
-    const tabs = [
-        {
-            name: "About"
-        },
-        {
-            name: "Editor"
-        },
-        {
-            name: "Batch Operation"
-        }
-    ];
+    export let tabs;
 </script>
 
 <header>

@@ -4,6 +4,7 @@
   import UiOverlay from './components/overlay/Overlay.svelte';
   import About from './components/layout/about/About.svelte';
   import { states } from './stores/preferenceStore';
+    import BatchOperation from './components/layout/batch/Tools.svelte';
 
   const tabs = [
       {
@@ -16,7 +17,7 @@
       },
       {
           name: "Tools",
-          component: About
+          component: BatchOperation
       }
   ];
 </script>
@@ -28,6 +29,6 @@
 </svelte:head>
   
 <UiOverlay />
-<Header bind:selectedTab={$states.selectedTab} />
+<Header {tabs} bind:selectedTab={$states.selectedTab} />
 
 <svelte:component this={tabs[$states.selectedTab].component} />
