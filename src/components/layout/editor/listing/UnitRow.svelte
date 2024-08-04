@@ -40,7 +40,7 @@
         {unit.target ?? ""}
     </div>
     <div class="action-row">
-        <IconButton tooltip="Delete Unit..." on:click={removeUnit}><Trash color="red" size={20}/></IconButton>
+        <IconButton tooltip="Delete Unit" on:click={removeUnit}><Trash color="red" size={20}/></IconButton>
         <IconButton tooltip="Move..." on:click={openMoveDialog}><ArrowRightToLine size={20}/></IconButton>
     </div>
 </button>

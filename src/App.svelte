@@ -16,15 +16,15 @@
           link: '/edit'
       },
       {
-          name: "Tools",
-          link: '/tools'
+          name: "Batch Operation",
+          link: '/batch'
       }
   ];
 
   const routes = {
     '/': About,
     '/edit': ProjectComponent,
-    '/tools': BatchOperation
+    '/batch': BatchOperation
   }
 </script>
 
