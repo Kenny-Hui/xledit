@@ -79,7 +79,7 @@
 		<div class="action-row">
 			{#if !group.isRoot}
 				<Tooltip tooltip="Delete Group">
-					<button on:click={remove}><Trash size={20} color="red" /></button>
+					<button class="remove" on:click={remove}><Trash size={20} /></button>
 				</Tooltip>
 			{/if}
 			
@@ -140,6 +140,10 @@
 	.icon {
 		display: inline-block;
 		vertical-align: middle;
+	}
+
+	button.remove {
+		color: red;
 	}
 
 	.group {

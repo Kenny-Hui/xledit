@@ -75,7 +75,7 @@
         <label for="a">Delete entry</label>
         
         <input id="b" type="radio" value={false} bind:group={deleteEntry} name="dupm">
-        <label for="b">Rename entry</label>
+        <label for="b">Rename entry ID</label>
         
         {#if !deleteEntry}
             <div>
@@ -84,7 +84,7 @@
                 <input bind:value={suffix} placeholder="Suffix">
             </div>
         {/if}
-        <Button on:click={removeDuplicatedAction}><Play size={16}/>Perform</Button>
+        <Button disabled={!deleteEntry && prefix.length == 0 && suffix.length == 0} on:click={removeDuplicatedAction}><Play size={16}/>Perform</Button>
     </div>
     <div>
         <h2>Replace Text</h2>

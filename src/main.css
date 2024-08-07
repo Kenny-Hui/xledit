@@ -93,3 +93,10 @@ button {
   line-height: 1;
   box-sizing: border-box;
 }
+
+input {
+  padding: 0.25rem;
+  border: 1px solid var(--border);
+  border-radius: 0.25rem;
+  margin: 0.1rem 0;
+}

@@ -1,17 +1,16 @@
 <script lang="ts">
-    import { DialogProperty } from "../../../../utils/types";
     import VertTab from "../../../shared/VerticalTab.svelte";
     import Editing from "./Editing.svelte";
     import Export from "./Export.svelte";
-    import File from "./File.svelte";
+    import General from "./General.svelte";
 
     export let dialogTitle;
     dialogTitle = "Preferences";
 
     const tabs = [
         {
-            name: 'File View',
-            component: File
+            name: 'General',
+            component: General
         },
         {
             name: 'Editing',
@@ -36,6 +35,8 @@
 
 <style>
     .inner {
+        min-width: 480px;
+        min-height: 240px;
         display: grid;
         grid-template-columns: auto 2fr;
         gap: 10px;

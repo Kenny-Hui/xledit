@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Plus, Trash } from "lucide-svelte";
+    import { ChevronRight, Plus, Trash } from "lucide-svelte";
     import type { Unit } from "../../../../../lib/types";
     import IconButton from "../../../shared/IconButton.svelte";
     import { getDerivedFiles, selectedFile } from "../../../../stores/data";
@@ -39,7 +39,13 @@
         <h1>ID</h1>
         <input type="text" on:keyup={onPathType} value={unit.id}>
         <h1>Full Path</h1>
-        <p>{unit.getFullPathStr()}</p>
+        <p>
+            {#each unit.path as path}
+                {path}
+                <ChevronRight size={14} />
+            {/each}
+            {unit.id}
+        </p>
 
         {#each unit.attributes as attr}
             {#if attr.name != "id"}
@@ -82,6 +88,8 @@
     }
 
     p, input {
+        display: flex;
+        align-items: center;
         font-family: var(--secondary-font-set);
         border: none;
         padding: 4px 0;
@@ -91,7 +99,6 @@
     }
 
     input {
-        border-radius: 4px;
         width: 100%;
     }
 
@@ -99,7 +106,7 @@
         outline: 1px solid var(--border);
     }
 
-    input:focus{
+    input:focus {
         outline: 1px solid gray;
     }
 </style>
