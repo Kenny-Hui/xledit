@@ -87,19 +87,21 @@
         <Button disabled={!deleteEntry && prefix.length == 0 && suffix.length == 0} on:click={removeDuplicatedAction}><Play size={16}/>Perform</Button>
     </div>
     <div>
-        <h2>Replace Text</h2>
-        <input id="c" type="checkbox" bind:checked={replaceSrc}>
-        <label for="c">Source Text</label>
-        
-        <input id="d" type="checkbox" bind:checked={replaceTrg}>
-        <label for="d">Target Text</label>
-
+        <h2>Find & Replace Text</h2>
+        <div>
+            <input id="c" type="checkbox" bind:checked={replaceSrc}>
+            <label for="c">Source Text</label>
+            
+            <input id="d" type="checkbox" bind:checked={replaceTrg}>
+            <label for="d">Target Text</label>
+        </div>
         <div>
             <input bind:value={replaceFrom} placeholder="From">
             <br>
             <input bind:value={replaceTo} placeholder="To">
         </div>
-        <Button disabled={(!replaceSrc && !replaceTrg) || replaceFrom.length == 0} on:click={replaceAction}><BookA size={16} />Replace</Button>
+        
+        <Button disabled={(!replaceSrc && !replaceTrg) || replaceFrom.length == 0} on:click={replaceAction}><BookA size={16} />Find & Replace</Button>
     </div>
 </main>
 

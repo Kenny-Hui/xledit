@@ -14,6 +14,9 @@ const defaultSettings = {
         stripEmptyTarget: true,
         spaceChar: 2,
         filename: 'xledit'
+    },
+    appearance: {
+        color: 'blue'
     }
 }
 

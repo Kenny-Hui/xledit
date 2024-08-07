@@ -82,7 +82,7 @@
     }
 
     .status.translated {
-        background: var(--blue-highlight);
+        background: var(--highlight-color);
     }
 
     .container:hover {
@@ -90,7 +90,7 @@
     }
 
     .active {
-        background-color: var(--light-blue) !important;
+        background-color: var(--highlight-secondary) !important;
     }
 
     .container .action-row {

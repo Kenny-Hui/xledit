@@ -45,7 +45,7 @@
     }
 
     .selected {
-        background-color: var(--blue-highlight) !important;
+        background-color: var(--highlight-color) !important;
         color: white;
     }
 </style>

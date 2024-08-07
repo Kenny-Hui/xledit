@@ -60,7 +60,7 @@
 
     input:checked {
         border: none;
-        background-color: var(--blue-highlight);
+        background-color: var(--highlight-color);
         border: 2px solid transparent;
     }
 </style>

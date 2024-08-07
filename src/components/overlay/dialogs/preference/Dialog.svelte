@@ -43,7 +43,7 @@
     }
 
     .inner > div:nth-child(1) {
-        border-right: 4px solid var(--blue-highlight);
+        border-right: 4px solid var(--highlight-color);
     }
 
     .pane {

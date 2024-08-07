@@ -188,8 +188,8 @@
     }
 
     .editBox:focus {
-        box-shadow: 0 2px 0 var(--blue-highlight) inset,
-        0 -2px 0 var(--blue-highlight) inset;
+        box-shadow: 0 2px 0 var(--highlight-color) inset,
+        0 -2px 0 var(--highlight-color) inset;
         border-top: 1px solid transparent;
         border-bottom: 1px solid transparent;
     }

@@ -45,7 +45,7 @@
     }
 
     .header {
-        border-bottom: 4px solid var(--blue-highlight);
+        border-bottom: 4px solid var(--highlight-color);
         display: flex;
         justify-content: space-between;
     }

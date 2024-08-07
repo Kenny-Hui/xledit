@@ -67,7 +67,7 @@
 
     .container {
         position: relative;
-        background-color: var(--light-blue);
+        background-color: var(--highlight-secondary);
         border: 1px solid var(--border);
         border-radius: 4px;
         padding: 0.5em 0.75em;

@@ -43,6 +43,6 @@
     }
 
     .selected {
-        box-shadow: inset 0px -3px var(--blue-highlight);
+        box-shadow: inset 0px -3px var(--highlight-color);
     }
 </style>

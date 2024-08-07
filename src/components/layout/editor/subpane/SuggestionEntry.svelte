@@ -91,7 +91,7 @@
     }
 
     .percentage {
-        color: var(--blue-highlight);
+        color: var(--highlight-color);
         font-weight: 600;
         font-size: 14px;
     }
@@ -133,7 +133,7 @@
     }
 
     .srcpath {
-        color: var(--blue-highlight-dimmed);
+        color: var(--highlight-color);
         word-break: break-all;
         display: inline-flex;
         flex-wrap: wrap;

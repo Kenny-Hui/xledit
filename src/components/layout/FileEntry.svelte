@@ -115,7 +115,7 @@
     }
 
     button.selected {
-        background-color: var(--blue-highlight) !important;
+        background-color: var(--highlight-color) !important;
         color: white;
     }
 
@@ -147,7 +147,7 @@
 
     .progress-bar {
         position: absolute;
-        background-color: var(--blue-highlight);
+        background-color: var(--highlight-color);
         top: 0;
         left: 0;
         height: 100%;

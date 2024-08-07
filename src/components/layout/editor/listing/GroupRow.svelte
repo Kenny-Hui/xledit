@@ -121,7 +121,7 @@
     }
 
 	.root {
-		background-color: var(--light-blue);
+		background-color: var(--highlight-secondary);
 		padding: 0.15rem 0.7rem;
 		border-radius: 100px;
 	}
@@ -169,7 +169,7 @@
 	}
 
 	.group:hover::before {
-		background-color: var(--blue-highlight);
+		background-color: var(--highlight-color);
 	}
 
 	.group:hover .action-row {

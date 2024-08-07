@@ -39,7 +39,7 @@
     }
 
     .selected {
-        background: var(--blue-highlight);
+        background: var(--highlight-color);
         color: white;
     }
 </style>
