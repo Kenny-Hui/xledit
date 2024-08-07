@@ -3,9 +3,9 @@ import { escapeXml } from "./xlfExporter";
 
 export class XliffElement {
     nodeName: string;
-    attributes: NamedNodeMap;
+    attributes: NamedNodeMap | null;
 
-    constructor(nodeName: string, attributes: NamedNodeMap) {
+    constructor(nodeName: string, attributes: NamedNodeMap | null) {
         this.nodeName = nodeName;
         this.attributes = attributes;
     }
@@ -33,7 +33,7 @@ export class TranslationFile extends XliffElement {
     isSource: boolean;
     uuid: string;
     sourceLanguage: string;
-    targetLanguage: string;
+    targetLanguage: string | null;
     original: string;
 
     constructor(header: Header, filename: string, version: string, attributes: NamedNodeMap = null) {
@@ -51,14 +51,33 @@ export class TranslationFile extends XliffElement {
         this.rootGroup = new Group("Root", true, []); 
     }
 
+    static import(elem: Element, filename: string, version: string) {
+        let header = elem.querySelector("header") != null ? Header.import(elem.querySelector("header")) : null;
+        let file = new TranslationFile(header, filename, version, elem.attributes);
+        let body = elem.getElementsByTagName("body")[0];
+
+        for(let el of body.children) {
+            if(el.nodeName == "group") {
+                file.rootGroup.groups.push(Group.import(el));
+            }
+
+            if(el.nodeName == "trans-unit") {
+                let unit = Unit.import([], el);
+                file.rootGroup.units.push(unit);
+            }
+        }
+        return file;
+    }
+
     export(xml: XMLDocument, xliffElement: Element) {
         let elem = super.export(xml, xliffElement);
         elem.setAttribute("original", this.original);
         elem.setAttribute("source-language", this.sourceLanguage);
         if(this.targetLanguage != null) elem.setAttribute("target-language", this.targetLanguage);
 
-        let header = this.header.export(xml, xliffElement);
-        if(header != null) elem.appendChild(header);
+        if(this.header != null) {
+            elem.appendChild(this.header.export(xml, xliffElement));
+        }
 
         let body = xml.createElementNS(xliffElement.namespaceURI, "body");
 
@@ -103,6 +122,33 @@ export class Group extends XliffElement {
         return new Group(this.id, this.isRoot, [...this.path], this.groups.map(e => e.clone()), this.units.map(e => e.clone()), this.attributes);
     }
 
+    static import(elem: Element, path: string[] = null) {
+        let thisGroupId = elem.getAttribute("id");
+        if(thisGroupId == null) return null;
+        let thisGroup = new Group(thisGroupId);
+        
+        if(path == null) path = [thisGroup.id];
+        thisGroup.path = path;
+
+        let p = path;
+        
+        for(let element of elem.childNodes) {
+            let e = element as Element;
+            if(e.nodeName == "group") {
+                path.push(e.getAttribute("id"));
+                let subGroup = Group.import(e, path);
+                thisGroup.addGroup(subGroup);
+            }
+
+            if(e.nodeName == "trans-unit") {
+                let unit = Unit.import(path, e);
+                thisGroup.addUnit(unit);
+            }
+            path = [...p];
+        }
+        return thisGroup;
+    }
+
     export(xml: XMLDocument, xliffElement: Element): Element {
         let elem = super.export(xml, xliffElement);
         elem.setAttribute("id", this.id);
@@ -136,18 +182,6 @@ export class Unit extends XliffElement {
         this.contextGroups = contextGroups;
     }
 
-    relocate(path: string[]) {
-        this.path = path;
-    }   
-
-    translated() {
-        return this.target != null || this.target == "";
-    }
-
-    sameAsTarget() {
-        return this.source == this.target;
-    }
-
     getFullPath() {
         return this.path.concat([this.id]);
     }
@@ -162,6 +196,29 @@ export class Unit extends XliffElement {
 
     getNotes() {
         return this.notes.sort((a, b) => a.priority - b.priority);
+    }
+
+    static import(path: string[], elem: Element) {
+        /* Parse attribute */
+        let unitId = elem.getAttribute("id");
+        
+        let source = elem.getElementsByTagName("source")[0].textContent;
+        let target = elem.getElementsByTagName("target")[0]?.textContent;
+        let notesElem = elem.getElementsByTagName("note");
+        let contextGrpsElem = elem.getElementsByTagName("context-group");
+        let notes = [];
+        for(let note of notesElem) {
+            notes.push(Note.import(note));
+        }
+    
+        let contextGrps = [];
+    
+        for(let contextGrp of contextGrpsElem) {
+            let contextGroup = ContextGroup.import(contextGrp);
+            contextGrps.push(contextGroup);
+        }
+    
+        return new Unit(unitId, source, target, path, notes, contextGrps, elem.attributes);
     }
 
     export(xml: XMLDocument, xliffElement: Element): Element {
@@ -207,6 +264,14 @@ export class Note extends XliffElement {
         this.annotates = annotates;
     }
 
+    static import(elem: Element): Note {
+        let from = elem.getAttribute("from");
+        let content = elem.textContent;
+        let priority = elem.getAttribute("priority") ?? "0";
+        let annotates = (elem.getAttribute("annotates") ?? "general") as NoteAnnotateType;
+        return new Note(from, content, parseInt(priority), annotates);
+    }
+
     export(xml: XMLDocument, xliffElement: Element): Element {
         let noteElement = super.export(xml, xliffElement);
         if(this.from) noteElement.setAttribute("from", escapeXml(this.from));
@@ -250,6 +315,10 @@ export class Context extends XliffElement {
         this.type = type;
     }
 
+    static import(elem: Element) {
+        return new Context(elem.textContent, elem.getAttribute("context-type") as ContextType, elem.attributes);
+    }
+
     export(xml: XMLDocument, xliffElement: Element): Element {
         let elem = super.export(xml, xliffElement);
         elem.setAttribute("context-type", this.type);
@@ -269,12 +338,13 @@ export class ContextGroup extends XliffElement {
         this.contexts = contexts;
     }
 
-    clone() {
-        let newContext = [];
-        for(let context of this.contexts) {
-            newContext.push(new Context(context.content, context.type, context.attributes))
+    static import(elem: Element) {
+        let contexts = [];
+        for(let contextElem of elem.getElementsByTagName("context")) {
+            contexts.push(Context.import(contextElem));
         }
-        return new ContextGroup(this.purpose, newContext, this.attributes);
+
+        return new ContextGroup(elem.getAttribute("purpose") as ContextGroupPurpose, contexts, elem.attributes);
     }
 
     export(xml: XMLDocument, xliffElement: Element): Element {
@@ -287,9 +357,17 @@ export class ContextGroup extends XliffElement {
 
         return elem;
     }
+
+    clone() {
+        let newContext = [];
+        for(let context of this.contexts) {
+            newContext.push(new Context(context.content, context.type, context.attributes))
+        }
+        return new ContextGroup(this.purpose, newContext, this.attributes);
+    }
 }
 
-export abstract class InternalFile extends XliffElement {
+export class InternalFile extends XliffElement {
     path: string;
     form: string;
     crc: string;
@@ -301,9 +379,13 @@ export abstract class InternalFile extends XliffElement {
         this.crc = crc;
     }
 
+    static import(elem: Element): InternalFile {
+        return new InternalFile(elem.textContent, elem.getAttribute("form"), elem.getAttribute("crc"), elem.attributes);
+    }
+
     export(xml: XMLDocument, xliffElement: Element): Element {
         let elem = super.export(xml, xliffElement);
-        elem.nodeValue = this.path;
+        elem.textContent = this.path;
         if(this.form != null) {
             elem.setAttribute("form", this.form);
         }
@@ -315,7 +397,7 @@ export abstract class InternalFile extends XliffElement {
     }
 }
 
-export abstract class ExternalFile extends XliffElement {
+export class ExternalFile extends XliffElement {
     href: string;
     uid: string;
     crc: string;
@@ -325,6 +407,10 @@ export abstract class ExternalFile extends XliffElement {
         this.href = href;
         this.uid = uid;
         this.crc = crc;
+    }
+
+    static import(elem: Element): ExternalFile {
+        return new ExternalFile(elem.getAttribute("href"), elem.getAttribute("uid"), elem.getAttribute("crc"), elem.attributes);
     }
 
     export(xml: XMLDocument, xliffElement: Element): Element {
@@ -369,17 +455,54 @@ export class Skl extends InternalExternalFile {
     constructor(internalFile: InternalFile, externalFile: ExternalFile, attributes: NamedNodeMap = null) {
         super(internalFile, externalFile, "skl", attributes);
     }
+
+    static import(elem: Element) {
+        let internalFile = null;
+        let externalFile = null;
+        if(elem.querySelector("internal-file") != null) {
+            internalFile = InternalFile.import(elem.querySelector("internal-file"));
+        }
+        if(elem.querySelector("external-file") != null) {
+            externalFile = ExternalFile.import(elem.querySelector("external-file"));
+        }
+
+        return new Skl(internalFile, externalFile, elem.attributes);
+    }
 }
 
 export class Glossary extends InternalExternalFile {
     constructor(internalFile: InternalFile, externalFile: ExternalFile, attributes: NamedNodeMap = null) {
         super(internalFile, externalFile, "glossary", attributes);
     }
+
+    static import(elem: Element) {
+        let internalFile = null;
+        let externalFile = null;
+        if(elem.querySelector("internal-file") != null) {
+            internalFile = InternalFile.import(elem.querySelector("internal-file"));
+        }
+        if(elem.querySelector("external-file") != null) {
+            externalFile = ExternalFile.import(elem.querySelector("external-file"));
+        }
+        return new Glossary(internalFile, externalFile, elem.attributes);
+    }
 }
 
 export class Reference extends InternalExternalFile {
     constructor(internalFile: InternalFile, externalFile: ExternalFile, attributes: NamedNodeMap = null) {
         super(internalFile, externalFile, "reference", attributes);
+    }
+
+    static import(elem: Element) {
+        let internalFile = null;
+        let externalFile = null;
+        if(elem.querySelector("internal-file") != null) {
+            internalFile = InternalFile.import(elem.querySelector("internal-file"));
+        }
+        if(elem.querySelector("external-file") != null) {
+            externalFile = ExternalFile.import(elem.querySelector("external-file"));
+        }
+        return new Reference(internalFile, externalFile, elem.attributes);
     }
 }
 
@@ -396,9 +519,32 @@ export class Header extends XliffElement {
         this.notes = notes;
     }
 
-    export(xml: XMLDocument, xliffElement: Element): Element {
-        if(this.skl == null && this.glossaries.length == 0 && this.references.length == 0 && this.notes.length == 0) return null;
+    static import(elem: Element): Header {
+        let skl;
+        let glossaries = [];
+        let references = [];
+        let notes = [];
 
+        if(elem.querySelector("skl") != null) {
+            skl = Skl.import(elem.querySelector("skl"));
+        }
+
+        for(let glossary of elem.querySelectorAll("glossary")) {
+            glossaries.push(Glossary.import(glossary));
+        }
+
+        for(let reference of elem.querySelectorAll("reference")) {
+            references.push(Reference.import(reference));
+        }
+
+        for(let note of elem.querySelectorAll("note")) {
+            notes.push(Note.import(note));
+        }
+
+        return new Header(skl, glossaries, references, notes, elem.attributes);
+    }
+
+    export(xml: XMLDocument, xliffElement: Element): Element {
         let elem = super.export(xml, xliffElement);
         if(this.skl != null) {
             elem.appendChild(this.skl.export(xml, xliffElement));

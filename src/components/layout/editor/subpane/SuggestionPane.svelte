@@ -37,7 +37,7 @@
                         // Unfinished translation are not useful
                         if(data.target == null) return;
                         // No better than unfinished translation, as it's the same source but copied
-                        if(data.sameAsTarget()) return;
+                        if(data.source == data.target) return;
                         // Everything is same as what is already the case, not useful
                         if(data.source == $selectedUnit.source && data.target == $selectedUnit.target) return;
                         let stringMatchAgainst = findBySource ? data.source : data.target;

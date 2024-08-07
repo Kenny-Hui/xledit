@@ -1,4 +1,4 @@
-import { Context, ContextGroup, Group, Unit, TranslationFile as TranslationFile, Note, type NoteAnnotateType, ContextGroupPurpose, ContextType } from './types';
+import { Group, Unit, TranslationFile as TranslationFile, Note, type NoteAnnotateType, ContextGroupPurpose, ContextType } from './types';
 
 export function parse(filename: string, xml: string): TranslationFile[] {
     let parser = new DOMParser();
@@ -25,80 +25,10 @@ function parseInternal(filename: string, xlfElement: Element, xlfVersion: string
     
     if(parseFloat(xlfVersion) <= 1.2) {
         for(let fileElement of xlfElement.getElementsByTagName("file")) {
-            let file = new TranslationFile(filename, xlfVersion, fileElement.attributes)
-            let body = fileElement.getElementsByTagName("body")[0];
-
-            for(let el of body.children) {
-                if(el.nodeName == "group") {
-                    file.rootGroup.groups.push(groupParser(el));
-                }
-
-                if(el.nodeName == "trans-unit") {
-                    let unit = parseUnit(el, []);
-                    file.rootGroup.units.push(unit);
-                }
-            }
-            xliffFiles.push(file);
+            xliffFiles.push(TranslationFile.import(fileElement, filename, xlfVersion));
         }
     }
 
     console.log(xliffFiles);
     return xliffFiles;
-}
-
-function groupParser(el, prefix: string[] = null): Group {
-    let thisGroupId = el.getAttribute("id");
-    if(thisGroupId == null) return null;
-    let thisGroup = new Group(thisGroupId);
-    
-    if(prefix == null) prefix = [thisGroup.id];
-    thisGroup.path = prefix;
-
-    let p = prefix;
-    
-    for(let element of el.childNodes) {
-        if(element.nodeName == "group") {
-            prefix.push(element.getAttribute("id"));
-            let subGroup = groupParser(element, prefix);
-            thisGroup.addGroup(subGroup);
-        }
-
-        if(element.nodeName == "trans-unit") {
-            let unit = parseUnit(element, prefix);
-            thisGroup.addUnit(unit);
-        }
-        prefix = [...p];
-    }
-    return thisGroup;
-}
-
-function parseUnit(element: Element, path: string[]): Unit {
-    /* Parse attribute */
-    let unitId = element.getAttribute("id");
-    
-    let source = element.getElementsByTagName("source")[0]?.textContent;
-    let target = element.getElementsByTagName("target")[0]?.textContent;
-    let notesElem = element.getElementsByTagName("note");
-    let contextGrpsElem = element.getElementsByTagName("context-group");
-    let notes = [];
-    for(let note of notesElem) {
-        let from = note.getAttribute("from");
-        let content = note.textContent;
-        let priority = note.getAttribute("priority") ?? "0";
-        let annotates = (note.getAttribute("annotates") ?? "general") as NoteAnnotateType;
-        notes.push(new Note(from, content, parseInt(priority), annotates));
-    }
-
-    let contexts = [];
-
-    for(let contextGrp of contextGrpsElem) {
-        let contextGroup = new ContextGroup(contextGrp.getAttribute("purpose") as ContextGroupPurpose);
-        for(let contextElem of contextGrp.getElementsByTagName("context")) {
-            let context = new Context(contextElem.textContent, contextElem.getAttribute("context-type") as ContextType);
-            contextGroup.contexts.push(context);
-        }
-        contexts.push(contextGroup);
-    }
-
-    return new Unit(unitId, source, target, path, notes, contexts, element.attributes);
 }
