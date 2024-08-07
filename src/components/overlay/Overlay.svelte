@@ -52,7 +52,7 @@
         font-size: 14px;
         padding: .45rem;
         transform: translateX(-50%) translateY(-2em);
-        border-radius: 5px;
+        border-radius: .25rem;
         background-color: rgba(60, 60, 60, 0.75);
         color: white;
     }

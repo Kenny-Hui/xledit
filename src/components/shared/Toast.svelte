@@ -63,7 +63,7 @@
         padding: 10px;
         margin: 20px auto 0px auto;
         color: white;
-        border-radius: 10px;
+        border-radius: .5rem;
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
         overflow: hidden;
     }

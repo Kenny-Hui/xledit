@@ -22,11 +22,11 @@
     export function setTargetText(targetString: string) {
         if(targetElement != null) {
             targetElement.textContent = targetString;
-            updateEditStatus();
+            afterType();
         }
     }1
 
-    function updateEditStatus() {
+    function afterType() {
         if($selectedUnit == null) {
             edited = false;
         } else {
@@ -36,6 +36,7 @@
                 edited = ($selectedUnit.target ?? "") != targetElement.textContent;
             }
         }
+        if(targetElement.textContent.length == 0) targetElement.innerHTML = ""; // Clear empty <br> for placeholder
     }
 
     function save() {
@@ -140,8 +141,9 @@
             tabindex={0}
             bind:this={targetElement}
             class:disabled={$selectedUnit == null}
+            placeholder="Enter translated text here..."
             contenteditable={$selectedUnit != null ? "true" : "false"}
-            on:keyup={() => updateEditStatus()}>
+            on:keyup={() => afterType()}>
         </div>
         <div class="save-button">
             <Button on:click={save} disabled={$selectedUnit == null || !edited}>
@@ -242,6 +244,7 @@
         content: attr(placeholder);
         pointer-events: none;
         display: block; /* For Firefox */
+        color: var(--disabled);
     }
 
     .option > * {
