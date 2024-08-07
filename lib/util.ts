@@ -109,7 +109,6 @@ export function getUnit(parent: Group, path: string[], remainingPath: string[] |
 
 export function findGroup(parent: Group, path: string[], remainingPath: string[] | null = null): Group | null {
     let newPath = remainingPath ?? Array.from(path);
-    console.log(path);
     if(newPath.length == 0) return parent;
 
     for(let grp of parent.groups) {
