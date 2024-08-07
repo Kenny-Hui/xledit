@@ -87,7 +87,9 @@ html, body {
 }
 
 button {
-  all: initial;
+  border: none;
+  background: none;
+  text-align: left;
   font: inherit;
   color: inherit;
   line-height: 1;
