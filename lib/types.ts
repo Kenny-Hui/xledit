@@ -176,7 +176,7 @@ export class Unit extends XliffElement {
         super("trans-unit", attributes);
         this.id = id;
         this.source = source;
-        this.target = target ? target : null;
+        this.target = target;
         this.path = path;
         this.notes = notes;
         this.contextGroups = contextGroups;
@@ -203,7 +203,7 @@ export class Unit extends XliffElement {
         let unitId = elem.getAttribute("id");
         
         let source = elem.getElementsByTagName("source")[0].textContent;
-        let target = elem.getElementsByTagName("target")[0]?.textContent;
+        let target = elem.getElementsByTagName("target")[0]?.textContent ?? "";
         let notesElem = elem.getElementsByTagName("note");
         let contextGrpsElem = elem.getElementsByTagName("context-group");
         let notes = [];
@@ -231,12 +231,10 @@ export class Unit extends XliffElement {
         srcElement.textContent = escapeXml(this.source);
         elem.appendChild(srcElement);
 
-        if(this.target) {
-            let targetElement = xml.createElementNS(xliffElement.namespaceURI, "target");
-            targetElement.textContent = escapeXml(this.target);
-            elem.appendChild(targetElement);
-        }
-    
+        let targetElement = xml.createElementNS(xliffElement.namespaceURI, "target");
+        targetElement.textContent = escapeXml(this.target);
+        elem.appendChild(targetElement);
+
         for(let note of this.notes) {
             elem.appendChild(note.export(xml, xliffElement));
         }

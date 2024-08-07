@@ -36,22 +36,22 @@
                 if(file == $selectedFile) continue;
 
                 if(data instanceof Group) {
-                    let gp = findGroup(file.rootGroup, data.path);
-                    if(gp == null) { // Add missing groups
-                        let group = createGroup(data, file.rootGroup);
-                        for(let units of group.units) {
-                            units.target = null;
+                    let grp = findGroup(file.rootGroup, data.path);
+                    if(grp == null) { // Add missing groups
+                        let newGrp = createGroup(data, file.rootGroup);
+                        for(let units of newGrp.units) {
+                            units.target = "";
                         }
                     }
                 }
 
                 if(data instanceof Unit) {
-                    let un = getUnit(file.rootGroup, data.getFullPath());
-                    if(un == null) { // Add missing units
+                    let unit = getUnit(file.rootGroup, data.getFullPath());
+                    if(unit == null) { // Add missing units
                         let newUnit = createUnit(data, file.rootGroup);
-                        newUnit.target = null;
+                        newUnit.target = "";
                     } else {
-                        un.source = data.source; // Sync source text
+                        unit.source = data.source; // Sync source text
                     }
                 }
             }
@@ -61,9 +61,21 @@
         addToast(`Synchronized ${derivedFiles.length - 1} files`, "success", 4000);
     }
 
+    function exportFileContent(files: TranslationFile[]): string {
+        let exportOptions = $preferences.export as ExportOptions;
+        let xmlDoc = exportXliff(files);
+
+        if(exportOptions.stripEmptyTarget) {
+            for(let targetElem of xmlDoc.getElementsByTagName("target")) {
+                if(targetElem.textContent.length == 0) targetElem.remove();
+            }
+        }
+
+        return xmlToString(xmlDoc, exportOptions);
+    }
+
     function exportFile(targetFile: TranslationFile) {
-        let xmlDoc = exportXliff([targetFile]);
-        let blob = new Blob([xmlToString(xmlDoc, $preferences.export as ExportOptions)], {type: "text/plain;charset=utf-8"});
+        let blob = new Blob([exportFileContent([targetFile])], {type: "text/plain;charset=utf-8"});
         saveAs(blob, targetFile.filename);
     }
 
@@ -71,11 +83,9 @@
         let files = get(projects).files;
         let zip = new JSZip();
         for(let file of files) {
-            let xmlDoc = exportXliff([file]);
-            zip.file(file.filename, xmlToString(xmlDoc, $preferences.export as ExportOptions));
+            zip.file(file.filename, exportFileContent([file]));
         }
-        
-        zip.generateAsync({type:"blob"})
+        zip.generateAsync({type:"blob", compression: 'DEFLATE'})
         .then(content => {
             saveAs(content, `${$preferences.export.filename}.zip`);
         });

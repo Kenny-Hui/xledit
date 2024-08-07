@@ -28,15 +28,15 @@
     <div>
         <VertTab items={tabs} bind:selectedIndex={selectedPane}/>
     </div>
-    <div>
+    <div class="pane">
         <svelte:component this={tabs[selectedPane].component}/>
     </div>
 </div>
 
 <style>
     .inner {
-        min-width: 480px;
-        min-height: 240px;
+        width: 500px;
+        height: 240px;
         display: grid;
         grid-template-columns: auto 2fr;
         gap: 10px;
@@ -44,5 +44,9 @@
 
     .inner > div:nth-child(1) {
         border-right: 4px solid var(--blue-highlight);
+    }
+
+    .pane {
+        overflow: auto;
     }
 </style>

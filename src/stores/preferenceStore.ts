@@ -11,6 +11,7 @@ const defaultSettings = {
     },
     export: {
         useTab: true,
+        stripEmptyTarget: true,
         spaceChar: 2,
         filename: 'xledit'
     }

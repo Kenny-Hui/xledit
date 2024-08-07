@@ -82,7 +82,9 @@ export class Toast {
 
 export type ExportOptions = {
     useTab: boolean,
-    spaceChar: number
+    stripEmptyTarget: true,
+    spaceChar: number,
+    filename: 'xledit'
 }
 
 export const shortHandedLang = {

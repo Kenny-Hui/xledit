@@ -52,7 +52,7 @@
                 targetUnit = targetUnit;
             }
         } else {
-            $selectedUnit.target = targetElement.textContent ? targetElement.textContent : null;
+            $selectedUnit.target = targetElement.textContent;
         }
 
         $selectedFileStore = $selectedFileStore;
@@ -136,6 +136,8 @@
         <div
             class="box editBox"
             spellcheck="true"
+            role="textbox"
+            tabindex={0}
             bind:this={targetElement}
             class:disabled={$selectedUnit == null}
             contenteditable={$selectedUnit != null ? "true" : "false"}

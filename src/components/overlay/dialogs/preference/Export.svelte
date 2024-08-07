@@ -24,3 +24,14 @@
         <input name="ab" type="text" bind:value={$preferences.export.filename}>.zip
     </div>
 </SettingsEntry>
+
+<SettingsEntry>
+    <label for="ab" slot="key">Empty Target</label>
+    <p slot="description">Behaviour when exporting empty translation</p>
+    <div slot="value">
+        <select bind:value={$preferences.export.stripEmptyTarget}>
+            <option value={true}>Strip target element</option>
+            <option value={false}>Retain target element</option>
+        </select>
+    </div>
+</SettingsEntry>
