@@ -5,6 +5,7 @@
     import { projects, selectedUnit } from "../../../../stores/data";
     import HorizontalTab from '../../../shared/HorizontalTab.svelte';
     import SuggestionEntry from './SuggestionEntry.svelte';
+    import { NfcIcon } from "lucide-svelte";
 
     export let selectedFile: TranslationFile;
     const SUGGESTION_MATCH_PERCENTAGE = 0.7;
@@ -35,7 +36,7 @@
                 forEach(file.rootGroup, (data: Unit | Group) => {
                     if(data instanceof Unit) {
                         // Unfinished translation are not useful
-                        if(data.target == null) return;
+                        if(data.target.length == 0) return;
                         // No better than unfinished translation, as it's the same source but copied
                         if(data.source == data.target) return;
                         // Everything is same as what is already the case, not useful
@@ -68,12 +69,13 @@
             let bMatchedPath = b.unit.getFullPathStr() == $selectedUnit.getFullPathStr() ? 1 : 0;
             let aMatchedId = a.unit.id == $selectedUnit.id ? -1 : 0;
             let bMatchedId = b.unit.id == $selectedUnit.id ? 1 : 0;
-            let aSameLangGroup = a.lang.targetLanguage.split("-")[0] == targetLanguage.split("-")[0] ? -1 : 0;
-            let bSameLangGroup = b.lang.targetLanguage.split("-")[0] == targetLanguage.split("-")[0] ? 1 : 0;
+
+            let aSameLangGroup = a.lang.targetLanguage == null ? 0 : a.lang.targetLanguage.split("-")[0] == targetLanguage.split("-")[0] ? -1 : 0;
+            let bSameLangGroup = b.lang.targetLanguage == null ? 0 : b.lang.targetLanguage.split("-")[0] == targetLanguage.split("-")[0] ? 1 : 0;
 
             point += b.match > a.match ? 1 : b.match == a.match ? 0 : -1;
             point += aSameLangGroup + bSameLangGroup + aMatchedId + bMatchedId + aMatchedPath + bMatchedPath;
-            point += (a.lang.targetLanguage.split("-")[0] == b.lang.targetLanguage.split("-")[0]) ? 1 : 0; // Match primary subtag
+            point += ((a.lang.targetLanguage != null && b.lang.targetLanguage != null) && a.lang.targetLanguage.split("-")[0] == b.lang.targetLanguage.split("-")[0]) ? 1 : 0; // Match primary subtag
 
             return point;
         });

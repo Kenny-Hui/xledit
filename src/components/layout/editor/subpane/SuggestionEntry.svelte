@@ -136,6 +136,7 @@
         color: var(--blue-highlight-dimmed);
         word-break: break-all;
         display: inline-flex;
+        flex-wrap: wrap;
         align-items: center;
     }
 
