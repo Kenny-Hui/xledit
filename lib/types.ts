@@ -25,6 +25,7 @@ export class XliffElement {
 }
 
 export class TranslationFile extends XliffElement {
+    header: Header;
     version: string;
     filename: string;
     rootGroup: Group;
@@ -35,8 +36,9 @@ export class TranslationFile extends XliffElement {
     targetLanguage: string;
     original: string;
 
-    constructor(filename: string, version: string, attributes: NamedNodeMap = null) {
+    constructor(header: Header, filename: string, version: string, attributes: NamedNodeMap = null) {
         super("file", attributes);
+        this.header = header;
         this.attributes = attributes;
         this.filename = filename;
         this.version = version;
@@ -50,10 +52,14 @@ export class TranslationFile extends XliffElement {
     }
 
     export(xml: XMLDocument, xliffElement: Element) {
-        let fileElement = super.export(xml, xliffElement);
-        fileElement.setAttribute("original", this.original);
-        fileElement.setAttribute("source-language", this.sourceLanguage);
-        if(this.targetLanguage != null) fileElement.setAttribute("target-language", this.targetLanguage);
+        let elem = super.export(xml, xliffElement);
+        elem.setAttribute("original", this.original);
+        elem.setAttribute("source-language", this.sourceLanguage);
+        if(this.targetLanguage != null) elem.setAttribute("target-language", this.targetLanguage);
+
+        let header = this.header.export(xml, xliffElement);
+        if(header != null) elem.appendChild(header);
+
         let body = xml.createElementNS(xliffElement.namespaceURI, "body");
 
         for(let group of this.rootGroup.groups) {
@@ -64,8 +70,8 @@ export class TranslationFile extends XliffElement {
             body.appendChild(unit.export(xml, xliffElement))
         }
 
-        fileElement.appendChild(body);
-        return fileElement;
+        elem.appendChild(body);
+        return elem;
     }
 }
 
@@ -277,6 +283,137 @@ export class ContextGroup extends XliffElement {
 
         for(let context of this.contexts) {
             elem.appendChild(context.export(xml, xliffElement));
+        }
+
+        return elem;
+    }
+}
+
+export abstract class InternalFile extends XliffElement {
+    path: string;
+    form: string;
+    crc: string;
+
+    constructor(path: string, form: string, crc: string, attributes: NamedNodeMap = null) {
+        super("internal-file", attributes);
+        this.path = path;
+        this.form = form;
+        this.crc = crc;
+    }
+
+    export(xml: XMLDocument, xliffElement: Element): Element {
+        let elem = super.export(xml, xliffElement);
+        elem.nodeValue = this.path;
+        if(this.form != null) {
+            elem.setAttribute("form", this.form);
+        }
+        if(this.crc != null) {
+            elem.setAttribute("crc", this.crc);
+        }
+
+        return elem;
+    }
+}
+
+export abstract class ExternalFile extends XliffElement {
+    href: string;
+    uid: string;
+    crc: string;
+
+    constructor(href: string, uid: string, crc: string, attributes: NamedNodeMap = null) {
+        super("external-file", attributes);
+        this.href = href;
+        this.uid = uid;
+        this.crc = crc;
+    }
+
+    export(xml: XMLDocument, xliffElement: Element): Element {
+        let elem = super.export(xml, xliffElement);
+        elem.setAttribute("href", this.href);
+        if(this.uid != null) {
+            elem.setAttribute("uid", this.uid);
+        }
+        if(this.crc != null) {
+            elem.setAttribute("crc", this.crc);
+        }
+
+        return elem;
+    }
+}
+
+export abstract class InternalExternalFile extends XliffElement {
+    internalFile: InternalFile;
+    externalFile: ExternalFile;
+
+    constructor(internalFile: InternalFile, externalFile: ExternalFile, nodeName: string, attributes: NamedNodeMap = null) {
+        super(nodeName, attributes);
+        this.internalFile = internalFile;
+        this.externalFile = externalFile;
+    }
+
+    export(xml: XMLDocument, xliffElement: Element): Element {
+        let elem = super.export(xml, xliffElement);
+        if(this.internalFile != null) {
+            elem.appendChild(this.internalFile.export(xml, xliffElement));
+        }
+        
+        if(this.externalFile != null) {
+            elem.appendChild(this.externalFile.export(xml, xliffElement));
+        }
+
+        return elem;
+    }
+}
+
+export class Skl extends InternalExternalFile {
+    constructor(internalFile: InternalFile, externalFile: ExternalFile, attributes: NamedNodeMap = null) {
+        super(internalFile, externalFile, "skl", attributes);
+    }
+}
+
+export class Glossary extends InternalExternalFile {
+    constructor(internalFile: InternalFile, externalFile: ExternalFile, attributes: NamedNodeMap = null) {
+        super(internalFile, externalFile, "glossary", attributes);
+    }
+}
+
+export class Reference extends InternalExternalFile {
+    constructor(internalFile: InternalFile, externalFile: ExternalFile, attributes: NamedNodeMap = null) {
+        super(internalFile, externalFile, "reference", attributes);
+    }
+}
+
+export class Header extends XliffElement {
+    skl: Skl;
+    glossaries: Glossary[];
+    references: Reference[];
+    notes: Note[];
+    constructor(skl: Skl, glossaries: Glossary[], references: Reference[], notes: Note[], attributes: NamedNodeMap = null) {
+        super("header", attributes);
+        this.skl = skl;
+        this.glossaries = glossaries;
+        this.references = references;
+        this.notes = notes;
+    }
+
+    export(xml: XMLDocument, xliffElement: Element): Element {
+        if(this.skl == null && this.glossaries.length == 0 && this.references.length == 0 && this.notes.length == 0) return null;
+
+        let elem = super.export(xml, xliffElement);
+        if(this.skl != null) {
+            elem.appendChild(this.skl.export(xml, xliffElement));
+        }
+
+        for(let glossary of this.glossaries) {
+            elem.appendChild(glossary.export(xml, xliffElement));
+        }
+        
+        for(let reference of this.references) {
+            elem.appendChild(reference.export(xml, xliffElement));
+        }
+
+        for(let note of this.notes) {
+            elem.appendChild(note.export(xml, xliffElement));
         }
 
         return elem;
