@@ -1,9 +1,8 @@
 <script lang="ts">
-    import type { Unit, TranslationFile } from "../../../../lib/types";
     import Listing from "./listing/Listing.svelte";
     import EditingPane from "./editing/EditingPane.svelte";
     import SuggestionPane from "./subpane/SuggestionPane.svelte";
-    export let selectedFile: TranslationFile;
+    import { selectedFile } from "../../../stores/data";
     let editingPane: EditingPane;
 
     function setTargetText(event) {
@@ -17,10 +16,10 @@
             <Listing />
         </div>
         <div class="editor">
-            <EditingPane bind:this={editingPane} {selectedFile}/>
+            <EditingPane bind:this={editingPane} selectedFile={$selectedFile}/>
         </div>
         <div class="suggestion">
-            <SuggestionPane on:applyTargetText={setTargetText} {selectedFile}/>
+            <SuggestionPane on:applyTargetText={setTargetText} selectedFile={$selectedFile}/>
         </div>
     </div>
 </div>

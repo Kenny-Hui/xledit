@@ -129,7 +129,7 @@
     </div>
 
     <div>
-        <Editor selectedFile={$selectedFile}/>
+        <Editor />
     </div>
 </main>
 
