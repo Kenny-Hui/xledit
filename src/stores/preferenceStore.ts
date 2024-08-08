@@ -20,7 +20,7 @@ const defaultSettings = {
     }
 }
 
-export const preferences = writable(Object.assign(JSON.parse(localStorage.getItem("preference")) ?? {}, defaultSettings));
+export const preferences = writable(Object.assign(defaultSettings, JSON.parse(localStorage.getItem("preference")) ?? {}));
 
 preferences.subscribe((val) => {
     localStorage.setItem("preference", JSON.stringify(val));
