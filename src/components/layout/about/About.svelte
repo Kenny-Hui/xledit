@@ -23,16 +23,16 @@
     </section>
     <section>
         <h1>Changelogs</h1>
-        <hr>
         <div class="changelogs">
             {#each versions as version}
                 <hr>    
                 <h2>{version.name}</h2>
-                {#each version.body.split("\r\n") as line}
+                {#each version.body.split("\n") as line}
                     <p>{line}</p>
                 {/each}
             {/each}
         </div>
+        <hr>
     </section>
 </main>
 
@@ -61,7 +61,7 @@
     }
 
     hr {
-        margin: 1rem;
+        margin: 1rem 0;
         box-sizing: border-box;
     }
 
