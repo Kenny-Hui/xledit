@@ -1,3 +1,11 @@
+<script lang="ts">
+    export let disabled = false;
+</script>
+
+<button {disabled} on:click on:dragover on:drop>
+    <slot />
+</button>
+
 <style>
     button {
         display: flex;
@@ -5,7 +13,7 @@
         cursor: pointer;
         gap: .25rem;
         font-family: var(--secondary-font-set);
-        background-color: var(--blue-highlight);
+        background-color: var(--highlight-color);
         color: white;
         padding: .75em;
         border-radius: .45em;
@@ -13,7 +21,8 @@
     }
 
     button:hover:not(:disabled) {
-        box-shadow: inset 0px 0px 16px 16px var(--blue-highlight-dimmed);
+        box-shadow: inset 0px 0px 16px 16px var(--highlight-color);
+        filter: brightness(80%) contrast(125%);
     }
 
     button:disabled {
@@ -23,23 +32,13 @@
         cursor: not-allowed;
     }
 
-    @media (prefers-reduced-motion: no-preference) {
-        button:not(:active) {
-            /* Sorry not sorry */
-            /* https://stackoverflow.com/questions/18376815/trigger-animation-on-element-click-in-pure-css */
-            transition: transform .2s, box-shadow .2s;
-        }
+    button:not(:active) {
+        /* Sorry not sorry */
+        /* https://stackoverflow.com/questions/18376815/trigger-animation-on-element-click-in-pure-css */
+        transition: transform .2s, box-shadow .2s, filter .2s;
+    }
 
-        button:active:not(:disabled) {
-            transform: scale(0.97);
-        }
-	}
+    button:active:not(:disabled) {
+        transform: scale(0.97);
+    }
 </style>
-
-<script lang="ts">
-    export let disabled = false;
-</script>
-
-<button disabled={disabled} on:click on:dragover on:drop>
-    <slot />
-</button>

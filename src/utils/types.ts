@@ -1,4 +1,4 @@
-import { SvelteComponent } from "svelte";
+import { SvelteComponent, type ComponentType } from "svelte";
 import { getISO639 } from "./util";
 import { TranslationFile } from "../../lib/types";
 
@@ -61,7 +61,7 @@ export class DialogProperty {
     data: any;
     callback: Function;
 
-    constructor(component: typeof SvelteComponent, data: any = null, callback: Function = null) {
+    constructor(component: ComponentType, data: any = null, callback: Function = null) {
         this.component = component;
         this.data = data;
         this.callback = callback;
@@ -82,11 +82,19 @@ export class Toast {
 
 export type ExportOptions = {
     useTab: boolean,
-    spaceChar: number
+    stripEmptyTarget: true,
+    spaceChar: number,
+    filename: 'xledit'
 }
 
 export const shortHandedLang = {
     'English (United States)': 'English (US)',
     'English (United Kingdom)': 'English (UK)',
     '中文（中國香港特別行政區）': '中文（香港）'
+}
+
+export const themes = {
+    blue: "0, 119, 221",
+    purple: "130, 71, 190",
+    pink: "180, 60, 180"
 }

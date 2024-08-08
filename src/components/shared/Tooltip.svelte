@@ -4,7 +4,7 @@
     let tooltipElement: HTMLElement;
     import { activeTooltip as activeTooltip } from "../../stores/uiStores";
 
-    function onHover(e) {
+    function onHover(e): void {
         if(tooltip != null) {
             if(e === null) {
                 let newTooltip = get(activeTooltip);
@@ -20,7 +20,7 @@
         }
     }
 
-    function onLeave() {
+    function onLeave(): void {
         activeTooltip.set(null);
     }
 

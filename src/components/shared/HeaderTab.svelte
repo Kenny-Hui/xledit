@@ -1,17 +1,17 @@
 <script lang="ts">
+    import {push, location} from 'svelte-spa-router'
     export let items: any[];
-    export let selectedIndex: number;
 
     function onEntrySelected(i: number): void {
-        selectedIndex = i;
+        push(items[i].link);
     }
 </script>
     
-<ul class="horizontal-tab">
+<ul class="header-tab">
     {#each items as item, i}    
         {#if item != null}
             <li>
-                <button on:click={() => onEntrySelected(i)} on:keydown={() => onEntrySelected(i)} class:selected={selectedIndex == i}>
+                <button on:click={() => onEntrySelected(i)} on:keydown={() => onEntrySelected(i)} class:selected={$location == item.link}>
                     {item.name}
                 </button>
             </li>
@@ -20,29 +20,26 @@
 </ul>
 
 <style>
-    .horizontal-tab {
+    .header-tab {
         display: flex;
-    }
-
-    .horizontal-tab li {
-        flex: 1;
+        gap: .75rem;
     }
 
     button {
-        width: 100%;
         font-weight: 400;
-        padding: .75em;
-        border-bottom: 1px solid var(--border);
+        padding: .5em;
         cursor: pointer;
         text-align: center;
         transition: background-color .1s;
+        border-radius: .35rem;
     }
 
-    button:hover {
+    button:hover:not(.selected) {
         background-color: var(--highlight);
     }
 
     .selected {
-        box-shadow: inset 0px -3px var(--highlight-color);
+        background: var(--highlight-color);
+        color: white;
     }
 </style>

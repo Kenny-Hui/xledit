@@ -16,7 +16,7 @@
 
     let form: HTMLFormElement;
 
-    function addAttribute() {
+    function addAttribute(): void {
         if(form.reportValidity()) {
             let unit: Unit = dialog.data?.unit;
 

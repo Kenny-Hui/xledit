@@ -14,14 +14,12 @@ XLEdit is a web-based editor for the [XLIFF](https://en.wikipedia.org/wiki/XLIFF
 - &lt;bin-*&gt; and &lt;alt-trans&gt;
 - [Inline Elements](https://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#Struct_InLine)
 - &lt;phase&gt; and &lt;phase-group&gt;
-- &lt;glossary&gt;
 - Many more
 
 ## Roadmap
 - Basic Translation Memory
 - Re-export multiple xliff file tag with the same file
 - Add translation for the UI
-- (UI) Color theme
 - (UI) Dark Mode
 - More XLIFF 1 implementation
 - XLIFF 2 support

@@ -11,11 +11,16 @@ const defaultSettings = {
     },
     export: {
         useTab: true,
-        spaceChar: 2
+        stripEmptyTarget: true,
+        spaceChar: 2,
+        filename: 'xledit'
+    },
+    appearance: {
+        color: 'blue'
     }
 }
 
-export const preferences = writable(JSON.parse(localStorage.getItem("preference")) ?? defaultSettings);
+export const preferences = writable(Object.assign(defaultSettings, JSON.parse(localStorage.getItem("preference")) ?? {}));
 
 preferences.subscribe((val) => {
     localStorage.setItem("preference", JSON.stringify(val));

@@ -1,18 +1,16 @@
 <script lang="ts">
-    import { DialogProperty } from "../../../../utils/types";
     import VertTab from "../../../shared/VerticalTab.svelte";
     import Editing from "./Editing.svelte";
     import Export from "./Export.svelte";
-    import File from "./File.svelte";
+    import General from "./Appearance.svelte";
 
-    export let dialog: DialogProperty;
     export let dialogTitle;
     dialogTitle = "Preferences";
 
     const tabs = [
         {
-            name: 'File View',
-            component: File
+            name: 'General',
+            component: General
         },
         {
             name: 'Editing',
@@ -30,19 +28,25 @@
     <div>
         <VertTab items={tabs} bind:selectedIndex={selectedPane}/>
     </div>
-    <div>
+    <div class="pane">
         <svelte:component this={tabs[selectedPane].component}/>
     </div>
 </div>
 
 <style>
     .inner {
+        width: 500px;
+        height: 240px;
         display: grid;
         grid-template-columns: auto 2fr;
         gap: 10px;
     }
 
     .inner > div:nth-child(1) {
-        border-right: 4px solid var(--blue-highlight);
+        border-right: 4px solid var(--highlight-color);
+    }
+
+    .pane {
+        overflow: auto;
     }
 </style>

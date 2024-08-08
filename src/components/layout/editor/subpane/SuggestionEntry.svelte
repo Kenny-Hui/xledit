@@ -2,7 +2,7 @@
     import { createEventDispatcher } from "svelte";
     import { copyToClipboard } from "../../../../utils/util";
     import Tooltip from "../../../shared/Tooltip.svelte";
-    import { Copy, CornerUpLeft } from "lucide-svelte";
+    import { ChevronRight, Copy, CornerUpLeft } from "lucide-svelte";
     import { selectedUnit, selectedFile } from "../../../../stores/data";
 
     export let suggestion;
@@ -34,7 +34,14 @@
         <p class="source">
             <button class="link-button srcpath"
                 class:matchpath={suggestion.unit.getFullPathStr() == $selectedUnit?.getFullPathStr()}
-                on:click={() => jumpToSuggestion(suggestion)}>{suggestion.unit.getFullPathStr()}</button>
+                on:click={() => jumpToSuggestion(suggestion)}>
+
+                {#each suggestion.unit.path as path}
+                    {path}
+                    <ChevronRight size={14}/>
+                {/each}
+                {suggestion.unit.id}
+            </button>
              &bull;
             <span class="langname">{suggestion.lang.targetLanguage}</span>
         </p>
@@ -84,7 +91,7 @@
     }
 
     .percentage {
-        color: var(--blue-highlight);
+        color: var(--highlight-color);
         font-weight: 600;
         font-size: 14px;
     }
@@ -126,8 +133,11 @@
     }
 
     .srcpath {
-        color: var(--blue-highlight-dimmed);
+        color: var(--highlight-color);
         word-break: break-all;
+        display: inline-flex;
+        flex-wrap: wrap;
+        align-items: center;
     }
 
     .matchpath {

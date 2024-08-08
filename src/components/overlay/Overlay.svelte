@@ -3,7 +3,6 @@
     import Toast from '../shared/Toast.svelte';
     import { circOut } from 'svelte/easing';
     import BaseDialog from './dialogs/BaseDialog.svelte';
-    let modalElement: HTMLDialogElement;
 
     function popAnim(A) {
         return {
@@ -11,10 +10,6 @@
             easing: circOut,
             css: (t) => `transform: scale(${0.85 + (t * 0.15)}); opacity:${t}`
         }
-    }
-
-    function showModal(e: Event) {
-        (e.target as HTMLDialogElement).showModal();
     }
 </script>
 
@@ -25,9 +20,11 @@
         {/each}
     </div>
     {#each $activeDialog as dialog}
-        <dialog bind:this={modalElement} on:introstart|once={showModal} on:close={closeDialog} transition:popAnim>
-            <BaseDialog dialogProperty={dialog} />
-        </dialog>
+        <div class="dialog-wrapper">
+            <div class="dialog" on:close={closeDialog} transition:popAnim>
+                <BaseDialog dialogProperty={dialog} />
+            </div>
+        </div>
     {/each}
     {#if $activeTooltip != null}
         <div class="tooltips" style="top: {$activeTooltip.rect.top - 5}px; left: {($activeTooltip.rect.right) - ($activeTooltip.rect.width / 2)}px">
@@ -40,7 +37,7 @@
 
 <style>
     .overlay {
-        z-index: 10;
+        z-index: 5;
         position: fixed;
         width: 100%;
         height: 100%;
@@ -48,6 +45,7 @@
     }
     
     .tooltips {
+        z-index: 6;
         position: absolute;
     }
 
@@ -55,7 +53,7 @@
         font-size: 14px;
         padding: .45rem;
         transform: translateX(-50%) translateY(-2em);
-        border-radius: 5px;
+        border-radius: .25rem;
         background-color: rgba(60, 60, 60, 0.75);
         color: white;
     }
@@ -68,15 +66,17 @@
         margin-bottom: 1rem;
     }
 
-    dialog {
-        z-index: 5;
+    .dialog-wrapper {
+        z-index: 1;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.25);
+        display: flex;
+        justify-content: center;
+        align-items: center;
         pointer-events: all;
-        box-shadow: 0 0 16px 0px #333;
-        border-radius: 10px;
-        overflow: auto;
-        padding: 20px;
-        outline: 2px transparent;
-        border: none;
-        background: #FFF;
     }
 </style>

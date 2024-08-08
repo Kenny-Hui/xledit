@@ -47,7 +47,7 @@
         {#if !embedded}
             <div class="action-buttons">
                 <IconButton on:click={remove} tooltip="Delete note">
-                    <Trash size={16} color="#E33" />
+                    <Trash size={16} color="red" />
                 </IconButton>
             </div>
         {/if}
@@ -67,7 +67,7 @@
 
     .container {
         position: relative;
-        background-color: var(--light-blue);
+        background-color: var(--highlight-secondary);
         border: 1px solid var(--border);
         border-radius: 4px;
         padding: 0.5em 0.75em;

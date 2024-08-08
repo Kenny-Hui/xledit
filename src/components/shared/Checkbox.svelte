@@ -3,33 +3,33 @@
     export let checked = false;
     export let tooltips: string = null;
     import { activeTooltip } from "../../stores/uiStores";
-    function onHover(e) {
+    function onHover(e: any) {
         if(tooltips != null) {
             if(e === null) {
                 let newTooltip = get(activeTooltip);
                 if(newTooltip == null) return;
                 newTooltip.content = tooltips;
-                activeTooltip.set(newTooltip);
+                $activeTooltip = newTooltip;
             } else {
-                activeTooltip.set({
+                $activeTooltip = {
                     content: tooltips,
                     rect: e.srcElement.getBoundingClientRect()
-                });
+                };
             }
         }
     }
 
-    function onLeave(e) {
-        activeTooltip.set(null);
+    function onLeave() {
+        $activeTooltip = null;
     }
 
     $: if(tooltips) onHover(null);
 </script>
 
-<input class="cb" type="checkbox" bind:checked on:click on:mouseover={onHover} on:focus={onHover} on:mouseleave={onLeave} on:focusout={onLeave}>
+<input type="checkbox" bind:checked on:click on:mouseover={onHover} on:focus={onHover} on:mouseleave={onLeave} on:focusout={onLeave}>
 
 <style>
-    .cb {
+    input {
         position: relative;
         appearance: none;
         width: 1.25rem;
@@ -39,9 +39,10 @@
         border-radius: 3px;
         transition: background-color .2s, border .2s;
         margin: 0;
+        user-select: none;
     }
 
-    .cb:before {
+    input:before {
         overflow: hidden;
         content: "";
         position: absolute;
@@ -53,13 +54,13 @@
         transition: transform .2s;
     }
 
-    .cb:checked:before {
+    input:checked:before {
         transform: translate(75%, 7%) rotateZ(45deg) scale(1);
     }
 
-    .cb:checked {
+    input:checked {
         border: none;
-        background-color: var(--blue-highlight);
+        background-color: var(--highlight-color);
         border: 2px solid transparent;
     }
 </style>

@@ -19,7 +19,7 @@
         }
     }
 
-    function getLangName(nameType, langCode: string) {
+    function getLangName(nameType: string, langCode: string) {
         if(nameType == 'filename') {
             let srcFile = $projects.files.filter(e => (e.targetLanguage ?? e.sourceLanguage) == langCode);
             if(srcFile.length > 0) {
@@ -54,7 +54,7 @@
         forEachBlocking(file.rootGroup, (data: Unit | Group) => {
             if(data instanceof Unit) {
                 totalUnit++;
-                if(file.isSource || data.target != null) translatedUnit++;
+                if(file.isSource || data.target != "") translatedUnit++;
             }
         });
     }
@@ -115,7 +115,7 @@
     }
 
     button.selected {
-        background-color: var(--blue-highlight) !important;
+        background-color: var(--highlight-color) !important;
         color: white;
     }
 
@@ -147,7 +147,7 @@
 
     .progress-bar {
         position: absolute;
-        background-color: var(--blue-highlight);
+        background-color: var(--highlight-color);
         top: 0;
         left: 0;
         height: 100%;

@@ -3,7 +3,7 @@
     import { DialogProperty } from "../../../utils/types";
     import { Context, ContextGroup, ContextGroupPurpose, ContextType, Unit } from "../../../../lib/types";
     import Button from "../../shared/Button.svelte";   
-    import ContextComponent from "../../layout/main/editing/Context.svelte";
+    import ContextComponent from "../../layout/editor/editing/Context.svelte";
     export let dialog: DialogProperty;
 
     export let dialogTitle;
@@ -13,7 +13,7 @@
 
     let contextGroup = new ContextGroup(ContextGroupPurpose.information, [new Context("Your Context Here", ContextType.database)]);
 
-    function addContexts() {
+    function addContexts(): void {
         let units: Unit[] = dialog.data?.units;
 
         for(let unit of units) {

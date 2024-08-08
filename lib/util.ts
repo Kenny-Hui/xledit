@@ -48,10 +48,8 @@ export function createUnit(unit: Unit, parent: Group, remainingPath: string[] | 
         return newUnit;
     }
 
-    let found = false;
     for(let innerGroup of parent.groups) {
         if(innerGroup.id == nextGroup) {
-            found = true;
             str.shift();
             return createUnit(unit, innerGroup, str);
         }
@@ -111,6 +109,7 @@ export function getUnit(parent: Group, path: string[], remainingPath: string[] |
 
 export function findGroup(parent: Group, path: string[], remainingPath: string[] | null = null): Group | null {
     let newPath = remainingPath ?? Array.from(path);
+    if(newPath.length == 0) return parent;
 
     for(let grp of parent.groups) {
         if(newPath.length <= 1) {

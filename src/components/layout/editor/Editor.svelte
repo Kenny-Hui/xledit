@@ -37,8 +37,8 @@
         display: grid;
         grid-template-columns: 2fr 1fr 1fr;
         grid-auto-rows: 50%;
-        border-top: 5px solid var(--blue-highlight);
-        border-left: 5px solid var(--blue-highlight);
+        border-top: 5px solid var(--highlight-color);
+        border-left: 5px solid var(--highlight-color);
         border-radius: 8px;
         overflow: hidden;
         box-sizing: border-box;
@@ -46,7 +46,7 @@
 
     .grid-container > div {
         overflow: auto;
-        border: 1px solid #AAA;
+        border: 1px solid var(--border);
     }
 
     .browser, .editor, .suggestion {

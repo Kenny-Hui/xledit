@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { PlusIcon, Trash } from "lucide-svelte";
+    import { ChevronRight, Plus, Trash } from "lucide-svelte";
     import type { Unit } from "../../../../../lib/types";
     import IconButton from "../../../shared/IconButton.svelte";
     import { getDerivedFiles, selectedFile } from "../../../../stores/data";
@@ -11,13 +11,12 @@
 
     function onPathType(e) {
         let newId = e.srcElement.value;
+        let files = getDerivedFiles($selectedFile);
+        let oldPath = unit.getFullPath();
         
-        if($selectedFile.isSource) {
-            for(let unit of getUnits()) {
-                unit.id = newId;
-            }
-        } else {
-            unit.id = newId;
+        for(let file of files) {
+            let unitInFile = getUnit(file.rootGroup, oldPath);
+            if(unitInFile != null) unitInFile.id = newId;
         }
 
         unit = unit;
@@ -26,17 +25,6 @@
     function removeAttribute(attrName: string) {
         unit.attributes.removeNamedItem(attrName);
         unit = unit;
-    }
-
-    function getUnits() {
-        let entries = [unit];
-
-        for(let file of getDerivedFiles($selectedFile)) {
-            let unitInFile = getUnit(file.rootGroup, unit.getFullPath());
-            if(unitInFile != null) entries.push(unitInFile);
-        }
-
-        return entries;
     }
 
     function addAttribute() {
@@ -51,7 +39,13 @@
         <h1>ID</h1>
         <input type="text" on:keyup={onPathType} value={unit.id}>
         <h1>Full Path</h1>
-        <p>{unit.getFullPathStr()}</p>
+        <p>
+            {#each unit.path as path}
+                {path}
+                <ChevronRight size={14} />
+            {/each}
+            {unit.id}
+        </p>
 
         {#each unit.attributes as attr}
             {#if attr.name != "id"}
@@ -59,7 +53,7 @@
                 <input type="text" bind:value={attr.value}>
             {/if}
         {/each}
-        <button on:click={addAttribute}><PlusIcon size={16} /> Add Attribute</button>
+        <button on:click={addAttribute}><Plus size={16} /> Add Attribute</button>
     {/if}
 </div>
 
@@ -94,6 +88,9 @@
     }
 
     p, input {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
         font-family: var(--secondary-font-set);
         border: none;
         padding: 4px 0;
@@ -103,7 +100,6 @@
     }
 
     input {
-        border-radius: 4px;
         width: 100%;
     }
 
@@ -111,7 +107,7 @@
         outline: 1px solid var(--border);
     }
 
-    input:focus{
+    input:focus {
         outline: 1px solid gray;
     }
 </style>

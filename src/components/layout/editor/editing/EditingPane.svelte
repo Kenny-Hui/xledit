@@ -1,7 +1,7 @@
 <script lang="ts">
     import { type Unit, type TranslationFile } from "../../../../../lib/types";
     import { DialogProperty } from "../../../../utils/types";
-    import { StickyNoteIcon, FileTextIcon } from 'lucide-svelte';
+    import { StickyNote } from 'lucide-svelte';
     import { getUnit } from "../../../../../lib/util";
     import { getDerivedFiles, selectedFile as selectedFileStore, selectedUnit } from "../../../../stores/data";
     import { openDialog } from "../../../../stores/uiStores";
@@ -12,6 +12,7 @@
     import ActionRow from "./ActionRow.svelte";
     import Context from "./Context.svelte";
     import ContextDialog from "../../../overlay/dialogs/ContextDialog.svelte";
+    import { onMount } from "svelte";
     export let selectedFile: TranslationFile;
 
     let srcElement: Node;
@@ -21,20 +22,21 @@
     export function setTargetText(targetString: string) {
         if(targetElement != null) {
             targetElement.textContent = targetString;
-            updateEditStatus();
+            afterType();
         }
     }1
 
-    function updateEditStatus() {
-        if($selectedUnit === null) {
+    function afterType() {
+        if($selectedUnit == null) {
             edited = false;
         } else {
-            if(selectedFile.isSource) {
+            if(selectedFile?.isSource) {
                 edited = $selectedUnit.source != targetElement.textContent;
             } else {
                 edited = ($selectedUnit.target ?? "") != targetElement.textContent;
             }
         }
+        if(targetElement.textContent.length == 0) targetElement.innerHTML = ""; // Clear empty <br> for placeholder
     }
 
     function save() {
@@ -51,7 +53,7 @@
                 targetUnit = targetUnit;
             }
         } else {
-            $selectedUnit.target = targetElement.textContent ? targetElement.textContent : null;
+            $selectedUnit.target = targetElement.textContent;
         }
 
         $selectedFileStore = $selectedFileStore;
@@ -88,17 +90,21 @@
         return entries;
     }
 
-    function removeNote(noteObject) {
+    function removeNote(noteObject: any) {
         $selectedUnit.notes.splice($selectedUnit.notes.indexOf(noteObject), 1);
         $selectedUnit.notes = $selectedUnit.notes;
     }
 
-    function removeContext(contextObject) {
+    function removeContext(contextObject: any) {
         $selectedUnit.contextGroups.splice($selectedUnit.contextGroups.indexOf(contextObject));
         $selectedUnit.contextGroups = $selectedUnit.contextGroups;
     }
 
     $: selectedEntryChanged($selectedUnit);
+
+    onMount(() => {
+        selectedEntryChanged($selectedUnit);
+    })
 </script>
 
 <div class="editing">
@@ -131,10 +137,13 @@
         <div
             class="box editBox"
             spellcheck="true"
+            role="textbox"
+            tabindex={0}
             bind:this={targetElement}
             class:disabled={$selectedUnit == null}
+            placeholder="Enter translated text here..."
             contenteditable={$selectedUnit != null ? "true" : "false"}
-            on:keyup={() => updateEditStatus()}>
+            on:keyup={() => afterType()}>
         </div>
         <div class="save-button">
             <Button on:click={save} disabled={$selectedUnit == null || !edited}>
@@ -145,8 +154,8 @@
 
     {#if $selectedUnit != null}
         <div class="option">
-            <button on:click={addNote}><StickyNoteIcon size={16} /> Add Note</button>
-            <button on:click={addContexts}><StickyNoteIcon size={16} /> Add Contexts</button>
+            <button on:click={addNote}><StickyNote size={16} /> Add Note</button>
+            <button on:click={addContexts}><StickyNote size={16} /> Add Contexts</button>
         </div>
 
         <UnitInfo unit={$selectedUnit}/>
@@ -179,8 +188,8 @@
     }
 
     .editBox:focus {
-        box-shadow: 0 2px 0 var(--blue-highlight) inset,
-        0 -2px 0 var(--blue-highlight) inset;
+        box-shadow: 0 2px 0 var(--highlight-color) inset,
+        0 -2px 0 var(--highlight-color) inset;
         border-top: 1px solid transparent;
         border-bottom: 1px solid transparent;
     }
@@ -235,6 +244,7 @@
         content: attr(placeholder);
         pointer-events: none;
         display: block; /* For Firefox */
+        color: var(--disabled);
     }
 
     .option > * {

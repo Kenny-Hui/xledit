@@ -3,7 +3,7 @@
     import { DialogProperty } from "../../../utils/types";
     import { Note, Unit } from "../../../../lib/types";
     import Button from "../../shared/Button.svelte";   
-    import NoteComponent from "../../layout/main/editing/Note.svelte";
+    import NoteComponent from "../../layout/editor/editing/Note.svelte";
     import { preferences } from "../../../stores/preferenceStore";
     export let dialog: DialogProperty;
 
@@ -14,7 +14,7 @@
 
     let note = new Note($preferences.editPane.noteAuthor, "Your note here.");
 
-    function addNotes() {
+    function addNotes(): void {
         let units: Unit[] = dialog.data?.units;
 
         for(let unit of units) {

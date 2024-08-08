@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { XIcon } from "lucide-svelte";
+    import { X } from "lucide-svelte";
     import { closeDialog } from "../../../stores/uiStores";
     import { DialogProperty } from "../../../utils/types";
 
@@ -8,18 +8,28 @@
     let dialogTitle = "";
 </script>
 
-<div class="header">
-    <div class="title">
-        <h1>{dialogTitle}</h1>
+<div class="dialog" role="dialog" on:keydown={(e) => {if(e.key === "Escape") closeDialog()}}>
+    <div class="header">
+        <div class="title">
+            <h1>{dialogTitle}</h1>
+        </div>
+        <button class="close-button" on:click={closeDialog}>
+            <X />
+        </button>
     </div>
-    <button class="close-button" on:click={closeDialog}>
-        <XIcon />
-    </button>
+    
+    <svelte:component this={dialogProperty.component} bind:dialogTitle dialog={dialogProperty} on:close={closeDialog}></svelte:component>
 </div>
 
-<svelte:component this={dialogProperty.component} bind:dialogTitle dialog={dialogProperty} on:close={closeDialog}></svelte:component>
-
 <style>
+    .dialog {
+        padding: 1rem 1.25rem;
+        width: max-content;
+        background: #FFF;
+        border-radius: .5rem;
+        box-shadow: 0 0 16px 0px #333;
+    }
+
     h1 {
         font-size: 1.5em;
         margin: .5em 0px;
@@ -35,7 +45,7 @@
     }
 
     .header {
-        border-bottom: 4px solid var(--blue-highlight);
+        border-bottom: 4px solid var(--highlight-color);
         display: flex;
         justify-content: space-between;
     }
