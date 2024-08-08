@@ -2,7 +2,7 @@
     import VertTab from "../../../shared/VerticalTab.svelte";
     import Editing from "./Editing.svelte";
     import Export from "./Export.svelte";
-    import General from "./General.svelte";
+    import General from "./Appearance.svelte";
 
     export let dialogTitle;
     dialogTitle = "Preferences";

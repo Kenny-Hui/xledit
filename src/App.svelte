@@ -5,7 +5,8 @@
   import About from './components/layout/about/About.svelte';
   import BatchOperation from './components/layout/batch/BatchOperations.svelte';
   import Router from 'svelte-spa-router';
-    import { preferences } from './stores/preferenceStore';
+  import { preferences } from './stores/preferenceStore';
+  import { themes } from './utils/types';
 
   const tabs = [
       {
@@ -27,12 +28,6 @@
     '/edit': ProjectComponent,
     '/batch': BatchOperation
   }
-
-  const themes = {
-    blue: "0, 119, 221",
-    purple: "130, 71, 190",
-    pink: "180, 60, 180"
-  }
 </script>
 
 <svelte:head>
@@ -43,6 +38,6 @@
 
 <div style="--highlight-color: rgba({themes[$preferences.appearance.color]}, 1); --highlight-secondary: rgba({themes[$preferences.appearance.color]}, 0.2)">
   <UiOverlay />
-  <Header {tabs} {themes} />
+  <Header {tabs} />
   <Router {routes}/>
 </div>

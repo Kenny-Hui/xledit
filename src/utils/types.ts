@@ -92,3 +92,9 @@ export const shortHandedLang = {
     'English (United Kingdom)': 'English (UK)',
     '中文（中國香港特別行政區）': '中文（香港）'
 }
+
+export const themes = {
+    blue: "0, 119, 221",
+    purple: "130, 71, 190",
+    pink: "180, 60, 180"
+}
