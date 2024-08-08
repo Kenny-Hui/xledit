@@ -46,7 +46,7 @@
 
     .grid-container > div {
         overflow: auto;
-        border: 1px solid #AAA;
+        border: 1px solid var(--border);
     }
 
     .browser, .editor, .suggestion {

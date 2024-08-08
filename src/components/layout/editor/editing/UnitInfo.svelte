@@ -89,6 +89,7 @@
 
     p, input {
         display: flex;
+        flex-wrap: wrap;
         align-items: center;
         font-family: var(--secondary-font-set);
         border: none;

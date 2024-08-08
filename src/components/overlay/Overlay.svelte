@@ -37,7 +37,7 @@
 
 <style>
     .overlay {
-        z-index: 10;
+        z-index: 5;
         position: fixed;
         width: 100%;
         height: 100%;
@@ -45,6 +45,7 @@
     }
     
     .tooltips {
+        z-index: 6;
         position: absolute;
     }
 

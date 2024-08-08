@@ -44,18 +44,6 @@ hr {
   background-color: var(--border);
 }
 
-:root {
-  --background: #FFF;
-  --border: #BABABA;
-  --color-gray: #DDD;
-  --highlight: #E2E2E2;
-  --disabled: #BBB;
-  --green-lime: #007700;
-  --color-black: #000000;
-  --primary-font-set: "Atkinson Hyperlegible", "Noto Sans TC", "Noto Sans JP", "Noto Sans SC", sans-serif;
-  --secondary-font-set: "Roboto", "Noto Sans TC", "Noto Sans JP", "Noto Sans SC", sans-serif;
-}
-
 /* width */
 ::-webkit-scrollbar {
   width: 8px;
@@ -93,11 +81,4 @@ button {
   color: inherit;
   line-height: 1;
   box-sizing: border-box;
-}
-
-input, textarea {
-  padding: 0.25rem;
-  border: 1px solid var(--border);
-  border-radius: 0.25rem;
-  margin: 0.1rem 0;
 }

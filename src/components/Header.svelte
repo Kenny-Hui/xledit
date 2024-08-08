@@ -32,7 +32,7 @@
         </div>
         <div>
             <IconLink link="https://github.com/Kenny-Hui/xledit" target="_blank">
-                <Github size={22}/>
+                <Github color="black" size={22}/>
             </IconLink>
         </div>
     </div>
