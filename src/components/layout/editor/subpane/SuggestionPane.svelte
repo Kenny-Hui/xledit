@@ -5,7 +5,6 @@
     import { projects, selectedUnit } from "../../../../stores/data";
     import HorizontalTab from '../../../shared/HorizontalTab.svelte';
     import SuggestionEntry from './SuggestionEntry.svelte';
-    import { NfcIcon } from "lucide-svelte";
 
     export let selectedFile: TranslationFile;
     const SUGGESTION_MATCH_PERCENTAGE = 0.7;
@@ -30,13 +29,13 @@
 
         if(selectedFile != null && $selectedUnit != null) {
             let targetString = findBySource ? $selectedUnit.source : $selectedUnit.target;
-            if(targetString == null) return;
+            if(targetString == "") return;
 
             for(let file of $projects.files) {
                 forEach(file.rootGroup, (data: Unit | Group) => {
                     if(data instanceof Unit) {
                         // Unfinished translation are not useful
-                        if(data.target.length == 0) return;
+                        if(data.target == "") return;
                         // No better than unfinished translation, as it's the same source but copied
                         if(data.source == data.target) return;
                         // Everything is same as what is already the case, not useful

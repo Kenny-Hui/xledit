@@ -23,6 +23,10 @@
             let grp = findGroup(file.rootGroup, unit.path);
             grp!.units.splice(grp.units.indexOf(unit), 1);
         }
+
+        if($selectedUnit == unit) {
+            $selectedUnit = null;
+        }
         $selectedFile = $selectedFile;
     }
 </script>
