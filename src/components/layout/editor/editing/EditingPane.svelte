@@ -24,7 +24,7 @@
             targetElement.textContent = targetString;
             afterType();
         }
-    }1
+    }
 
     function afterType() {
         if($selectedUnit == null) {
