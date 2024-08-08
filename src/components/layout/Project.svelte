@@ -14,6 +14,7 @@
     import { preferences } from '../../stores/preferenceStore';
     import { createGroup, createUnit, findGroup, forEachBlocking, getUnit } from '../../../lib/util';
     import { addToast } from '../../stores/uiStores';
+    import { fly } from 'svelte/transition';
 
     function addFiles() {
         let element = document.createElement("input");
@@ -103,7 +104,7 @@
     }
 </script>
     
-<main>
+<main in:fly="{{duration: 400,y:-20}}">
     <div class="add-button">
         <Button on:click={addFiles}>
             <Plus size={18} /> Add Files

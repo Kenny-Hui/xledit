@@ -3,6 +3,7 @@
     import Button from "../../shared/Button.svelte";
     import { Pencil } from "lucide-svelte";
     import { push } from "svelte-spa-router";
+    import { fly } from "svelte/transition";
 
     let versions = [];
 
@@ -10,7 +11,7 @@
         fetch("https://api.github.com/repos/Kenny-Hui/xledit/releases").then(e => e.json()).then(data => versions = data);
     });
 </script>
-<main>
+<main in:fly={{duration: 400,y:-20}}>
     <section>
         <img alt="XLEdit Logo" src="preview.png">
         <h1>Welcome to XLEdit!</h1>

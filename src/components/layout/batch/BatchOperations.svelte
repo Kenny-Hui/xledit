@@ -6,6 +6,7 @@
     import { addToast } from "../../../stores/uiStores";
     import { forEachBlocking } from "../../../../lib/util";
     import { BookA, Play } from "lucide-svelte";
+    import { fly } from "svelte/transition";
 
     let deleteEntry = false;
     let prefix = "";
@@ -66,7 +67,7 @@
     }
 </script>
 
-<main>
+<main in:fly={{duration: 400,y:-20}}>
     <div>
         <h1>Batch Operations</h1>
         <hr>
