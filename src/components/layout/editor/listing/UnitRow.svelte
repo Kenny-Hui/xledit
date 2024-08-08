@@ -29,7 +29,7 @@
 
 <button class="container" class:active={$selectedUnit == unit} on:click={() => $selectedUnit = unit}>
     <div class="translate-status">
-        <Tooltip tooltip="{unit.target == null ? "Not " : ""}Translated">
+        <Tooltip tooltip="{unit.target == "" ? "Not " : ""}Translated">
             <span class="status" class:translated={unit.target != ""}></span>
         </Tooltip>
     </div>
