@@ -51,16 +51,15 @@
 
 <style>
     .container {
-        background: none;
         width: 100%;
         font-family: var(--primary-font-set);
         font-size: 16px;
 		display: flex;
-        align-items: center;
         gap: 2rem;
-        padding: 1rem;
+        padding: 0 1rem;
         border-top: 1px solid #CCC;
         cursor: pointer;
+        background: none;
         transition: background-color .1s;
 	}
 
@@ -68,11 +67,13 @@
         word-break: break-word;
         white-space: pre-wrap;
         line-height: 1.5rem;
+        padding: 1rem;
         flex: 1;
     }
 
-    .action-row {
+    .translate-status, .action-row {
         display: flex;
+        align-items: center;
     }
 
     .status {
