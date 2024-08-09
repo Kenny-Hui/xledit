@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Github, Settings } from 'lucide-svelte';
     import { openDialog } from '../stores/uiStores';
-    import { DialogProperty, themes } from '../utils/types';
+    import { DialogProperty } from '../utils/types';
     import PreferenceDialog from './overlay/dialogs/preference/Dialog.svelte';
     import IconLink from './shared/IconLink.svelte';
     import HeaderTab from './shared/HeaderTab.svelte';
@@ -32,7 +32,7 @@
         </div>
         <div>
             <IconLink link="https://github.com/Kenny-Hui/xledit" target="_blank">
-                <Github color="black" size={22}/>
+                <Github size={22}/>
             </IconLink>
         </div>
     </div>

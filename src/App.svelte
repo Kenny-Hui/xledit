@@ -60,7 +60,7 @@
     text-underline-offset: 0.25rem;
   }
 
-  :global(input, textarea) {
+  :global(input, textarea, select) {
     padding: 0.25rem;
     border: 1px solid var(--border);
     border-radius: 0.25rem;

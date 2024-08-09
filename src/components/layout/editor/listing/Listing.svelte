@@ -23,7 +23,8 @@
       </div>
       <input placeholder="Search Here..." type="text" bind:value={searchQuery.searchTerm}>
       <div class="filter-icon">
-        <IconButton tooltip="Filter..." on:click={() => visible = !visible}><Filter color={(!searchQuery.showTranslated || !searchQuery.showUntranslated || !searchQuery.showNumericOnly) ? "#005FAA" : "#000"} size={20} /></IconButton>
+        
+        <IconButton tooltip="Filter..." on:click={() => visible = !visible}><span class:filter-active={!searchQuery.showTranslated || !searchQuery.showUntranslated || !searchQuery.showNumericOnly}><Filter size={20} /></span></IconButton>
         {#if visible}
           <div class="filter-popmenu" on:focusout={() => visible = false}>
             <p>Search Filter...</p>
@@ -56,6 +57,10 @@
     border-radius: 8px;
     padding: 0.5rem;
     width: max-content;
+  }
+
+  .filter-active {
+    color: var(--highlight-color);
   }
 
   .searchbox {

@@ -42,4 +42,4 @@ It is however not recommended to edit the source file with different translated 
 - Modern Web Browsers - Achieves reasonable performance & resource usage all without me worrying about optimizations (yet).
 
 ## License
-This project is licensed under the AGPL v3
+This project is licensed under the MIT License.
