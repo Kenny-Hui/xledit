@@ -32,8 +32,8 @@
 
 	function meetFilter(unit: Unit, query: SearchQuery) {
 		if(!query.showNumericOnly && (/^\d+$/.test(unit.source))) return false;
-		if(!query.showTranslated && (unit.target != null)) return false;
-		if(!query.showUntranslated && (unit.target == null)) return false;
+		if(!query.showTranslated && (unit.target != "")) return false;
+		if(!query.showUntranslated && (unit.target == "")) return false;
 		
 		return true;
 	}
