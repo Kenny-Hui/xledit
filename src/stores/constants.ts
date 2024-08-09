@@ -1,4 +1,4 @@
-const VERSION = "0.4.1";
+const VERSION = "0.5.0";
 
 export default {
     VERSION: VERSION
