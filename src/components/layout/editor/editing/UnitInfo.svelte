@@ -18,18 +18,19 @@
             let unitInFile = getUnit(file.rootGroup, oldPath);
             if(unitInFile != null) unitInFile.id = newId;
         }
-
         unit = unit;
     }
 
     function removeAttribute(attrName: string) {
         unit.attributes.removeNamedItem(attrName);
         unit = unit;
+        $selectedFile = $selectedFile;
     }
 
     function addAttribute() {
         openDialog(new DialogProperty(AttributeDialog, { unit: unit }, () => {
             unit = unit;
+            $selectedFile = $selectedFile;
 		}));
     }
 </script>
@@ -50,7 +51,7 @@
         {#each unit.attributes as attr}
             {#if attr.name != "id"}
                 <h1>{attr.name} <IconButton tooltip="Delete Attribute" on:click={() => removeAttribute(attr.name)}><Trash size={16}/></IconButton></h1>
-                <input type="text" bind:value={attr.value}>
+                <input type="text" on:keyup={() => $selectedFile = $selectedFile} bind:value={attr.value}>
             {/if}
         {/each}
         <button on:click={addAttribute}><Plus size={16} /> Add Attribute</button>

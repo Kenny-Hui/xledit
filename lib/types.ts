@@ -198,6 +198,12 @@ export class Unit extends XliffElement {
         return this.notes.sort((a, b) => a.priority - b.priority);
     }
 
+    getTranslationStatus(): TranslationStatus {
+        if(this.attributes["approved"]?.textContent == "no") return TranslationStatuses.NOT_APPROVED;
+        if(this.attributes["approved"]?.textContent == "yes") return TranslationStatuses.TRANSLATED;
+        return this.target == "" ? TranslationStatuses.UNTRANSLATED : TranslationStatuses.TRANSLATED;
+    }
+
     static import(path: string[], elem: Element) {
         /* Parse attribute */
         let unitId = elem.getAttribute("id");
@@ -283,6 +289,26 @@ export class Note extends XliffElement {
     clone() {
         return new Note(`${this.from}`, `${this.content}`, this.priority, this.annotates, this.attributes);
     }
+}
+
+export const TranslationStatuses = {
+    UNTRANSLATED: {
+        text: "Not translated",
+        color: "#999"
+    } as TranslationStatus,
+    NOT_APPROVED: {
+        text: "Not approved",
+        color: "#CC7700"
+    } as TranslationStatus,
+    TRANSLATED: {
+        text: "Translated",
+        color: "var(--highlight-color)"
+    } as TranslationStatus
+}
+
+export type TranslationStatus = {
+    text: string,
+    color: string
 }
 
 export enum ContextType {

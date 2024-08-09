@@ -33,8 +33,8 @@
 
 <button class="container" class:active={$selectedUnit == unit} on:click={() => $selectedUnit = unit}>
     <div class="translate-status">
-        <Tooltip tooltip="{unit.target == "" ? "Not " : ""}Translated">
-            <span class="status" class:translated={unit.target != ""}></span>
+        <Tooltip tooltip="{unit.getTranslationStatus().text}">
+            <span class="status" style="background-color:{unit.getTranslationStatus().color}"></span>
         </Tooltip>
     </div>
     <div class="srctrg">
@@ -80,13 +80,8 @@
         width: 12px;
         height: 12px;
         border-radius: 50%;
-        background: #999;
         margin: 0;
         padding: 0;
-    }
-
-    .status.translated {
-        background: var(--highlight-color);
     }
 
     .container:hover {
