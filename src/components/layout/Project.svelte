@@ -68,7 +68,6 @@
 
         if(exportOptions.stripEmptyTarget) {
             for(let targetElem of [...xmlDoc.getElementsByTagName("target")]) {
-                console.log(targetElem.textContent + "_" + targetElem.textContent.length)
                 if(targetElem.textContent.length == 0) targetElem.remove();
             }
         }
