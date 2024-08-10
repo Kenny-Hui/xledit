@@ -127,10 +127,10 @@
 	}
 
 	ul {
-		border-left: 1px solid #eee;
+		border-left: 1px solid #ddd;
 		list-style: none;
-		padding: 0 0 0 0.6em;
-		margin: 0 0 0 0.6em;
+		padding: 0 0 0 .75rem;
+		margin: 0 0 0 .75rem;
 	}
 
 	li {

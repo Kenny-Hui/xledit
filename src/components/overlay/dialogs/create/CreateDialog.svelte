@@ -31,7 +31,7 @@
 
 <div class="inner">
     <div>
-        <HorizontalTab items={tabs} bind:selectedIndex={selectedPane}/>
+        <HorizontalTab tabs={tabs} bind:selectedIndex={selectedPane}/>
     </div>
     <div>
         <svelte:component on:click={closeDialog} this={tabs[selectedPane].component} {dialog}/>

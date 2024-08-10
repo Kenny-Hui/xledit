@@ -64,7 +64,6 @@
         line-height: 1.5;
         font-size: 16px;
         padding: 1em;
-        border-top: 1px solid var(--border);
         border-bottom: 1px solid var(--border);
         word-break: break-all;
     }

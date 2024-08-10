@@ -74,7 +74,7 @@
         font-size: 18px;
         line-height: 2;
         margin-bottom: 5px;
-        animation: expand 1s linear;
+        /* animation: expand 1s linear; */
         overflow: hidden;
         color: #222;
     }
