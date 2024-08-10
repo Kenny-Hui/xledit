@@ -8,6 +8,7 @@
     import { DialogProperty } from "../../../../utils/types";
     import MoveUnitDialog from "../../../overlay/dialogs/MoveUnitDialog.svelte";
     import { findGroup } from "../../../../../lib/util";
+    import { onMount } from "svelte";
     export let unit: Unit;
 
     function openMoveDialog() {
@@ -29,9 +30,15 @@
         }
         $selectedFile = $selectedFile;
     }
+
+    let btn;
+
+    onMount(() => {
+        if($selectedUnit === unit) btn.scrollIntoView(false);  // Ensure visible
+    });
 </script>
 
-<button class="container" class:active={$selectedUnit == unit} on:click={() => $selectedUnit = unit}>
+<button bind:this={btn} class="container" class:active={$selectedUnit == unit} on:click={() => $selectedUnit = unit}>
     <div class="translate-status">
         <Tooltip tooltip="{unit.getTranslationStatus().text}">
             <span class="status" style="background-color:{unit.getTranslationStatus().color}"></span>

@@ -6,6 +6,7 @@
     import { projects, selectedFile, selectedUnit } from '../../stores/data';
     import { forEachBlocking, getUnit } from '../../../lib/util';
     import Tooltip from '../shared/Tooltip.svelte';
+    import { onMount } from 'svelte';
 
     export let file: TranslationFile;
     $: canShowSource = $preferences.langSelect.displayMode == 'src' || $preferences.langSelect.displayMode == 'both';
@@ -62,9 +63,15 @@
     $: if($selectedFile && file) checkTranslatedUnits();
 
     $: percentage = totalUnit == 0 ? 1 : (translatedUnit / totalUnit);
+
+    let btn;
+
+    onMount(() => {
+        if($selectedFile === file) btn.scrollIntoView(false); // Ensure visible
+    });
 </script>
 
-<button on:click={() => select()} on:keydown={() => select()} class:selected={$selectedFile === file}>
+<button bind:this={btn} on:click={() => select()} on:keydown={() => select()} class:selected={$selectedFile === file}>
     <div>
         {#if canShowSource}
             {getLangName(displayFileName, file.sourceLanguage)}
