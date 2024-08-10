@@ -60,23 +60,15 @@
     }
 
     function sortSuggestions(arr: any[]) {
-        // Speghetti code, don't ask me why this works, I tried reworking it but it no work.
+        let targetLanguage = selectedFile.targetLanguage ?? selectedFile.sourceLanguage;
         arr.sort((a, b) => {
-            let targetLanguage = selectedFile.targetLanguage ?? selectedFile.sourceLanguage;
-            let point = 0;
-            let aMatchedPath = a.unit.getFullPathStr() == $selectedUnit.getFullPathStr() ? -1 : 0;
-            let bMatchedPath = b.unit.getFullPathStr() == $selectedUnit.getFullPathStr() ? 1 : 0;
-            let aMatchedId = a.unit.id == $selectedUnit.id ? -1 : 0;
-            let bMatchedId = b.unit.id == $selectedUnit.id ? 1 : 0;
-
-            let aSameLangGroup = a.lang.targetLanguage == null ? 0 : a.lang.targetLanguage.split("-")[0] == targetLanguage.split("-")[0] ? -1 : 0;
+            let aSamePath = a.unit.getFullPathStr() == $selectedUnit.getFullPathStr() ? 1 : 0;
+            let bSamePath = b.unit.getFullPathStr() == $selectedUnit.getFullPathStr() ? 1 : 0;
+            let aSameLang = a.lang?.targetLanguage == targetLanguage ? 1 : 0;
+            let bSameLang = b.lang?.targetLanguage == targetLanguage ? 1 : 0;
+            let aSameLangGroup = a.lang.targetLanguage == null ? 0 : a.lang.targetLanguage.split("-")[0] == targetLanguage.split("-")[0] ? 1 : 0;
             let bSameLangGroup = b.lang.targetLanguage == null ? 0 : b.lang.targetLanguage.split("-")[0] == targetLanguage.split("-")[0] ? 1 : 0;
-
-            point += b.match > a.match ? 1 : b.match == a.match ? 0 : -1;
-            point += aSameLangGroup + bSameLangGroup + aMatchedId + bMatchedId + aMatchedPath + bMatchedPath;
-            point += ((a.lang.targetLanguage != null && b.lang.targetLanguage != null) && a.lang.targetLanguage.split("-")[0] == b.lang.targetLanguage.split("-")[0]) ? 1 : 0; // Match primary subtag
-
-            return point;
+            return (bSameLang - aSameLang) || (bSameLangGroup - aSameLangGroup) || (bSamePath - aSamePath) || (b.match - a.match);
         });
     }
 
