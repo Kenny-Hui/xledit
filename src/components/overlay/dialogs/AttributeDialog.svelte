@@ -22,7 +22,7 @@
 
             let attr = document.createAttribute(key);
             attr.value = value.trim();
-            unit.attributes.setNamedItem(attr);
+            unit.metadata.setNamedItem(attr);
             dialog.callback();
             dispatch('close', null);
         };

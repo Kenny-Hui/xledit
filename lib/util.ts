@@ -90,6 +90,7 @@ export function removeGroup(parent: Group, path: string[], remainingPath: string
 }
 
 export function getUnit(parent: Group, path: string[], remainingPath: string[] | null = null): Unit | null {
+    if(parent == null) return null;
     let newPath = remainingPath ?? Array.from(path);
 
     for(let unit of parent.units) {

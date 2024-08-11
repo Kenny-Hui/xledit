@@ -28,7 +28,7 @@
                     <CheckCircle />
                 {:else if toast.type == 'warning'}
                     <AlertCircle />
-                {:else if toast.type == 'warning'}
+                {:else if toast.type == 'error'}
                     <XCircle />
                 {/if}
             </span>

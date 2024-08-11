@@ -35,8 +35,8 @@
 
 <style>
     .inner {
-        width: 500px;
-        height: 240px;
+        min-width: 512px;
+        height: 256px;
         display: grid;
         grid-template-columns: auto 2fr;
         gap: 10px;

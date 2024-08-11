@@ -22,7 +22,7 @@
     }
 
     function removeAttribute(attrName: string) {
-        unit.attributes.removeNamedItem(attrName);
+        unit.metadata.removeNamedItem(attrName);
         unit = unit;
         $selectedFile = $selectedFile;
     }
@@ -48,7 +48,7 @@
             {unit.id}
         </p>
 
-        {#each unit.attributes as attr}
+        {#each unit.metadata as attr}
             {#if attr.name != "id"}
                 <h1>{attr.name} <IconButton tooltip="Delete Attribute" on:click={() => removeAttribute(attr.name)}><Trash size={16}/></IconButton></h1>
                 <input type="text" on:keyup={() => $selectedFile = $selectedFile} bind:value={attr.value}>

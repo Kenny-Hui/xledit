@@ -6,7 +6,6 @@
     import HorizontalTab from '../../../shared/HorizontalTab.svelte';
     import SuggestionPane from "./SuggestionPane.svelte";
     import NotesPane from "./NoteContextView.svelte";
-    import { onMount } from "svelte";
 
     const SUGGESTION_MATCH_PERCENTAGE = 0.75;
     let matchedUnit = [];

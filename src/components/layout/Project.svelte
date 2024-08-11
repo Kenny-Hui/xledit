@@ -5,16 +5,18 @@
     import { get } from 'svelte/store';
     import { getDerivedFiles, projects, selectedFile } from '../../stores/data';
     import { parseAndAddXliff } from '../../utils/util';
-    import { exportXliff } from '../../../lib/xlfExporter';
+    import { exportXliff } from '../../../lib/xliff12/xliff12Exporter';
     import Editor from './editor/Editor.svelte';
     import Button from '../shared/Button.svelte';
+    import DropdownButton from '../shared/DropdownButton.svelte';
     import FilePane from './FilePane.svelte';
-    import { Group, Unit, type TranslationFile } from '../../../lib/types';
+    import { Group, TranslationFormats, Unit, type TranslationFile, type TranslationFormat } from '../../../lib/types';
     import type { ExportOptions } from '../../utils/types';
     import { preferences } from '../../stores/preferenceStore';
     import { createGroup, createUnit, findGroup, forEachBlocking, getUnit } from '../../../lib/util';
     import { addToast } from '../../stores/uiStores';
     import { fly } from 'svelte/transition';
+    import { exportMinecraftTranslation } from '../../../lib/minecraft/mcExporter';
 
     function addFiles() {
         let element = document.createElement("input");
@@ -62,29 +64,36 @@
         addToast(`Synchronized ${derivedFiles.length - 1} files`, "success", 4000);
     }
 
-    function exportFileContent(files: TranslationFile[]): string {
+    function exportFileContent(files: TranslationFile[], format: TranslationFormat): string {
         let exportOptions = $preferences.export as ExportOptions;
-        let xmlDoc = exportXliff(files);
 
-        if(exportOptions.stripEmptyTarget) {
-            for(let targetElem of [...xmlDoc.getElementsByTagName("target")]) {
-                if(targetElem.textContent.length == 0) targetElem.remove();
+        if(format === TranslationFormats.XLIFF12) {
+            let xmlDoc = exportXliff(files);
+
+            if(exportOptions.stripEmptyTarget) {
+                for(let targetElem of [...xmlDoc.getElementsByTagName("target")]) {
+                    if(targetElem.textContent.length == 0) targetElem.remove();
+                }
             }
+            return xmlToString(xmlDoc, exportOptions);
         }
 
-        return xmlToString(xmlDoc, exportOptions);
+        if(format === TranslationFormats.MINECRAFT) {
+            return JSON.stringify(exportMinecraftTranslation(files), null, (exportOptions.useTab ? "\t" : " ".repeat(exportOptions.spaceChar)));
+        }
+        return null;
     }
 
-    function exportFile(targetFile: TranslationFile) {
-        let blob = new Blob([exportFileContent([targetFile])], {type: "text/plain;charset=utf-8"});
-        saveAs(blob, targetFile.filename);
+    function exportFile(targetFile: TranslationFile, format: TranslationFormat) {
+        let blob = new Blob([exportFileContent([targetFile], format)], {type: "text/plain;charset=utf-8"});
+        saveAs(blob, targetFile.filename + format.extension);
     }
 
-    function exportAllFiles() {
+    function exportAllFiles(format: TranslationFormat) {
         let files = get(projects).files;
         let zip = new JSZip();
         for(let file of files) {
-            zip.file(file.filename, exportFileContent([file]));
+            zip.file(file.filename + format.extension, exportFileContent([file], format));
         }
         zip.generateAsync({type:"blob", compression: 'DEFLATE'})
         .then(content => {
@@ -102,6 +111,16 @@
     function xmlToString(xmlDoc: XMLDocument, option: ExportOptions): string {
         return new XmlBeautify().beautify(new XMLSerializer().serializeToString(xmlDoc), {indent: (option.useTab ? "\t" : " ".repeat(option.spaceChar))})
     }
+
+    function onExport(i: number) {
+        let format = Object.values(TranslationFormats)[i];
+        exportFile($selectedFile, format);
+    }
+
+    function onExportAll(i: number) {
+        let format = Object.values(TranslationFormats)[i];
+        exportAllFiles(format);
+    }
 </script>
     
 <main in:fly="{{duration: 400,y:-20}}">
@@ -112,12 +131,12 @@
     </div>
 
     <div class="btn-row">
-        <Button disabled={$projects.files.length == 0} on:click={() => exportFile($selectedFile)}>
+        <DropdownButton disabled={$projects.files.length == 0} datas={Object.values(TranslationFormats)} on:select={(val) => onExport(val.detail)}>
             <FileDown /> Export...
-        </Button>
-        <Button disabled={$projects.files.length <= 1} on:click={exportAllFiles}>
+        </DropdownButton>
+        <DropdownButton disabled={$projects.files.length <= 1} datas={Object.values(TranslationFormats)} on:select={(val) => onExportAll(val.detail)}>
             <FolderDown /> Export All
-        </Button>
+        </DropdownButton>
         <Button disabled={$projects.files.length <= 1 || getDerivedFiles($selectedFile).length <= 1 } on:click={syncUnits}>
             <RefreshCw size={18} /> Sync derived file
         </Button>
@@ -159,5 +178,6 @@
         flex-direction: row;
         gap: 16px;
         height: 40px;
+        overflow: visible;
     }
 </style>

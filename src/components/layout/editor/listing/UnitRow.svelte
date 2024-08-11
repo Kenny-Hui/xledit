@@ -1,13 +1,13 @@
 <script lang="ts">
     import { ArrowRightToLine, Trash } from "lucide-svelte";
     import type { Unit } from "../../../../../lib/types";
-    import { getDerivedFiles, selectedFile, selectedUnit } from '../../../../stores/data';
+    import { getDerivedFiles, projects, selectedFile, selectedUnit } from '../../../../stores/data';
     import IconButton from "../../../shared/IconButton.svelte";
     import Tooltip from '../../../shared/Tooltip.svelte';
     import { openDialog } from "../../../../stores/uiStores";
     import { DialogProperty } from "../../../../utils/types";
     import MoveUnitDialog from "../../../overlay/dialogs/MoveUnitDialog.svelte";
-    import { findGroup } from "../../../../../lib/util";
+    import { findGroup, getUnit } from "../../../../../lib/util";
     import { onMount } from "svelte";
     export let unit: Unit;
 

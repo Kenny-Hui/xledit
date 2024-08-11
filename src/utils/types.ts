@@ -13,6 +13,10 @@ export class Project {
         this.name = name;
         this.files = [];
     }
+
+    getOriginatingFile(file: TranslationFile) {
+        return this.files.filter(e => e.sourceLanguage === file.sourceLanguage)[0];;
+    }
 }
 
 export type SearchQuery = {

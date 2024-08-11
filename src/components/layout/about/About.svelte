@@ -16,7 +16,7 @@
         <img alt="XLEdit Logo" src="preview.png">
         <h1>Welcome to XLEdit!</h1>
         <hr>
-        <p>XLEdit is an open-source web-based <a href="https://en.wikipedia.org/wiki/XLIFF">XLIFF</a> Editor, supporting the XLIFF 1.2 format.</p>
+        <p>XLEdit is an open-source web-based translation editor, supporting the <a href="https://en.wikipedia.org/wiki/XLIFF">XLIFF 1.2</a> & Minecraft Language format.</p>
         <div class="action-row">
             <Button on:click={() => push("/edit")}><Pencil size={16} />Get Started!</Button>
         </div>

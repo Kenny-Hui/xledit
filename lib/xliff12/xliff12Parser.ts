@@ -1,4 +1,4 @@
-import { Group, Unit, TranslationFile as TranslationFile, Note, type NoteAnnotateType, ContextGroupPurpose, ContextType } from './types';
+import { TranslationFile as TranslationFile } from '../types';
 
 export function parse(filename: string, xml: string): TranslationFile[] {
     let parser = new DOMParser();
@@ -16,7 +16,7 @@ export function parse(filename: string, xml: string): TranslationFile[] {
             console.warn(`XLEdit: XLEdit currently only supports XLIFF 1.2 and below`);
             throw Error(`XLIFF Version ${xliffVersion} is not supported yet.`);
         }
-        return parseInternal(filename, xliffElement, xliffVersion);
+        return parseInternal(filename.split(".").slice(0, -1).join("."), xliffElement, xliffVersion);
     }
 }
 
@@ -25,7 +25,7 @@ function parseInternal(filename: string, xlfElement: Element, xlfVersion: string
     
     if(parseFloat(xlfVersion) <= 1.2) {
         for(let fileElement of xlfElement.getElementsByTagName("file")) {
-            xliffFiles.push(TranslationFile.import(fileElement, filename, xlfVersion));
+            xliffFiles.push(TranslationFile.import(fileElement, filename));
         }
     }
 
