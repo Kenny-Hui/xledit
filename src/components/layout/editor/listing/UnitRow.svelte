@@ -22,7 +22,8 @@
 
         for(let file of files) {
             let grp = findGroup(file.rootGroup, unit.path);
-            grp!.units.splice(grp.units.indexOf(unit), 1);
+            let fileUnit = getUnit(file.rootGroup, unit.getFullPath());
+            grp!.units.splice(grp.units.indexOf(fileUnit), 1);
         }
 
         if($selectedUnit == unit) {
