@@ -61,6 +61,8 @@
   }
 
   :global(input, textarea, select) {
+    font-family: inherit;
+    font-size: 14px;
     padding: 0.25rem;
     border: 1px solid var(--border);
     border-radius: 0.25rem;

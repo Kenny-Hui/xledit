@@ -81,8 +81,9 @@
     border: 0;
     flex: 1;
     padding: .4rem;
-    font-size: 16px;
+    font-size: 18px;
     color: #666;
+    font-family: var(--primary-font-set);
   }
 
   .search-icon {

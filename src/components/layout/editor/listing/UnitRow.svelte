@@ -68,6 +68,7 @@
         border-top: 1px solid #CCC;
         cursor: pointer;
         background: none;
+        align-items: center;
         transition: background-color .1s;
 	}
 
@@ -76,12 +77,8 @@
         white-space: pre-wrap;
         line-height: 1.5rem;
         padding: 1rem;
+        align-self: self-start;
         flex: 1;
-    }
-
-    .translate-status, .action-row {
-        display: flex;
-        align-items: center;
     }
 
     .status {
