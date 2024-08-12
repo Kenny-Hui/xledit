@@ -6,7 +6,7 @@
     import CreateDialog from '../../../overlay/dialogs/create/CreateDialog.svelte';
     import { Group, Unit } from '../../../../../lib/types';
 	import { DialogProperty, type SearchQuery } from '../../../../utils/types';
-    import { selectedFile, selectedUnit } from '../../../../stores/data';
+    import { getDerivedFiles, selectedFile, selectedUnit } from '../../../../stores/data';
     import { haveUnit, removeGroup } from '../../../../../lib/util';
     import Tooltip from '../../../shared/Tooltip.svelte';
 	export let expanded = false;
@@ -50,7 +50,11 @@
 	$: if($selectedUnit && $selectedUnit.getFullPathStr().startsWith(group.path.join("/"))) expanded = true;
 
     function remove() {
-        removeGroup($selectedFile.rootGroup, group.path);
+		let files = getDerivedFiles($selectedFile);
+
+		for(let file of files) {
+			removeGroup(file.rootGroup, group.path);
+		}
 		$selectedFile = $selectedFile;
     }
 </script>
