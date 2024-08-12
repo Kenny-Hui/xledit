@@ -105,4 +105,8 @@
     .container:hover .action-row {
         opacity: 1;
     }
+
+    .action-row:focus-within {
+        opacity: 1;
+    }
 </style>

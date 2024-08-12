@@ -176,6 +176,10 @@
 		opacity: 1;
 	}
 
+	.action-row:focus-within {
+		opacity: 1;
+	}
+
 	.expandable {
 		transition: background-color .1s;
 		padding: 12px;
@@ -198,7 +202,6 @@
 	}
 
 	.action-row button {
-		outline: transparent;
 		border: none;
 		padding: 0.25rem;
 		border-radius: 4px;

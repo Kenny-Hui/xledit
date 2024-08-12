@@ -14,7 +14,6 @@
 
 <style>
     button {
-        border: 1px solid transparent;
         padding: .3rem;
         transition: background-color .2s;
         border-radius: 4px;
