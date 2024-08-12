@@ -17,27 +17,31 @@
 
     let replaceFrom = "";
     let replaceTo = "";
-    
+
     function removeDuplicatedAction() {
         let removedElements = 0;
-        for(let file of get(projects).files) {
+        for (let file of get(projects).files) {
             removedElements += removeDuplicated(file.rootGroup);
             file = file;
         }
 
-        addToast(`${deleteEntry ? "Deleted" : "Renamed"} ${removedElements} units in ${get(projects).files.length} files.`, "success", 4000);
+        addToast(
+            `${deleteEntry ? "Deleted" : "Renamed"} ${removedElements} units in ${get(projects).files.length} files.`,
+            "success",
+            4000,
+        );
     }
 
     function removeDuplicated(grp: Group): number {
         let i = 0;
-        for(let subgroup of grp.groups) {
+        for (let subgroup of grp.groups) {
             i += removeDuplicated(subgroup);
         }
 
         let unitIds = [];
-        for(let unit of grp.units) {
-            if(unitIds.includes(unit.id)) {
-                if(!deleteEntry) {
+        for (let unit of grp.units) {
+            if (unitIds.includes(unit.id)) {
+                if (!deleteEntry) {
                     unit.id = `${prefix}${unit.id}${suffix}`;
                 } else {
                     grp.units.splice(grp.units.indexOf(unit), 1);
@@ -51,58 +55,86 @@
     }
 
     function replaceAction() {
-        for(let file of $projects.files) {
-            forEachBlocking(file.rootGroup, unit => {
-                if(unit instanceof Unit) {
-                    if(replaceSrc) {
-                        unit.source.text = unit.source.text.replaceAll(replaceFrom, replaceTo);
+        for (let file of $projects.files) {
+            forEachBlocking(file.rootGroup, (unit) => {
+                if (unit instanceof Unit) {
+                    if (replaceSrc) {
+                        unit.source.text = unit.source.text.replaceAll(
+                            replaceFrom,
+                            replaceTo,
+                        );
                     }
-                    if(replaceTrg && unit.target.text != "") {
-                        unit.target.text = unit.target.text.replaceAll(replaceFrom, replaceTo);
+                    if (replaceTrg && unit.target.text != "") {
+                        unit.target.text = unit.target.text.replaceAll(
+                            replaceFrom,
+                            replaceTo,
+                        );
                     }
                 }
             });
         }
-        addToast(`Replaced all instances of '${replaceFrom}' to '${replaceTo}'`, "success", 4000);
+        addToast(
+            `Replaced all instances of '${replaceFrom}' to '${replaceTo}'`,
+            "success",
+            4000,
+        );
     }
 </script>
 
-<main in:fly={{duration: 400,y:-20}}>
+<main in:fly={{ duration: 400, y: -20 }}>
     <div>
         <h1>Batch Operations</h1>
-        <hr>
+        <hr />
         <h2>Duplicated Unit ID</h2>
-        <input id="a" type="radio" value={true} bind:group={deleteEntry} name="dupm">
+        <input
+            id="a"
+            type="radio"
+            value={true}
+            bind:group={deleteEntry}
+            name="dupm"
+        />
         <label for="a">Delete entry</label>
-        
-        <input id="b" type="radio" value={false} bind:group={deleteEntry} name="dupm">
+
+        <input
+            id="b"
+            type="radio"
+            value={false}
+            bind:group={deleteEntry}
+            name="dupm"
+        />
         <label for="b">Rename entry ID</label>
-        
+
         {#if !deleteEntry}
             <div>
-                <input bind:value={prefix} placeholder="Prefix">
-                <br>
-                <input bind:value={suffix} placeholder="Suffix">
+                <input bind:value={prefix} placeholder="Prefix" />
+                <br />
+                <input bind:value={suffix} placeholder="Suffix" />
             </div>
         {/if}
-        <Button disabled={!deleteEntry && prefix.length == 0 && suffix.length == 0} on:click={removeDuplicatedAction}><Play size={16}/>Perform</Button>
+        <Button
+            disabled={!deleteEntry && prefix.length == 0 && suffix.length == 0}
+            on:click={removeDuplicatedAction}><Play size={16} />Perform</Button
+        >
     </div>
     <div>
         <h2>Find & Replace Text</h2>
         <div>
-            <input id="c" type="checkbox" bind:checked={replaceSrc}>
+            <input id="c" type="checkbox" bind:checked={replaceSrc} />
             <label for="c">Source Text</label>
-            
-            <input id="d" type="checkbox" bind:checked={replaceTrg}>
+
+            <input id="d" type="checkbox" bind:checked={replaceTrg} />
             <label for="d">Target Text</label>
         </div>
         <div>
-            <input bind:value={replaceFrom} placeholder="From">
-            <br>
-            <input bind:value={replaceTo} placeholder="To">
+            <input bind:value={replaceFrom} placeholder="From" />
+            <br />
+            <input bind:value={replaceTo} placeholder="To" />
         </div>
-        
-        <Button disabled={(!replaceSrc && !replaceTrg) || replaceFrom.length == 0} on:click={replaceAction}><BookA size={16} />Find & Replace</Button>
+
+        <Button
+            disabled={(!replaceSrc && !replaceTrg) || replaceFrom.length == 0}
+            on:click={replaceAction}><BookA size={16} />Find & Replace</Button
+        >
     </div>
 </main>
 

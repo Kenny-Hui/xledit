@@ -4,16 +4,16 @@
     export let tooltips: string = null;
     import { activeTooltip } from "../../stores/uiStores";
     function onHover(e: any) {
-        if(tooltips != null) {
-            if(e === null) {
+        if (tooltips != null) {
+            if (e === null) {
                 let newTooltip = get(activeTooltip);
-                if(newTooltip == null) return;
+                if (newTooltip == null) return;
                 newTooltip.content = tooltips;
                 $activeTooltip = newTooltip;
             } else {
                 $activeTooltip = {
                     content: tooltips,
-                    rect: e.srcElement.getBoundingClientRect()
+                    rect: e.srcElement.getBoundingClientRect(),
                 };
             }
         }
@@ -23,10 +23,18 @@
         $activeTooltip = null;
     }
 
-    $: if(tooltips) onHover(null);
+    $: if (tooltips) onHover(null);
 </script>
 
-<input type="checkbox" bind:checked on:click on:mouseover={onHover} on:focus={onHover} on:mouseleave={onLeave} on:focusout={onLeave}>
+<input
+    type="checkbox"
+    bind:checked
+    on:click
+    on:mouseover={onHover}
+    on:focus={onHover}
+    on:mouseleave={onLeave}
+    on:focusout={onLeave}
+/>
 
 <style>
     input {
@@ -35,9 +43,11 @@
         width: 1.25rem;
         height: 1.25rem;
         border: 2px solid #999;
-        background-color: #FFF;
+        background-color: #fff;
         border-radius: 3px;
-        transition: background-color .2s, border .2s;
+        transition:
+            background-color 0.2s,
+            border 0.2s;
         margin: 0;
         user-select: none;
     }
@@ -49,9 +59,9 @@
         transform: translate(75%, 7%) rotateZ(45deg) scale(0);
         width: 4px;
         height: 9px;
-        border-bottom: 2px solid #FFF;
-        border-right: 2px solid #FFF;
-        transition: transform .2s;
+        border-bottom: 2px solid #fff;
+        border-right: 2px solid #fff;
+        transition: transform 0.2s;
     }
 
     input:checked:before {

@@ -1,0 +1,52 @@
+<script lang="ts">
+    import VertTab from "../../shared/VerticalTab.svelte";
+    import Editing from "./Editing.svelte";
+    import Export from "./Export.svelte";
+    import General from "./Appearance.svelte";
+
+    export let dialogTitle;
+    dialogTitle = "Preferences";
+
+    const tabs = [
+        {
+            name: "General",
+            component: General,
+        },
+        {
+            name: "Editing",
+            component: Editing,
+        },
+        {
+            name: "Exporting",
+            component: Export,
+        },
+    ];
+    let selectedPane = 0;
+</script>
+
+<div class="inner">
+    <div>
+        <VertTab items={tabs} bind:selectedIndex={selectedPane} />
+    </div>
+    <div class="pane">
+        <svelte:component this={tabs[selectedPane].component} />
+    </div>
+</div>
+
+<style>
+    .inner {
+        min-width: 512px;
+        height: 256px;
+        display: grid;
+        grid-template-columns: auto 2fr;
+        gap: 10px;
+    }
+
+    .inner > div:nth-child(1) {
+        border-right: 4px solid var(--highlight-color);
+    }
+
+    .pane {
+        overflow: auto;
+    }
+</style>

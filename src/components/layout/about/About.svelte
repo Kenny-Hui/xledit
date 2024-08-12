@@ -8,31 +8,40 @@
     let versions = [];
 
     onMount(() => {
-        fetch("https://api.github.com/repos/Kenny-Hui/xledit/releases").then(e => e.json()).then(data => versions = data);
+        fetch("https://api.github.com/repos/Kenny-Hui/xledit/releases")
+            .then((e) => e.json())
+            .then((data) => (versions = data));
     });
 </script>
-<main in:fly={{duration: 400,y:-20}}>
+
+<main in:fly={{ duration: 400, y: -20 }}>
     <section>
-        <img alt="XLEdit Logo" src="preview.png">
+        <img alt="XLEdit Logo" src="preview.png" />
         <h1>Welcome to XLEdit!</h1>
-        <hr>
-        <p>XLEdit is an open-source web-based translation editor, supporting the <a href="https://en.wikipedia.org/wiki/XLIFF">XLIFF 1.2</a> & Minecraft Language format.</p>
+        <hr />
+        <p>
+            XLEdit is an open-source web-based translation editor, supporting
+            the <a href="https://en.wikipedia.org/wiki/XLIFF">XLIFF 1.2</a> & Minecraft
+            Language format.
+        </p>
         <div class="action-row">
-            <Button on:click={() => push("/edit")}><Pencil size={16} />Get Started!</Button>
+            <Button on:click={() => push("/edit")}
+                ><Pencil size={16} />Get Started!</Button
+            >
         </div>
     </section>
     <section>
         <h1>Changelogs</h1>
         <div class="changelogs">
             {#each versions as version}
-                <hr>    
+                <hr />
                 <h2>{version.name}</h2>
                 {#each version.body.split("\n") as line}
                     <p>{line}</p>
                 {/each}
             {/each}
         </div>
-        <hr>
+        <hr />
     </section>
 </main>
 
@@ -65,15 +74,14 @@
         box-sizing: border-box;
     }
 
-    
     h2 {
         font-size: 1.5rem;
     }
-    
+
     section {
         text-align: center;
     }
-    
+
     .changelogs {
         text-align: left;
     }

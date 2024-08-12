@@ -3,19 +3,18 @@
 
     export let disabled = false;
     export let tooltip: string = null;
-
 </script>
 
-<Tooltip tooltip={tooltip}>
-    <button on:click on:focusout disabled={disabled}>
+<Tooltip {tooltip}>
+    <button on:click on:focusout {disabled}>
         <slot />
     </button>
 </Tooltip>
 
 <style>
     button {
-        padding: .3rem;
-        transition: background-color .2s;
+        padding: 0.3rem;
+        transition: background-color 0.2s;
         border-radius: 4px;
         aspect-ratio: 1 / 1;
         color: #444;

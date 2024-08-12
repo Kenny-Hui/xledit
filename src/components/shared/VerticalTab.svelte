@@ -6,13 +6,17 @@
         selectedIndex = i;
     }
 </script>
-    
+
 <div class="vertical-tab">
     <ul>
         {#each items as item, i}
             {#if item != null}
                 <li>
-                    <button on:click={() => onEntrySelected(i)} on:keydown={() => onEntrySelected(i)} class:selected={selectedIndex == i}>
+                    <button
+                        on:click={() => onEntrySelected(i)}
+                        on:keydown={() => onEntrySelected(i)}
+                        class:selected={selectedIndex == i}
+                    >
                         {item.name}
                     </button>
                 </li>
@@ -32,16 +36,16 @@
         font-weight: 400;
         text-align: left;
         width: 100%;
-        padding: .75rem 1.25rem;
-        margin: .25rem 0;
+        padding: 0.75rem 1.25rem;
+        margin: 0.25rem 0;
         border: none;
         border-radius: 8px 0 0 8px;
         cursor: pointer;
-        transition: background-color .1s;
+        transition: background-color 0.1s;
     }
 
     button:hover {
-        background-color: #EEE;
+        background-color: #eee;
     }
 
     .selected {

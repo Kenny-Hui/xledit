@@ -11,12 +11,12 @@
         display: flex;
         align-items: center;
         cursor: pointer;
-        gap: .25rem;
+        gap: 0.25rem;
         font-family: var(--secondary-font-set);
         background-color: var(--highlight-color);
         color: white;
-        padding: .75em;
-        border-radius: .45em;
+        padding: 0.75em;
+        border-radius: 0.45em;
         font-size: 15px;
     }
 
@@ -35,7 +35,10 @@
     button:not(:active) {
         /* Sorry not sorry */
         /* https://stackoverflow.com/questions/18376815/trigger-animation-on-element-click-in-pure-css */
-        transition: transform .2s, box-shadow .2s, filter .2s;
+        transition:
+            transform 0.2s,
+            box-shadow 0.2s,
+            filter 0.2s;
     }
 
     button:active:not(:disabled) {

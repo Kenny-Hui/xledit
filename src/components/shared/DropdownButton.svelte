@@ -1,6 +1,6 @@
 <script lang="ts">
     import { ChevronDown } from "lucide-svelte";
-import { createEventDispatcher } from "svelte";
+    import { createEventDispatcher } from "svelte";
     import { fly } from "svelte/transition";
 
     export let disabled = false;
@@ -14,12 +14,16 @@ import { createEventDispatcher } from "svelte";
     }
 </script>
 
-<button {disabled} on:click={() => toggled = !toggled} class:toggled>
-    <slot /><ChevronDown size={18}/>
+<button {disabled} on:click={() => (toggled = !toggled)} class:toggled>
+    <slot /><ChevronDown size={18} />
     {#if toggled}
-        <ul class="dropdown" transition:fly={{duration: 150, y: -10}}>
+        <ul class="dropdown" transition:fly={{ duration: 150, y: -10 }}>
             {#each datas as data, i}
-                <li><button on:click={() => onSelect(i)} class="dropdown-btn">{data.name}</button></li>
+                <li>
+                    <button on:click={() => onSelect(i)} class="dropdown-btn"
+                        >{data.name}</button
+                    >
+                </li>
             {/each}
         </ul>
     {/if}
@@ -31,12 +35,12 @@ import { createEventDispatcher } from "svelte";
         display: flex;
         align-items: center;
         cursor: pointer;
-        gap: .25rem;
+        gap: 0.25rem;
         font-family: var(--secondary-font-set);
         background-color: var(--highlight-color);
         color: white;
-        padding: .75em;
-        border-radius: .45em;
+        padding: 0.75em;
+        border-radius: 0.45em;
         font-size: 15px;
         z-index: 4;
     }
@@ -55,7 +59,10 @@ import { createEventDispatcher } from "svelte";
     button:not(:active) {
         /* Sorry not sorry */
         /* https://stackoverflow.com/questions/18376815/trigger-animation-on-element-click-in-pure-css */
-        transition: transform .2s, box-shadow .2s, filter .2s;
+        transition:
+            transform 0.2s,
+            box-shadow 0.2s,
+            filter 0.2s;
     }
 
     button:active:not(:disabled) {
@@ -75,8 +82,8 @@ import { createEventDispatcher } from "svelte";
         box-sizing: border-box;
         border: 3px solid var(--highlight-color);
         border-top: none;
-        border-bottom-left-radius: .45rem;
-        border-bottom-right-radius: .45rem;
+        border-bottom-left-radius: 0.45rem;
+        border-bottom-right-radius: 0.45rem;
         overflow: hidden;
     }
 
@@ -87,7 +94,7 @@ import { createEventDispatcher } from "svelte";
         color: initial;
         background-color: var(--background);
         box-shadow: none !important;
-        transition: background-color .1s !important;
+        transition: background-color 0.1s !important;
     }
 
     .dropdown-btn:hover {

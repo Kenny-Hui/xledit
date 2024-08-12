@@ -5,10 +5,10 @@
     import { activeTooltip as activeTooltip } from "../../stores/uiStores";
 
     function onHover(e): void {
-        if(tooltip != null && tooltipElement != null) {
+        if (tooltip != null && tooltipElement != null) {
             activeTooltip.set({
                 content: tooltip,
-                rect: tooltipElement.getBoundingClientRect()
+                rect: tooltipElement.getBoundingClientRect(),
             });
         }
     }
@@ -18,7 +18,13 @@
     }
 </script>
 
-<div class="tooltip-container" bind:this={tooltipElement} on:mouseenter={onHover} on:focusin={onHover} on:mouseleave={onLeave}>
+<div
+    class="tooltip-container"
+    bind:this={tooltipElement}
+    on:mouseenter={onHover}
+    on:focusin={onHover}
+    on:mouseleave={onLeave}
+>
     <slot />
 </div>
 

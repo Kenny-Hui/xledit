@@ -1,12 +1,13 @@
 <script lang="ts">
-    import { Github, Settings } from 'lucide-svelte';
-    import { openDialog } from '../stores/uiStores';
-    import { DialogProperty } from '../utils/types';
-    import PreferenceDialog from './overlay/dialogs/preference/Dialog.svelte';
-    import IconLink from './shared/IconLink.svelte';
-    import HeaderTab from './shared/HeaderTab.svelte';
-    import IconButton from './shared/IconButton.svelte';
-    import constants from '../stores/constants';
+    import { Github, Settings } from "lucide-svelte";
+    import { openDialog } from "../stores/uiStores";
+    import { DialogProperty } from "../utils/types";
+    import PreferenceDialog from "./dialogs/preference/Dialog.svelte";
+    import IconLink from "./shared/IconLink.svelte";
+    import HeaderTab from "./shared/HeaderTab.svelte";
+    import IconButton from "./shared/IconButton.svelte";
+    import constants from "../stores/constants";
+    import Logo from "./Logo.svelte";
 
     export let tabs;
 </script>
@@ -14,7 +15,8 @@
 <header>
     <div class="left">
         <div class="logo">
-            <img alt="XLEdit" src="xledit.svg">
+            <Logo darkMode={false} />
+            <!-- <img alt="XLEdit" src="xledit.svg"> -->
         </div>
         <span class="separator" />
         <div class="area">
@@ -23,16 +25,22 @@
     </div>
     <div class="right">
         <div>
-            <IconButton on:click={() => openDialog(new DialogProperty(PreferenceDialog))}>
-                <Settings size={22}/>
+            <IconButton
+                on:click={() =>
+                    openDialog(new DialogProperty(PreferenceDialog))}
+            >
+                <Settings size={22} />
             </IconButton>
         </div>
         <div class="version-tag">
             <p>v{constants.VERSION}</p>
         </div>
         <div>
-            <IconLink link="https://github.com/Kenny-Hui/xledit" target="_blank">
-                <Github size={22}/>
+            <IconLink
+                link="https://github.com/Kenny-Hui/xledit"
+                target="_blank"
+            >
+                <Github size={22} />
             </IconLink>
         </div>
     </div>
@@ -56,13 +64,14 @@
         width: 100%;
     }
 
-    .left, .right {
+    .left,
+    .right {
         display: flex;
         gap: 12px;
         align-items: center;
     }
 
-    .logo > img {
+    .logo {
         height: 52px;
     }
 
@@ -75,7 +84,7 @@
 
     .version-tag {
         background-color: var(--highlight-secondary);
-        padding: .5rem;
-        border-radius: .3rem;
+        padding: 0.5rem;
+        border-radius: 0.3rem;
     }
 </style>

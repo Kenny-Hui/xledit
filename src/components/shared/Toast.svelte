@@ -1,6 +1,6 @@
 <script lang="ts">
     import { CheckCircle, AlertCircle, XCircle } from "lucide-svelte";
-    import type { Toast } from '../../utils/types';
+    import type { Toast } from "../../utils/types";
     import { activeToasts } from "../../stores/uiStores";
     import { fly } from "svelte/transition";
     import { onMount } from "svelte";
@@ -11,30 +11,33 @@
         const timeout = setTimeout(() => {
             // Remove self
             let index = $activeToasts.indexOf(toast);
-            if(index != -1) {
+            if (index != -1) {
                 $activeToasts.splice(index, 1);
                 // $activeToasts[index] = null;
                 $activeToasts = $activeToasts;
             }
-        }, toast.duration)
-    })
+        }, toast.duration);
+    });
 </script>
 
 {#if toast != null}
-    <div class="main {toast.type}" transition:fly={{'duration': 200, 'y': 10}}>
+    <div class="main {toast.type}" transition:fly={{ duration: 200, y: 10 }}>
         <p>
             <span class="icons">
-                {#if toast.type == 'success'}
+                {#if toast.type == "success"}
                     <CheckCircle />
-                {:else if toast.type == 'warning'}
+                {:else if toast.type == "warning"}
                     <AlertCircle />
-                {:else if toast.type == 'error'}
+                {:else if toast.type == "error"}
                     <XCircle />
                 {/if}
             </span>
             {toast.content}
         </p>
-        <span class="timeline" style="animation-duration:{toast.duration / 1000}s"></span>
+        <span
+            class="timeline"
+            style="animation-duration:{toast.duration / 1000}s"
+        ></span>
     </div>
 {/if}
 
@@ -63,13 +66,13 @@
         padding: 10px;
         margin: 20px auto 0px auto;
         color: white;
-        border-radius: .5rem;
+        border-radius: 0.5rem;
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
         overflow: hidden;
     }
 
     .timeline {
-        content: '';
+        content: "";
         position: absolute;
         display: inline;
         z-index: 0;
@@ -86,14 +89,14 @@
     }
 
     .error {
-        background-color: #FF2222;
+        background-color: #ff2222;
     }
 
     .warning {
-        background-color: #DD8800;
+        background-color: #dd8800;
     }
 
     .success {
-        background-color: #00AA00;
+        background-color: #00aa00;
     }
 </style>

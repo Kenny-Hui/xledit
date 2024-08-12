@@ -6,12 +6,16 @@
         selectedIndex = i;
     }
 </script>
-    
+
 <ul class="horizontal-tab">
-    {#each tabs as item, i}    
+    {#each tabs as item, i}
         {#if item != null}
             <li>
-                <button on:click={() => onEntrySelected(i)} on:keydown={() => onEntrySelected(i)} class:selected={selectedIndex == i}>
+                <button
+                    on:click={() => onEntrySelected(i)}
+                    on:keydown={() => onEntrySelected(i)}
+                    class:selected={selectedIndex == i}
+                >
                     <span class="name">
                         {item.name}
                     </span>
@@ -43,11 +47,11 @@
         cursor: pointer;
         text-align: center;
         gap: 0.25rem;
-        transition: background-color .1s;
+        transition: background-color 0.1s;
     }
 
     .name {
-        padding: .75rem 0.25rem;
+        padding: 0.75rem 0.25rem;
     }
 
     button:hover {
@@ -66,7 +70,7 @@
         background-color: var(--highlight-color);
         padding: 0.25rem;
         border-radius: 50px;
-        font-size: .75rem;
+        font-size: 0.75rem;
         width: 12px;
         height: 12px;
         aspect-ratio: 1 / 1;

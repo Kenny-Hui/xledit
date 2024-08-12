@@ -7,5 +7,9 @@ export const selectedUnit: Writable<Unit> = writable();
 export const selectedFile: Writable<TranslationFile> = writable(null);
 
 export function getDerivedFiles(file: TranslationFile) {
-    return get(projects).files.filter(e => e == file || ((file.targetLanguage ?? file.sourceLanguage) === e.sourceLanguage));
+  return get(projects).files.filter(
+    (e) =>
+      e == file ||
+      (file.targetLanguage ?? file.sourceLanguage) === e.sourceLanguage,
+  );
 }
