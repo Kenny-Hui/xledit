@@ -22,26 +22,34 @@
 </script>
 
 <div class="entry">
-    <div class="percentMatch">
-        <div class="percentSquare">
-            <span class="percentage">{suggestion.match}%</span>
-            <br />match
+    {#if suggestion.match != null}
+        <div class="percentMatch">
+            <div class="percentSquare">
+                <span class="percentage">{suggestion.match}%</span>
+                <br />match
+            </div>
         </div>
-    </div>
+    {/if}
+    
     <div class="detail">
         <p class="string" title="Translated string">{suggestion.unit.target}</p>
         <p class="target string" title="Source string">{suggestion.unit.source}</p>
         <p class="source">
-            <button class="link-button srcpath"
-                class:matchpath={suggestion.unit.getFullPathStr() == $selectedUnit?.getFullPathStr()}
-                on:click={() => jumpToSuggestion(suggestion)}>
+            {#if suggestion.type === "XLEdit"}
+                <button class="link-button srcpath"
+                    class:matchpath={suggestion.unit.getFullPathStr() == $selectedUnit?.getFullPathStr()}
+                    on:click={() => jumpToSuggestion(suggestion)}>
 
-                {#each suggestion.unit.path as path}
-                    {path}
-                    <ChevronRight size={14}/>
-                {/each}
-                {suggestion.unit.id}
-            </button>
+                    {#each suggestion.unit.path as path}
+                        {path}
+                        <ChevronRight size={14}/>
+                    {/each}
+                    {suggestion.unit.id}
+                </button>
+                {:else if suggestion.type == "Manual"}
+                <span class="label">Translation Match</span>
+            {/if}
+            
              &bull;
             <span class="langname">{suggestion.lang.targetLanguage}</span>
         </p>
@@ -162,5 +170,12 @@
 
     .action-button:hover {
         color: #000;
+    }
+
+    .label {
+        background-color: var(--highlight-color);
+        color: white;
+        padding: 0.1rem 0.5rem;
+        border-radius: 50px;
     }
 </style>

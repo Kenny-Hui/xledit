@@ -1,4 +1,4 @@
-import { Context, ContextGroup, ExternalFile, Group, Header, InternalExternalFile, InternalFile, Note, Unit, type TranslationFile } from '../types';
+import { Context, ContextGroup, ExternalFile, Group, Header, InternalExternalFile, InternalFile, Note, TranslationMatch, Unit, type TranslationFile } from '../types';
 
 export function exportXliff12(files: TranslationFile[]) {
     let xliffVersion = "1.2";
@@ -76,6 +76,32 @@ function exportUnit(data: Unit, xml: XMLDocument, xliffElement: Element): Elemen
 
     // Export our version of attribute
     elem.setAttribute("id", data.id);
+
+    let srcElement = xml.createElementNS(xliffElement.namespaceURI, "source");
+    srcElement.textContent = escapeXml(data.source);
+    elem.appendChild(srcElement);
+
+    let targetElement = xml.createElementNS(xliffElement.namespaceURI, "target");
+    targetElement.textContent = escapeXml(data.target);
+    elem.appendChild(targetElement);
+
+    for(let note of data.notes) {
+        elem.appendChild(exportNote(note, xml, xliffElement));
+    }
+
+    for(let contextGrp of data.contextGroups) {
+        elem.appendChild(exportContextGroup(contextGrp, xml, xliffElement));
+    }
+
+    for(let match of data.matches) {
+        elem.appendChild(exportMatch(match, xml, xliffElement));
+    }
+
+    return elem;
+}
+
+function exportMatch(data: TranslationMatch, xml: XMLDocument, xliffElement: Element): Element {
+    let elem = createXmlElement("alt-trans", xml, xliffElement, data.metadata);
 
     let srcElement = xml.createElementNS(xliffElement.namespaceURI, "source");
     srcElement.textContent = escapeXml(data.source);

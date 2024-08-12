@@ -19,7 +19,7 @@ export function parseMinecraft(filename: string, data: string): TranslationFile[
     for(const [id, translation] of Object.entries(obj)) {
         let sourceText = targetLang == "en-US" ? translation as string : getUnit(get(projects).getOriginatingFile(file).rootGroup, [id])?.source ?? id;
         let targetText = targetLang == "en-US" ? "" : translation as string;
-        let unit = new Unit(id, sourceText, targetText, [], [], [], document.createElement("span").attributes);
+        let unit = new Unit(id, sourceText, targetText, [], [], [], [], document.createElement("span").attributes);
         file.rootGroup.units.push(unit);
     }
 

@@ -40,6 +40,7 @@
                             matchedUnit.push({
                                 unit: data,
                                 match: Math.round(matchPercent * 100),
+                                type: "XLEdit",
                                 lang: file
                             });
                         }
@@ -51,14 +52,26 @@
                 }
             });
         }
+
+        for(const match of $selectedUnit.matches) {
+            matchedUnit.push({
+                unit: match,
+                match: null,
+                type: "Manual",
+                lang: $selectedFile
+            });
+        }
     }
 
     function sortSuggestions(arr: any[]) {
         let targetLanguage = $selectedFile.targetLanguage ?? $selectedFile.sourceLanguage;
 
         arr.sort((a, b) => {
-            let aSamePath = a.unit.getFullPathStr() == $selectedUnit.getFullPathStr() ? 1 : 0;
-            let bSamePath = b.unit.getFullPathStr() == $selectedUnit.getFullPathStr() ? 1 : 0;
+            let aType = a.type == "Manual" ? 1 : 0;
+            let bType = b.type == "Manual" ? 1 : 0;
+
+            let aSamePath = a.unit instanceof Unit ? a.unit.getFullPathStr() == $selectedUnit.getFullPathStr() ? 1 : 0 : 0;
+            let bSamePath = b.unit instanceof Unit ? b.unit.getFullPathStr() == $selectedUnit.getFullPathStr() ? 1 : 0 : 0;
 
             let aSameLang = a.lang?.targetLanguage == targetLanguage ? 1 : 0;
             let bSameLang = b.lang?.targetLanguage == targetLanguage ? 1 : 0;
@@ -66,7 +79,7 @@
             let aSameLangGroup = a.lang.targetLanguage == null ? 0 : a.lang.targetLanguage.split("-")[0] == targetLanguage.split("-")[0] ? 1 : 0;
             let bSameLangGroup = b.lang.targetLanguage == null ? 0 : b.lang.targetLanguage.split("-")[0] == targetLanguage.split("-")[0] ? 1 : 0;
 
-            return (bSameLang - aSameLang) || (bSameLangGroup - aSameLangGroup) || (bSamePath - aSamePath) || (b.match - a.match);
+            return (bType - aType) || (bSameLang - aSameLang) || (bSameLangGroup - aSameLangGroup) || (bSamePath - aSamePath) || (b.match - a.match);
         });
     }
 
@@ -87,7 +100,7 @@
     </div>
     <div class="content">
         {#if selectedIndex == 0}
-            <SuggestionPane {matchedUnit} />
+            <SuggestionPane on:applyTargetText {matchedUnit} />
         {/if}
         {#if selectedIndex == 1}
             <NotesPane />

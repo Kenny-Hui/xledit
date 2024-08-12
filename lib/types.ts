@@ -153,8 +153,9 @@ export class Unit extends BaseElement {
     target: string;
     notes: Note[];
     contextGroups: ContextGroup[];
+    matches: TranslationMatch[];
 
-    constructor(id: string, source: string, target: string, path: string[], notes: Note[], contextGroups: ContextGroup[] = [], metadata: NamedNodeMap = null) {
+    constructor(id: string, source: string, target: string, path: string[], notes: Note[], contextGroups: ContextGroup[] = [], matches: TranslationMatch[] = [], metadata: NamedNodeMap = null) {
         super(metadata);
         this.id = id;
         this.source = source;
@@ -162,6 +163,7 @@ export class Unit extends BaseElement {
         this.path = path;
         this.notes = notes;
         this.contextGroups = contextGroups;
+        this.matches = matches;
     }
 
     getFullPath() {
@@ -173,7 +175,7 @@ export class Unit extends BaseElement {
     }
 
     clone() {
-        return new Unit(this.id, this.source, this.target, [...this.path], [...this.notes], [...this.contextGroups], this.metadata);
+        return new Unit(this.id, this.source, this.target, [...this.path], [...this.notes], [...this.contextGroups], [...this.matches], this.metadata);
     }
 
     getNotes() {
@@ -205,8 +207,49 @@ export class Unit extends BaseElement {
             let contextGroup = ContextGroup.import(contextGrp);
             contextGrps.push(contextGroup);
         }
+
+        let matches = [];
+
+        for(let match of elem.getElementsByTagName("alt-trans")) {
+            matches.push(TranslationMatch.import(match));
+        }
     
-        return new Unit(unitId, source, target, path, notes, contextGrps, elem.attributes);
+        return new Unit(unitId, source, target, path, notes, contextGrps, matches, elem.attributes);
+    }
+}
+
+export class TranslationMatch extends BaseElement {
+    source: string;
+    target: string;
+    notes: Note[];
+    contextGroups: ContextGroup[];
+
+    constructor(source: string, target: string, notes: Note[], contextGroups: ContextGroup[] = [], metadata: NamedNodeMap = null) {
+        super(metadata);
+        this.source = source;
+        this.target = target;
+        this.notes = notes;
+        this.contextGroups = contextGroups;
+    }
+
+    static import(elem: Element) {
+        let source = elem.getElementsByTagName("source")[0].textContent;
+        let target = elem.getElementsByTagName("target")[0]?.textContent ?? "";
+        let notesElem = elem.getElementsByTagName("note");
+        let contextGrpsElem = elem.getElementsByTagName("context-group");
+        let notes = [];
+        for(let note of notesElem) {
+            notes.push(Note.import(note));
+        }
+    
+        let contextGrps = [];
+    
+        for(let contextGrp of contextGrpsElem) {
+            let contextGroup = ContextGroup.import(contextGrp);
+            contextGrps.push(contextGroup);
+        }
+    
+        return new TranslationMatch(source, target, notes, contextGrps, elem.attributes);
     }
 }
 

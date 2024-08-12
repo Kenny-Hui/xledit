@@ -8,7 +8,7 @@
 
     export let dialog: DialogProperty;
 
-    let unit = new Unit("", "", "", dialog.data.path, [], [], document.createElement("span").attributes);
+    let unit = new Unit("", "", "", dialog.data.path, [], [], [], document.createElement("span").attributes);
 
     function createNewUnit() {
         let fileAffected: TranslationFile[] = getDerivedFiles($selectedFile);
