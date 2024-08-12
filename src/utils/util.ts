@@ -5,7 +5,8 @@ import { TranslationFile, TranslationFormats } from "../../lib/types";
 
 export function parseAndAddFile(rawFile: File) {
     let proj = get(projects);
-    let reader = new FileReader(); 
+    const reader = new FileReader(); 
+    const strippedFileName = rawFile.name.split(".").slice(0, -1).join(".");
     reader.readAsText(rawFile, 'utf-8');
 
     reader.onload = function(event: ProgressEvent<FileReader>) {
@@ -14,7 +15,7 @@ export function parseAndAddFile(rawFile: File) {
 
         for(let [name, format] of Object.entries(TranslationFormats)) {
             try {
-                let imported = format.import(rawFile.name, event.target.result as string);
+                let imported = format.import(strippedFileName, event.target.result as string);
                 files = [...imported];
                 success = true;
                 break;

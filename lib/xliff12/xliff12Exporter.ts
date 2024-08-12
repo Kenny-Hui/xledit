@@ -49,9 +49,9 @@ function insertAttribute(element: Element, attributes: NamedNodeMap) {
 function exportTranslationFile(data: TranslationFile, xml: XMLDocument, xliffElement: Element) {
     let elem = createXmlElement("file", xml, xliffElement, data.metadata);
 
-    elem.setAttribute("original", data.original);
     elem.setAttribute("source-language", data.sourceLanguage);
     if(data.targetLanguage != null) elem.setAttribute("target-language", data.targetLanguage);
+    if(!elem.hasAttribute("original")) elem.setAttribute("original", data.filename);
 
     if(data.header != null) {
         elem.appendChild(exportHeader(data.header, xml, xliffElement));

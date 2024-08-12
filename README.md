@@ -1,5 +1,5 @@
 # XLEdit
-XLEdit is a web-based editor for the [XLIFF](https://en.wikipedia.org/wiki/XLIFF) localization format.
+XLEdit is a web-based translation editor, supporting the [XLIFF](https://en.wikipedia.org/wiki/XLIFF) localization format & Minecraft Language files.
 
 <img src="./assets/readme-preview.png">
 
@@ -11,7 +11,7 @@ XLEdit is a web-based editor for the [XLIFF](https://en.wikipedia.org/wiki/XLIFF
 ## What isn't supported (yet, hopefully)
 - Importing XLIFF 2.x files
 - Attributes for &lt;source&gt; and &lt;target&gt;
-- &lt;bin-*&gt; and &lt;alt-trans&gt;
+- &lt;bin-*&gt;
 - [Inline Elements](https://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#Struct_InLine)
 - &lt;phase&gt; and &lt;phase-group&gt;
 - Many more
@@ -32,9 +32,9 @@ Mood-driven~
 The XLIFF format is quite versatile, as such there are likely lots of cases where things would go wrong and that I have not accounted for.
 In any case, [Please raise an issue here](https://github.com/Kenny-Hui/xledit/issues), along with a sample xliff file that can reproduce the issue, and when I feel good one day I may have a look at it :)
 
-### What happens if I mix different XLIFF files together?
-While not the intended use case, you should be able to edit **non-source** XLIFF files with different content.
-It is however not recommended to edit the source file with different translated files as it is assumed that the source file is the basis for other files loaded.
+### What happens if I mix different set of translation files together?
+While not the intended use case, you should be able to edit **non-source** files with different content.
+It is however not recommended to edit the source file while different translation files are loaded, as it is assumed that the source file is the basis for other files loaded.
 
 ## Credits
 - [Lucide](https://github.com/lucide-icons/lucide) - Provids icons for the XLEdit user interface

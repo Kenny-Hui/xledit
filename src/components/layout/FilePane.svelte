@@ -64,7 +64,7 @@
 
     {#if languages.length == 0}
         <div class="message">
-            <p>Import XLIFF files by drag and dropping here</p>
+            <p>Import files by drag and dropping here</p>
         </div>
     {:else}
         <ul>
