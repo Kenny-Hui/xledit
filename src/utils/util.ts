@@ -1,53 +1,42 @@
 import { addToast } from "../stores/uiStores";
 import { get } from 'svelte/store';
 import { projects, selectedFile } from "../stores/data";
-import { parse as parseXliff12 } from "../../lib/xliff12/xliff12Parser";
-import { parseMC } from "../../lib/minecraft/mcParser";
+import { TranslationFile, TranslationFormats } from "../../lib/types";
 
-export function parseAndAddXliff(file: File) {
+export function parseAndAddFile(rawFile: File) {
     let proj = get(projects);
     let reader = new FileReader(); 
-    reader.readAsText(file, 'utf-8');
+    reader.readAsText(rawFile, 'utf-8');
 
     reader.onload = function(event: ProgressEvent<FileReader>) {
         let success = false;
+        let files: TranslationFile[] = [];
 
-        try {
-            let xliffFiles = parseXliff12(file.name, event.target.result as string);
-            for(let file of xliffFiles) {
+        for(let [name, format] of Object.entries(TranslationFormats)) {
+            try {
+                let imported = format.import(rawFile.name, event.target.result as string);
+                files = [...imported];
+                success = true;
+                break;
+            } catch (e) {
+                console.groupCollapsed(`XLEdit: Unable to parse file ${rawFile.name} for format ${name}!`);
+                console.error(e);
+                console.groupEnd();
+                continue;
+            }
+        }
+
+        if(!success) {
+            addToast(`Unable to parse file ${rawFile.name}`, 'warning', 4000);
+        } else {
+            for(let file of files) {
                 proj.files.push(file);
-
+    
                 if(get(selectedFile) == null) {
                     selectedFile.set(file);
                 }
                 projects.set(proj);
             }
-            success = true;
-        } catch (e) {
-            console.error(e);
-            console.warn(`XLEdit: Unable to parse XML file ${file.name}!`)
-        }
-
-        if(!success) {
-            try {
-                let xliffFiles = parseMC(file.name, event.target.result as string);
-                for(let file of xliffFiles) {
-                    proj.files.push(file);
-    
-                    if(get(selectedFile) == null) {
-                        selectedFile.set(file);
-                    }
-                    projects.set(proj);
-                }
-                success = true;
-            } catch (e) {
-                console.error(e);
-                console.warn(`XLEdit: Unable to parse MC Translation ${file.name}!`)
-            }
-        }
-
-        if(!success) {
-            addToast(`Unable to parse file ${file.name}`, 'warning', 4000);
         }
     }
 }

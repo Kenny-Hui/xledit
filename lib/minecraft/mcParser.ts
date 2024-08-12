@@ -4,7 +4,7 @@ import { TranslationFile as TranslationFile, Unit } from '../types';
 import { addToast } from '../../src/stores/uiStores';
 import { getUnit } from '../util';
 
-export function parseMC(filename: string, data: string): TranslationFile[] {
+export function parseMinecraft(filename: string, data: string): TranslationFile[] {
     const obj = JSON.parse(data);
     const strippedFileName = filename.split(".json")[0];
     const firstHalf = strippedFileName.split("_")[0];

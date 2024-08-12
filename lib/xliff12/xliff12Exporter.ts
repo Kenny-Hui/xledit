@@ -1,6 +1,6 @@
 import { Context, ContextGroup, ExternalFile, Group, Header, InternalExternalFile, InternalFile, Note, Unit, type TranslationFile } from '../types';
 
-export function exportXliff(files: TranslationFile[]) {
+export function exportXliff12(files: TranslationFile[]) {
     let xliffVersion = "1.2";
     const namespace = `urn:oasis:names:tc:xliff:document:${xliffVersion}`;
 
@@ -46,7 +46,7 @@ function insertAttribute(element: Element, attributes: NamedNodeMap) {
     }
 }
 
-export function exportTranslationFile(data: TranslationFile, xml: XMLDocument, xliffElement: Element) {
+function exportTranslationFile(data: TranslationFile, xml: XMLDocument, xliffElement: Element) {
     let elem = createXmlElement("file", xml, xliffElement, data.metadata);
 
     elem.setAttribute("original", data.original);
@@ -71,7 +71,7 @@ export function exportTranslationFile(data: TranslationFile, xml: XMLDocument, x
     return elem;
 }
 
-export function exportUnit(data: Unit, xml: XMLDocument, xliffElement: Element): Element {
+function exportUnit(data: Unit, xml: XMLDocument, xliffElement: Element): Element {
     let elem = createXmlElement("trans-unit", xml, xliffElement, data.metadata);
 
     // Export our version of attribute
@@ -96,7 +96,7 @@ export function exportUnit(data: Unit, xml: XMLDocument, xliffElement: Element):
     return elem;
 }
 
-export function exportGroup(data: Group, xml: XMLDocument, xliffElement: Element): Element {
+function exportGroup(data: Group, xml: XMLDocument, xliffElement: Element): Element {
     let elem = createXmlElement("group", xml, xliffElement, data.metadata);
 
     elem.setAttribute("id", data.id);
@@ -111,7 +111,7 @@ export function exportGroup(data: Group, xml: XMLDocument, xliffElement: Element
     return elem;
 }
 
-export function exportNote(data: Note, xml: XMLDocument, xliffElement: Element): Element {
+function exportNote(data: Note, xml: XMLDocument, xliffElement: Element): Element {
     let elem = createXmlElement("note", xml, xliffElement, data.metadata);
 
     if(data.from) elem.setAttribute("from", escapeXml(data.from));
@@ -122,7 +122,7 @@ export function exportNote(data: Note, xml: XMLDocument, xliffElement: Element):
     return elem;
 }
 
-export function exportContextGroup(data: ContextGroup, xml: XMLDocument, xliffElement: Element): Element {
+function exportContextGroup(data: ContextGroup, xml: XMLDocument, xliffElement: Element): Element {
     let elem = createXmlElement("context-group", xml, xliffElement, data.metadata);
     elem.setAttribute("purpose", data.purpose);
 
@@ -133,7 +133,7 @@ export function exportContextGroup(data: ContextGroup, xml: XMLDocument, xliffEl
     return elem;
 }
 
-export function exportContext(data: Context, xml: XMLDocument, xliffElement: Element): Element {
+function exportContext(data: Context, xml: XMLDocument, xliffElement: Element): Element {
     let elem = createXmlElement("context", xml, xliffElement, data.metadata);
 
     elem.setAttribute("context-type", data.type);
@@ -142,7 +142,7 @@ export function exportContext(data: Context, xml: XMLDocument, xliffElement: Ele
     return elem;
 }
 
-export function exportHeader(data: Header, xml: XMLDocument, xliffElement: Element): Element {
+function exportHeader(data: Header, xml: XMLDocument, xliffElement: Element): Element {
     let elem = createXmlElement("header", xml, xliffElement, data.metadata);
 
     if(data.skl != null) {
@@ -164,7 +164,7 @@ export function exportHeader(data: Header, xml: XMLDocument, xliffElement: Eleme
     return elem;
 }
 
-export function exportInternalExternalFile(name: string, data: InternalExternalFile, xml: XMLDocument, xliffElement: Element): Element {
+function exportInternalExternalFile(name: string, data: InternalExternalFile, xml: XMLDocument, xliffElement: Element): Element {
     let elem = createXmlElement(name, xml, xliffElement, data.metadata);
 
     if(data.internalFile != null) {
@@ -178,7 +178,7 @@ export function exportInternalExternalFile(name: string, data: InternalExternalF
     return elem;
 }
 
-export function exportInternalFile(data: InternalFile, xml: XMLDocument, xliffElement: Element): Element {
+function exportInternalFile(data: InternalFile, xml: XMLDocument, xliffElement: Element): Element {
     let elem = createXmlElement("internal-file", xml, xliffElement, data.metadata);
 
     elem.textContent = data.path;
@@ -192,7 +192,7 @@ export function exportInternalFile(data: InternalFile, xml: XMLDocument, xliffEl
     return elem;
 }
 
-export function exportExternalFile(data: ExternalFile, xml: XMLDocument, xliffElement: Element): Element {
+function exportExternalFile(data: ExternalFile, xml: XMLDocument, xliffElement: Element): Element {
     let elem = createXmlElement("external-file", xml, xliffElement, data.metadata);
 
     elem.setAttribute("href", data.href);

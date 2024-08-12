@@ -1,6 +1,6 @@
 import { TranslationFile as TranslationFile } from '../types';
 
-export function parse(filename: string, xml: string): TranslationFile[] {
+export function parseXliff12(filename: string, xml: string): TranslationFile[] {
     let parser = new DOMParser();
     let xmlDoc: Document;
     xmlDoc = parser.parseFromString(xml, "text/xml");

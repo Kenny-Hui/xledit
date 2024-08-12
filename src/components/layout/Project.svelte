@@ -4,8 +4,7 @@
     import { Plus, FileDown, FolderDown, RefreshCw } from 'lucide-svelte';
     import { get } from 'svelte/store';
     import { getDerivedFiles, projects, selectedFile } from '../../stores/data';
-    import { parseAndAddXliff } from '../../utils/util';
-    import { exportXliff } from '../../../lib/xliff12/xliff12Exporter';
+    import { parseAndAddFile } from '../../utils/util';
     import Editor from './editor/Editor.svelte';
     import Button from '../shared/Button.svelte';
     import DropdownButton from '../shared/DropdownButton.svelte';
@@ -16,7 +15,6 @@
     import { createGroup, createUnit, findGroup, forEachBlocking, getUnit } from '../../../lib/util';
     import { addToast } from '../../stores/uiStores';
     import { fly } from 'svelte/transition';
-    import { exportMinecraftTranslation } from '../../../lib/minecraft/mcExporter';
 
     function addFiles() {
         let element = document.createElement("input");
@@ -25,7 +23,7 @@
         element.onchange = (event) => {
             const target = event.target as HTMLInputElement;
             for(let file of target.files) {
-                parseAndAddXliff(file);
+                parseAndAddFile(file);
             }
         }
         element.click();
@@ -68,7 +66,7 @@
         let exportOptions = $preferences.export as ExportOptions;
 
         if(format === TranslationFormats.XLIFF12) {
-            let xmlDoc = exportXliff(files);
+            let xmlDoc = format.export(files);
 
             if(exportOptions.stripEmptyTarget) {
                 for(let targetElem of [...xmlDoc.getElementsByTagName("target")]) {
@@ -79,7 +77,7 @@
         }
 
         if(format === TranslationFormats.MINECRAFT) {
-            return JSON.stringify(exportMinecraftTranslation(files), null, (exportOptions.useTab ? "\t" : " ".repeat(exportOptions.spaceChar)));
+            return JSON.stringify(format.export(files), null, (exportOptions.useTab ? "\t" : " ".repeat(exportOptions.spaceChar)));
         }
         return null;
     }

@@ -1,6 +1,6 @@
 import { Group, type TranslationFile } from '../types';
 
-export function exportMinecraftTranslation(files: TranslationFile[]) {
+export function exportMinecraft(files: TranslationFile[]) {
     let obj = {};
 
     for(let file of files) {
@@ -10,7 +10,7 @@ export function exportMinecraftTranslation(files: TranslationFile[]) {
     return obj;
 }
 
-export function exportGroup(data: Group, isSource: boolean, prefix: Array<string> = []) {
+function exportGroup(data: Group, isSource: boolean, prefix: Array<string> = []) {
     let obj = {};
 
     for(let subgroup of data.groups) {

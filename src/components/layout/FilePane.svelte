@@ -3,7 +3,7 @@
     import { shortHandedLang } from '../../utils/types';
     import { preferences } from '../../stores/preferenceStore';
     import FileEntry from './FileEntry.svelte';
-    import { parseAndAddXliff } from '../../utils/util';
+    import { parseAndAddFile } from '../../utils/util';
     import { Import } from 'lucide-svelte';
     import { fade } from 'svelte/transition';
     export let languages: TranslationFile[];
@@ -35,7 +35,7 @@
         if(event.dataTransfer.items) {
             for(let item of event.dataTransfer.items) {
                 if(item.kind == 'file') {
-                    parseAndAddXliff(item.getAsFile());
+                    parseAndAddFile(item.getAsFile());
                 }
             }
         }

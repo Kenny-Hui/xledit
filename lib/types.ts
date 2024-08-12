@@ -1,19 +1,37 @@
 import { v4 as uuidv4 } from 'uuid';
+import { parseXliff12 } from './xliff12/xliff12Parser';
+import { exportXliff12 } from './xliff12/xliff12Exporter';
+import { parseMinecraft } from './minecraft/mcParser';
+import { exportMinecraft } from './minecraft/mcExporter';
+
+interface ImportFunction {
+    (filename: string, data: string): TranslationFile[];
+}
+
+interface ExportFunction {
+    (files: TranslationFile[]): any;
+}
 
 export type TranslationFormat = {
-    name: string;
-    extension: string
+    name: string,
+    extension: string,
+    import: ImportFunction,
+    export: ExportFunction
 }
 
 export const TranslationFormats = {
     XLIFF12: {
         name: "XLIFF 1.2 (.xlf)",
-        extension: ".xlf"
+        extension: ".xlf",
+        import: parseXliff12,
+        export: exportXliff12
     } as TranslationFormat,
     MINECRAFT: {
         name: "Minecraft (.json)",
-        extension: ".json"
-    }
+        extension: ".json",
+        import: parseMinecraft,
+        export: exportMinecraft
+    } as TranslationFormat
 }
 
 export class BaseElement {
