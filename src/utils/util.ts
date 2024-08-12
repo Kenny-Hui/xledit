@@ -52,20 +52,6 @@ export function getISO639(langCode: string): string {
 }
 
 export function copyToClipboard(str) {
-  if (str != null) {
     addToast(`Copied to clipboard.`, "success", 3000);
     navigator.clipboard.writeText(str);
-  } else {
-    console.warn("XLEdit: Clipboard String is null whilst trying to copy");
-  }
-}
-
-export function getSortPoint(
-  langA: string,
-  langB: string,
-  targetLanguage: string,
-): number {
-  if (langA.split("-")[0] == langB.split("-")[0]) return 1; // Match primary subtag
-
-  return 0;
 }

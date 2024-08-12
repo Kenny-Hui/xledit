@@ -33,6 +33,26 @@ export const TranslationFormats = {
   } as TranslationFormat,
 };
 
+export const TranslationStatuses = {
+  UNTRANSLATED: {
+    text: "Not translated",
+    color: "#999",
+  } as TranslationStatus,
+  NOT_APPROVED: {
+    text: "Not approved",
+    color: "#CC7700",
+  } as TranslationStatus,
+  TRANSLATED: {
+    text: "Translated",
+    color: "var(--highlight-color)",
+  } as TranslationStatus,
+};
+
+export type TranslationStatus = {
+  text: string;
+  color: string;
+};
+
 export class BaseElement {
   metadata: NamedNodeMap | null;
 
@@ -61,8 +81,7 @@ export class TranslationFile extends BaseElement {
     this.filename = filename;
     this.sourceLanguage = sourceLanguage;
     this.targetLanguage = targetLanguage;
-    this.isSource =
-      this.targetLanguage == null || this.sourceLanguage == this.targetLanguage;
+    this.isSource = this.targetLanguage == null || this.sourceLanguage == this.targetLanguage;
     this.rootGroup = new Group("Root", true, []);
   }
 }
@@ -147,6 +166,16 @@ export class Unit extends BaseElement {
     return this.getFullPath().join("/");
   }
 
+  getTranslationStatus(): TranslationStatus {
+    if (this.metadata["approved"]?.textContent == "no")
+      return TranslationStatuses.NOT_APPROVED;
+    if (this.metadata["approved"]?.textContent == "yes")
+      return TranslationStatuses.TRANSLATED;
+    return this.target.text == ""
+      ? TranslationStatuses.UNTRANSLATED
+      : TranslationStatuses.TRANSLATED;
+  }
+
   clone() {
     return new Unit(
       this.id,
@@ -159,57 +188,17 @@ export class Unit extends BaseElement {
       this.metadata,
     );
   }
-
-  getNotes() {
-    return this.notes.sort((a, b) => a.priority - b.priority);
-  }
-
-  getTranslationStatus(): TranslationStatus {
-    if (this.metadata["approved"]?.textContent == "no")
-      return TranslationStatuses.NOT_APPROVED;
-    if (this.metadata["approved"]?.textContent == "yes")
-      return TranslationStatuses.TRANSLATED;
-    return this.target.text == ""
-      ? TranslationStatuses.UNTRANSLATED
-      : TranslationStatuses.TRANSLATED;
-  }
-}
-
-export class Source extends BaseElement {
-  text: string;
-
-  constructor(text: string, metadata: NamedNodeMap = null) {
-    super(metadata);
-    this.text = text;
-  }
-
-  clone() {
-    return new Source(this.text, this.metadata);
-  }
-}
-
-export class Target extends BaseElement {
-  text: string;
-
-  constructor(text: string, metadata: NamedNodeMap = null) {
-    super(metadata);
-    this.text = text;
-  }
-
-  clone() {
-    return new Source(this.text, this.metadata);
-  }
 }
 
 export class TranslationMatch extends BaseElement {
-  source: string;
-  target: string;
+  source: Source;
+  target: Target;
   notes: Note[];
   contextGroups: ContextGroup[];
 
   constructor(
-    source: string,
-    target: string,
+    source: Source,
+    target: Target,
     notes: Note[],
     contextGroups: ContextGroup[] = [],
     metadata: NamedNodeMap = null,
@@ -253,26 +242,6 @@ export class Note extends BaseElement {
     );
   }
 }
-
-export const TranslationStatuses = {
-  UNTRANSLATED: {
-    text: "Not translated",
-    color: "#999",
-  } as TranslationStatus,
-  NOT_APPROVED: {
-    text: "Not approved",
-    color: "#CC7700",
-  } as TranslationStatus,
-  TRANSLATED: {
-    text: "Translated",
-    color: "var(--highlight-color)",
-  } as TranslationStatus,
-};
-
-export type TranslationStatus = {
-  text: string;
-  color: string;
-};
 
 export enum ContextType {
   database = "database",
@@ -430,5 +399,31 @@ export class Header extends BaseElement {
     this.glossaries = glossaries;
     this.references = references;
     this.notes = notes;
+  }
+}
+
+export class Source extends BaseElement {
+  text: string;
+
+  constructor(text: string, metadata: NamedNodeMap = null) {
+    super(metadata);
+    this.text = text;
+  }
+
+  clone() {
+    return new Source(this.text, this.metadata);
+  }
+}
+
+export class Target extends BaseElement {
+  text: string;
+
+  constructor(text: string, metadata: NamedNodeMap = null) {
+    super(metadata);
+    this.text = text;
+  }
+
+  clone() {
+    return new Source(this.text, this.metadata);
   }
 }

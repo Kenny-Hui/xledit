@@ -8,7 +8,7 @@
         selectedUnit,
     } from "../../../../../stores/data";
     import HorizontalTab from "../../../../shared/HorizontalTab.svelte";
-    import SuggestionPane from "./SuggestionPane.svelte";
+    import SuggestionPane from "./SuggestionView.svelte";
     import NotesPane from "./NoteContextView.svelte";
 
     const SUGGESTION_MATCH_PERCENTAGE = 0.75;

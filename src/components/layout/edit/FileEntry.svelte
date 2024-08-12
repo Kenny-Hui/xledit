@@ -18,7 +18,7 @@
     $: displayFileName = $preferences.langSelect.displayName;
 
     function select() {
-        selectedFile.set(file);
+        $selectedFile = file;
         if ($selectedUnit != null) {
             $selectedUnit = getUnit(
                 file.rootGroup,
@@ -52,7 +52,6 @@
         }
     }
 
-    let percentage = 0;
     let translatedUnit = 0;
     let totalUnit = 0;
 
@@ -69,8 +68,6 @@
     }
 
     $: if ($selectedFile && file) checkTranslatedUnits();
-
-    $: percentage = totalUnit == 0 ? 1 : translatedUnit / totalUnit;
 
     let btn;
 
@@ -107,12 +104,12 @@
             <div
                 class="progress-bar"
                 class:selected={$selectedFile === file}
-                style="width:{percentage * 100}%;"
+                style="width:{(translatedUnit / totalUnit) * 100}%;"
             ></div>
         </div>
         <div class="progress-percent">
             <Tooltip tooltip={`${translatedUnit}/${totalUnit}`}>
-                <p>{Math.floor(percentage * 100)}%</p>
+                <p>{Math.floor((translatedUnit / totalUnit) * 100)}%</p>
             </Tooltip>
         </div>
     </div>

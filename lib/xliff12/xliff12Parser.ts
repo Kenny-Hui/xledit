@@ -119,14 +119,11 @@ function parseUnit(path: string[], elem: Element) {
   }
 
   let contextGrps = [];
-
   for (let contextGrp of contextGrpsElem) {
-    let contextGroup = parseContextGroup(contextGrp);
-    contextGrps.push(contextGroup);
+    contextGrps.push(parseContextGroup(contextGrp));
   }
 
   let matches = [];
-
   for (let match of elem.getElementsByTagName("alt-trans")) {
     matches.push(parseAltTrans(match));
   }
@@ -153,8 +150,8 @@ function parseTarget(elem: Element) {
 }
 
 function parseAltTrans(elem: Element) {
-  let source = elem.getElementsByTagName("source")[0].textContent;
-  let target = elem.getElementsByTagName("target")[0]?.textContent ?? "";
+  let source = parseSource(elem.querySelector("source"));
+  let target = parseTarget(elem.querySelector("target"));
   let notesElem = elem.getElementsByTagName("note");
   let contextGrpsElem = elem.getElementsByTagName("context-group");
   let notes = [];
@@ -163,10 +160,8 @@ function parseAltTrans(elem: Element) {
   }
 
   let contextGrps = [];
-
   for (let contextGrp of contextGrpsElem) {
-    let contextGroup = parseContextGroup(contextGrp);
-    contextGrps.push(contextGroup);
+    contextGrps.push(parseContextGroup(contextGrp));
   }
 
   return new TranslationMatch(

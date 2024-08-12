@@ -58,7 +58,7 @@
 
 {#if $selectedUnit != null}
     <div class="main">
-        {#each $selectedUnit.getNotes() as note}
+        {#each $selectedUnit.notes.sort((a, b) => a.priority - b.priority) as note}
             <Note {note} on:remove={removeNote} />
         {/each}
 
