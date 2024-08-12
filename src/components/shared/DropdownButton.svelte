@@ -72,6 +72,12 @@ import { createEventDispatcher } from "svelte";
         left: 0;
         top: 100%;
         width: 100%;
+        box-sizing: border-box;
+        border: 3px solid var(--highlight-color);
+        border-top: none;
+        border-bottom-left-radius: .45rem;
+        border-bottom-right-radius: .45rem;
+        overflow: hidden;
     }
 
     .dropdown-btn {
@@ -79,17 +85,12 @@ import { createEventDispatcher } from "svelte";
         width: 100%;
         border-radius: 0;
         color: initial;
-        background-color: var(--color-gray);
+        background-color: var(--background);
         box-shadow: none !important;
         transition: background-color .1s !important;
     }
 
     .dropdown-btn:hover {
-        background-color: var(--background);
-    }
-
-    .dropdown > li:last-child > button {
-        border-bottom-left-radius: .45rem;
-        border-bottom-right-radius: .45rem;
+        background-color: var(--color-gray);
     }
 </style>
