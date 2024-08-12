@@ -30,11 +30,11 @@
             forEach(file.rootGroup, (data: Unit | Group) => {
                 if(data instanceof Unit) {
                     // Filter our non-translated/copied units.
-                    if(data.target == "" || data.source == data.target) return;
+                    if(data.target.text == "" || data.source.text == data.target.text) return;
                     // Same as our result
-                    if(data.source == $selectedUnit.source && data.target == $selectedUnit.target) return;
+                    if(data.source.text == $selectedUnit.source.text && data.target.text == $selectedUnit.target.text) return;
 
-                    let matchPercent = stringSimilarity($selectedUnit.source, data.source);
+                    let matchPercent = stringSimilarity($selectedUnit.source.text, data.source.text);
                     if(matchPercent > SUGGESTION_MATCH_PERCENTAGE) {
                         if(matchedUnit.filter(e => e.unit == data).length == 0) { // Slight convenient hack to prevent duplicate, since this is async recursion
                             matchedUnit.push({

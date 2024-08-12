@@ -10,7 +10,6 @@ XLEdit is a web-based translation editor, supporting the [XLIFF](https://en.wiki
 
 ## What isn't supported (yet, hopefully)
 - Importing XLIFF 2.x files
-- Attributes for &lt;source&gt; and &lt;target&gt;
 - &lt;bin-*&gt;
 - [Inline Elements](https://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#Struct_InLine)
 - &lt;phase&gt; and &lt;phase-group&gt;

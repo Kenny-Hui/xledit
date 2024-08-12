@@ -23,9 +23,9 @@
             edited = false;
         } else {
             if($selectedFile?.isSource) {
-                edited = $selectedUnit.source != targetElement.textContent;
+                edited = $selectedUnit.source.text != targetElement.textContent;
             } else {
-                edited = ($selectedUnit.target ?? "") != targetElement.textContent;
+                edited = ($selectedUnit.target.text) != targetElement.textContent;
             }
         }
         if(targetElement.textContent.length == 0) targetElement.innerHTML = ""; // Clear empty <br> for placeholder
@@ -35,17 +35,17 @@
         let newEntry = $selectedUnit;
         if($selectedFile.isSource) {
             // Edit Source
-            $selectedUnit.source = targetElement.textContent;
+            $selectedUnit.source.text = targetElement.textContent;
 
             // Apply to all file
             for(let file of getDerivedFiles($selectedFile)) {
                 let targetUnit = getUnit(file.rootGroup, $selectedUnit.getFullPath());
                 if(targetUnit == null) continue; // TODO: We should sync the entry to there as well
-                targetUnit.source = newEntry.source;
+                targetUnit.source.text = newEntry.source.text;
                 targetUnit = targetUnit;
             }
         } else {
-            $selectedUnit.target = targetElement.textContent;
+            $selectedUnit.target.text = targetElement.textContent;
         }
 
         $selectedFileStore = $selectedFileStore;
@@ -55,7 +55,7 @@
         if(unit == null) {
             setTargetText("");
         } else {
-            setTargetText($selectedFile?.isSource ? unit.source : unit.target);
+            setTargetText($selectedFile?.isSource ? unit.source.text : unit.target.text);
         }
     }
 
@@ -69,7 +69,7 @@
 <div class="editing">
     <div id="src" class="box source-panel">
         <p class="source-string">Source String</p>
-        <p bind:this={srcElement}>{$selectedUnit?.source ?? ""}</p>
+        <p bind:this={srcElement}>{$selectedUnit?.source.text ?? ""}</p>
     </div>
 
     {#if $selectedUnit != null}

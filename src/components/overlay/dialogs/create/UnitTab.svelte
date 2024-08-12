@@ -1,6 +1,6 @@
 <script lang="ts">
     import { DialogProperty } from "../../../../utils/types";
-    import { Unit, TranslationFile } from "../../../../../lib/types";
+    import { Unit, TranslationFile, Source, Target } from "../../../../../lib/types";
     import Button from "../../../shared/Button.svelte";
     import OptionEntry from "../../../shared/OptionEntry.svelte";
     import { createUnit } from "../../../../../lib/util";
@@ -8,7 +8,7 @@
 
     export let dialog: DialogProperty;
 
-    let unit = new Unit("", "", "", dialog.data.path, [], [], [], document.createElement("span").attributes);
+    let unit = new Unit("", new Source(""), new Target(""), dialog.data.path, [], [], [], document.createElement("span").attributes);
 
     function createNewUnit() {
         let fileAffected: TranslationFile[] = getDerivedFiles($selectedFile);

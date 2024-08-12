@@ -46,10 +46,10 @@
         </Tooltip>
     </div>
     <div class="srctrg">
-        {unit.source}
+        {unit.source.text}
     </div>
     <div class="srctrg">
-        {unit.target ?? ""}
+        {unit.target.text ?? ""}
     </div>
     <div class="action-row">
         <IconButton tooltip="Delete Unit" on:click={removeUnit}><Trash color="red" size={20}/></IconButton>

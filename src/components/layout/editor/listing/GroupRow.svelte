@@ -26,14 +26,14 @@
 			if(!meetFilter(data, searchQuery)) return false;
 			if(searchQuery.searchTerm.length === 0) return true;
 			let queryLowerCase = searchQuery.searchTerm.toLowerCase();
-			return data.id.toLowerCase().includes(queryLowerCase) || data.source.toLocaleLowerCase().includes(queryLowerCase);
+			return data.id.toLowerCase().includes(queryLowerCase) || data.source.text.toLocaleLowerCase().includes(queryLowerCase);
 		}
 	}
 
 	function meetFilter(unit: Unit, query: SearchQuery) {
-		if(!query.showNumericOnly && (/^\d+$/.test(unit.source))) return false;
-		if(!query.showTranslated && (unit.target != "")) return false;
-		if(!query.showUntranslated && (unit.target == "")) return false;
+		if(!query.showNumericOnly && (/^\d+$/.test(unit.source.text))) return false;
+		if(!query.showTranslated && (unit.target.text != "")) return false;
+		if(!query.showUntranslated && (unit.target.text == "")) return false;
 		
 		return true;
 	}

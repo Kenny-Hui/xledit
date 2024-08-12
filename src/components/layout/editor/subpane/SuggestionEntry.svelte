@@ -32,8 +32,8 @@
     {/if}
     
     <div class="detail">
-        <p class="string" title="Translated string">{suggestion.unit.target}</p>
-        <p class="target string" title="Source string">{suggestion.unit.source}</p>
+        <p class="string" title="Translated string">{suggestion.unit.target.text}</p>
+        <p class="target string" title="Source string">{suggestion.unit.source.text}</p>
         <p class="source">
             {#if suggestion.type === "XLEdit"}
                 <button class="link-button srcpath"
@@ -56,12 +56,12 @@
     </div>
     <div class="action">
         <Tooltip tooltip="Copy">
-            <button class="action-button" on:click={() => copyToClipboard(suggestion.unit.target)}>
+            <button class="action-button" on:click={() => copyToClipboard(suggestion.unit.target.text)}>
                 <Copy size={18} />
             </button>
         </Tooltip>
         <Tooltip tooltip="Use">
-            <button class="action-button" on:click={() => setTargetText(suggestion.unit.target)}>
+            <button class="action-button" on:click={() => setTargetText(suggestion.unit.target.text)}>
                 <CornerUpLeft size={18} />
             </button>
         </Tooltip>

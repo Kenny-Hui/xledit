@@ -14,7 +14,7 @@
     const dispatch = createEventDispatcher();
 
     function undoChange() {
-        dispatch('setTargetText', selectedFile.isSource ? unit.source : unit.target)
+        dispatch('setTargetText', selectedFile.isSource ? unit.source : unit.target.text)
     }
 
     function openTranslate() {
@@ -30,7 +30,7 @@
         <ClipboardList />
     </IconButton>
 
-    <IconButton on:click={() => dispatch('setTargetText', unit.source)} tooltip="Use Source">
+    <IconButton on:click={() => dispatch('setTargetText', unit.source.text)} tooltip="Use Source">
         <ArrowDown />
     </IconButton>
 

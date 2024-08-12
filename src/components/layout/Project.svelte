@@ -41,7 +41,7 @@
                     if(grp == null) { // Add missing groups
                         let newGrp = createGroup(data, file.rootGroup);
                         for(let units of newGrp.units) {
-                            units.target = "";
+                            units.target.text = "";
                         }
                     }
                 }
@@ -50,7 +50,7 @@
                     let unit = getUnit(file.rootGroup, data.getFullPath());
                     if(unit == null) { // Add missing units
                         let newUnit = createUnit(data, file.rootGroup);
-                        newUnit.target = "";
+                        newUnit.target.text = "";
                     } else {
                         unit.source = data.source; // Sync source text
                     }

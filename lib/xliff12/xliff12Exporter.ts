@@ -1,4 +1,4 @@
-import { Context, ContextGroup, ExternalFile, Group, Header, InternalExternalFile, InternalFile, Note, TranslationMatch, Unit, type TranslationFile } from '../types';
+import { Context, ContextGroup, ExternalFile, Group, Header, InternalExternalFile, InternalFile, Note, Source, Target, TranslationMatch, Unit, type TranslationFile } from '../types';
 
 export function exportXliff12(files: TranslationFile[]) {
     let xliffVersion = "1.2";
@@ -77,13 +77,11 @@ function exportUnit(data: Unit, xml: XMLDocument, xliffElement: Element): Elemen
     // Export our version of attribute
     elem.setAttribute("id", data.id);
 
-    let srcElement = xml.createElementNS(xliffElement.namespaceURI, "source");
-    srcElement.textContent = escapeXml(data.source);
+    let srcElement = exportSource(data.source, xml, xliffElement);
     elem.appendChild(srcElement);
 
-    let targetElement = xml.createElementNS(xliffElement.namespaceURI, "target");
-    targetElement.textContent = escapeXml(data.target);
-    elem.appendChild(targetElement);
+    let trgElement = exportTarget(data.target, xml, xliffElement);
+    elem.appendChild(trgElement);
 
     for(let note of data.notes) {
         elem.appendChild(exportNote(note, xml, xliffElement));
@@ -97,6 +95,18 @@ function exportUnit(data: Unit, xml: XMLDocument, xliffElement: Element): Elemen
         elem.appendChild(exportMatch(match, xml, xliffElement));
     }
 
+    return elem;
+}
+
+function exportSource(data: Source, xml: XMLDocument, xliffElement: Element) {
+    let elem = createXmlElement("source", xml, xliffElement, data.metadata);
+    elem.textContent = escapeXml(data.text);
+    return elem;
+}
+
+function exportTarget(data: Target, xml: XMLDocument, xliffElement: Element) {
+    let elem = createXmlElement("target", xml, xliffElement, data.metadata);
+    elem.textContent = escapeXml(data.text);
     return elem;
 }
 

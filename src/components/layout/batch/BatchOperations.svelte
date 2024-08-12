@@ -55,10 +55,10 @@
             forEachBlocking(file.rootGroup, unit => {
                 if(unit instanceof Unit) {
                     if(replaceSrc) {
-                        unit.source = unit.source.replaceAll(replaceFrom, replaceTo);
+                        unit.source.text = unit.source.text.replaceAll(replaceFrom, replaceTo);
                     }
-                    if(replaceTrg && unit.target != null) {
-                        unit.target = unit.target.replaceAll(replaceFrom, replaceTo);
+                    if(replaceTrg && unit.target.text != "") {
+                        unit.target.text = unit.target.text.replaceAll(replaceFrom, replaceTo);
                     }
                 }
             });

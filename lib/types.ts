@@ -92,13 +92,13 @@ export class Group extends BaseElement {
 export class Unit extends BaseElement {
     path: string[];
     id: string;
-    source: string;
-    target: string;
+    source: Source;
+    target: Target;
     notes: Note[];
     contextGroups: ContextGroup[];
     matches: TranslationMatch[];
 
-    constructor(id: string, source: string, target: string, path: string[], notes: Note[], contextGroups: ContextGroup[] = [], matches: TranslationMatch[] = [], metadata: NamedNodeMap = null) {
+    constructor(id: string, source: Source, target: Target, path: string[], notes: Note[], contextGroups: ContextGroup[] = [], matches: TranslationMatch[] = [], metadata: NamedNodeMap = null) {
         super(metadata);
         this.id = id;
         this.source = source;
@@ -118,7 +118,7 @@ export class Unit extends BaseElement {
     }
 
     clone() {
-        return new Unit(this.id, this.source, this.target, [...this.path], [...this.notes], [...this.contextGroups], [...this.matches], this.metadata);
+        return new Unit(this.id, this.source.clone(), this.target.clone(), [...this.path], [...this.notes], [...this.contextGroups], [...this.matches], this.metadata);
     }
 
     getNotes() {
@@ -128,7 +128,33 @@ export class Unit extends BaseElement {
     getTranslationStatus(): TranslationStatus {
         if(this.metadata["approved"]?.textContent == "no") return TranslationStatuses.NOT_APPROVED;
         if(this.metadata["approved"]?.textContent == "yes") return TranslationStatuses.TRANSLATED;
-        return this.target == "" ? TranslationStatuses.UNTRANSLATED : TranslationStatuses.TRANSLATED;
+        return this.target.text == "" ? TranslationStatuses.UNTRANSLATED : TranslationStatuses.TRANSLATED;
+    }
+}
+
+export class Source extends BaseElement {
+    text: string;
+
+    constructor(text: string, metadata: NamedNodeMap = null) {
+        super(metadata);
+        this.text = text;
+    }
+
+    clone() {
+        return new Source(this.text, this.metadata);
+    }
+}
+
+export class Target extends BaseElement {
+    text: string;
+
+    constructor(text: string, metadata: NamedNodeMap = null) {
+        super(metadata);
+        this.text = text;
+    }
+
+    clone() {
+        return new Source(this.text, this.metadata);
     }
 }
 

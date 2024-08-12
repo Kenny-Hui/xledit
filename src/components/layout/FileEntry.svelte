@@ -55,7 +55,7 @@
         forEachBlocking(file.rootGroup, (data: Unit | Group) => {
             if(data instanceof Unit) {
                 totalUnit++;
-                if(file.isSource || data.target != "") translatedUnit++;
+                if(file.isSource || data.target.text != "") translatedUnit++;
             }
         });
     }

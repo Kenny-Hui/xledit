@@ -1,4 +1,4 @@
-import { Context, ContextGroup, ContextGroupPurpose, ContextType, ExternalFile, Glossary, Group, Header, InternalFile, Note, Reference, Skl, TranslationFile as TranslationFile, TranslationMatch, Unit, type NoteAnnotateType } from '../types';
+import { Context, ContextGroup, ContextGroupPurpose, ContextType, ExternalFile, Glossary, Group, Header, InternalFile, Note, Reference, Skl, Source, Target, TranslationFile as TranslationFile, TranslationMatch, Unit, type NoteAnnotateType } from '../types';
 
 export function parseXliff12(filename: string, data: string): TranslationFile[] {
     let parser = new DOMParser();
@@ -81,8 +81,8 @@ function parseUnit(path: string[], elem: Element) {
     /* Parse attribute */
     let unitId = elem.getAttribute("id");
     
-    let source = elem.getElementsByTagName("source")[0].textContent;
-    let target = elem.getElementsByTagName("target")[0]?.textContent ?? "";
+    let source = parseSource(elem.getElementsByTagName("source")[0]);
+    let target = parseTarget(elem.querySelector("target")) ?? new Target("", null);
     let notesElem = elem.getElementsByTagName("note");
     let contextGrpsElem = elem.getElementsByTagName("context-group");
     let notes = [];
@@ -104,6 +104,15 @@ function parseUnit(path: string[], elem: Element) {
     }
 
     return new Unit(unitId, source, target, path, notes, contextGrps, matches, elem.attributes);
+}
+
+function parseSource(elem: Element) {
+    return new Source(elem.textContent, elem.attributes);
+}
+
+function parseTarget(elem: Element) {
+    if(elem == null) return null;
+    return new Target(elem.textContent, elem.attributes);
 }
 
 function parseAltTrans(elem: Element) {
