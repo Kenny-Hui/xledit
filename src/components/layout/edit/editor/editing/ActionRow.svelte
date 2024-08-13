@@ -11,7 +11,6 @@
     import { createEventDispatcher } from "svelte";
     export let unit: Unit;
     export let selectedFile: TranslationFile;
-    export let srcElement: Node;
     export let edited: boolean;
 
     const dispatch = createEventDispatcher();
@@ -24,20 +23,18 @@
     }
 
     function openTranslate() {
-        if (srcElement) {
-            let url = Translators[$preferences.editPane.translator].getURL(
-                selectedFile.sourceLanguage,
-                selectedFile.targetLanguage,
-                srcElement?.textContent,
-            );
-            window.open(url, "_blank", "noopener,noreferrer");
-        }
+        let url = Translators[$preferences.editPane.translator].getURL(
+            selectedFile.sourceLanguage,
+            selectedFile.targetLanguage,
+            unit.source.text,
+        );
+        window.open(url, "_blank", "noopener,noreferrer");
     }
 </script>
 
 <div class="toolBox">
     <IconButton
-        on:click={() => copyToClipboard(srcElement?.textContent)}
+        on:click={() => copyToClipboard(unit.source.text)}
         tooltip="Copy Source"
     >
         <ClipboardList />

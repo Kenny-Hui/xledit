@@ -86,7 +86,6 @@
         <ActionRow
             unit={$selectedUnit}
             selectedFile={$selectedFile}
-            {srcElement}
             {edited}
             on:setTargetText={(e) => setTargetText(e.detail)}
         />

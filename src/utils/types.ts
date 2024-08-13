@@ -52,10 +52,10 @@ class Translator {
       }
     }
 
-    return this.url
+    return encodeURI(this.url
       .replace("{srcLang}", srcLang)
       .replace("{targetLang}", targetlang)
-      .replace("{text}", text);
+      .replace("{text}", text));
   }
 }
 
