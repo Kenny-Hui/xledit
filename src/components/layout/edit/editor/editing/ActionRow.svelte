@@ -18,7 +18,7 @@
     function undoChange() {
         dispatch(
             "setTargetText",
-            selectedFile.isSource ? unit.source : unit.target.text,
+            selectedFile.isSource ? unit.source.text : unit.target.text,
         );
     }
 

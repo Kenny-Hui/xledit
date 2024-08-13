@@ -70,7 +70,7 @@
                         let newUnit = createUnit(data, file.rootGroup);
                         newUnit.target.text = "";
                     } else {
-                        unit.source = data.source; // Sync source text
+                        unit.source = data.source.clone(); // Sync source text
                     }
                 }
             }

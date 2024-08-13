@@ -54,7 +54,7 @@
         <label for="src-text"> Source Text: </label>
     </div>
     <div slot="value">
-        <textarea id="src-text" bind:value={unit.source}></textarea>
+        <textarea id="src-text" bind:value={unit.source.text}></textarea>
     </div>
 </OptionEntry>
 
