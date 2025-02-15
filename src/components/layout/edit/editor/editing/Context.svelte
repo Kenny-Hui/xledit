@@ -1,10 +1,5 @@
 <script lang="ts">
-    import {
-        type ContextGroup,
-        ContextType,
-        Context,
-        ContextGroupPurpose,
-    } from "../../../../../../lib/types";
+    import { type ContextGroup, ContextType, Context, ContextGroupPurpose } from "../../../../../../lib/types";
     import { Plus, Trash, X } from "lucide-svelte";
     import { createEventDispatcher } from "svelte";
     import IconButton from "../../../../shared/IconButton.svelte";
@@ -53,16 +48,8 @@
                     <option value={val}>{val}</option>
                 {/each}
             </select>
-            <div
-                class="content"
-                contenteditable
-                bind:textContent={context.content}
-                style="flex:1"
-            ></div>
-            <IconButton
-                on:click={() => removeContext(context)}
-                tooltip="Delete Context"
-            >
+            <div class="content" contenteditable bind:textContent={context.content} style="flex:1"></div>
+            <IconButton onclick={() => removeContext(context)} tooltip="Delete Context">
                 <X size={16} />
             </IconButton>
         </div>
@@ -70,13 +57,13 @@
 
     <div class="bar">
         <div>
-            <IconButton on:click={addContext} tooltip="Add Context">
+            <IconButton onclick={addContext} tooltip="Add Context">
                 <Plus size={18} />
             </IconButton>
         </div>
         {#if !embedded}
             <div class="action-buttons">
-                <IconButton on:click={remove} tooltip="Delete Context Group">
+                <IconButton onclick={remove} tooltip="Delete Context Group">
                     <Trash size={16} color="red" />
                 </IconButton>
             </div>
@@ -85,24 +72,14 @@
 </div>
 
 <style>
-    @keyframes expand {
-        from {
-            max-height: 0;
-        }
-        to {
-            max-height: 400px;
-        }
-    }
-
     .container {
         position: relative;
         background-color: var(--highlight-secondary);
         border: 1px solid var(--border);
-        border-radius: 4px;
+        border-radius: .25rem;
         padding: 0.5em 0.75em;
-        font-size: 18px;
+        font-size: 1.1rem;
         line-height: 2;
-        margin-bottom: 5px;
         /* animation: expand 1s linear; */
         overflow: hidden;
         color: #222;
@@ -147,7 +124,7 @@
     }
 
     .content {
-        font-size: 14px;
+        font-size: .9rem;
     }
 
     .action-buttons {

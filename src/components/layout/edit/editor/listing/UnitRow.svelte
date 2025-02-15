@@ -1,18 +1,14 @@
 <script lang="ts">
     import { ArrowRightToLine, Trash } from "lucide-svelte";
     import type { Unit } from "../../../../../../lib/types";
-    import {
-        getDerivedFiles,
-        selectedFile,
-        selectedUnit,
-    } from "../../../../../stores/data";
-    import IconButton from "../../../../shared/IconButton.svelte";
-    import Tooltip from "../../../../shared/Tooltip.svelte";
+    import { getDerivedFiles, selectedFile, selectedUnit } from "../../../../../stores/data";
     import { openDialog } from "../../../../../stores/uiStores";
     import { DialogProperty } from "../../../../../utils/types";
-    import MoveUnitDialog from "../../../../dialogs/MoveUnitDialog.svelte";
     import { findGroup, getUnit } from "../../../../../../lib/util";
     import { onMount } from "svelte";
+    import IconButton from "../../../../shared/IconButton.svelte";
+    import Tooltip from "../../../../shared/Tooltip.svelte";
+    import MoveUnitDialog from "../../../../dialogs/MoveUnitDialog.svelte";
     export let unit: Unit;
 
     function openMoveDialog() {
@@ -49,14 +45,10 @@
     bind:this={btn}
     class="container"
     class:active={$selectedUnit == unit}
-    on:click={() => ($selectedUnit = unit)}
->
+    onclick={() => ($selectedUnit = unit)}>
     <div class="translate-status">
         <Tooltip tooltip={unit.getTranslationStatus().text}>
-            <span
-                class="status"
-                style="background-color:{unit.getTranslationStatus().color}"
-            ></span>
+            <span class="status" style="background-color:{unit.getTranslationStatus().color}"></span>
         </Tooltip>
     </div>
     <div class="srctrg">
@@ -66,12 +58,12 @@
         {unit.target.text ?? ""}
     </div>
     <div class="action-row">
-        <IconButton tooltip="Delete Unit" on:click={removeUnit}
-            ><Trash color="red" size={20} /></IconButton
-        >
-        <IconButton tooltip="Move..." on:click={openMoveDialog}
-            ><ArrowRightToLine size={20} /></IconButton
-        >
+        <IconButton tooltip="Delete Unit" onclick={removeUnit}>
+            <Trash color="red" size={20} />
+        </IconButton>
+        <IconButton tooltip="Move..." onclick={openMoveDialog}>
+            <ArrowRightToLine size={20} />
+        </IconButton>
     </div>
 </button>
 
@@ -79,7 +71,7 @@
     .container {
         width: 100%;
         font-family: var(--primary-font-set);
-        font-size: 16px;
+        font-size: 1rem;
         display: flex;
         gap: 2rem;
         padding: 0 1rem;
@@ -101,8 +93,8 @@
 
     .status {
         display: inline-block;
-        width: 12px;
-        height: 12px;
+        width: .75rem;
+        height: .75rem;
         border-radius: 50%;
         margin: 0;
         padding: 0;

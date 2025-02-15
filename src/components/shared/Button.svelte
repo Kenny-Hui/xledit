@@ -1,9 +1,10 @@
 <script lang="ts">
-    export let disabled = false;
+    let props = $props();
+    let { children }: { children: any } = props;
 </script>
 
-<button {disabled} on:click on:dragover on:drop>
-    <slot />
+<button {...props}>
+    {@render children()}
 </button>
 
 <style>
@@ -15,9 +16,8 @@
         font-family: var(--secondary-font-set);
         background-color: var(--highlight-color);
         color: white;
-        padding: 0.75em;
-        border-radius: 0.45em;
-        font-size: 15px;
+        padding: 0.75rem;
+        border-radius: 0.4rem;
     }
 
     button:hover:not(:disabled) {

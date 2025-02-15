@@ -1,17 +1,13 @@
 <script lang="ts">
-    import {
-        getDerivedFiles,
-        selectedFile,
-        selectedUnit,
-    } from "../../../../../stores/data";
-    import Note from "../editing/Note.svelte";
-    import Context from "../editing/Context.svelte";
+    import { getDerivedFiles, selectedFile, selectedUnit } from "../../../../../stores/data";
     import { StickyNote } from "lucide-svelte";
     import { openDialog } from "../../../../../stores/uiStores";
     import { DialogProperty } from "../../../../../utils/types";
+    import { getUnit } from "../../../../../../lib/util";
+    import Note from "../editing/Note.svelte";
+    import Context from "../editing/Context.svelte";
     import NoteDialog from "../../../../dialogs/NoteDialog.svelte";
     import ContextDialog from "../../../../dialogs/ContextDialog.svelte";
-    import { getUnit } from "../../../../../../lib/util";
 
     function addNote() {
         openDialog(
@@ -58,21 +54,20 @@
 
 {#if $selectedUnit != null}
     <div class="main">
-        {#each $selectedUnit.notes.sort((a, b) => a.priority - b.priority) as note}
-            <Note {note} on:remove={removeNote} />
-        {/each}
+        <div class="entries">
+            {#each $selectedUnit.notes.sort((a, b) => a.priority - b.priority) as note}
+                <Note {note} on:remove={removeNote} />
+            {/each}
 
-        {#each $selectedUnit.contextGroups as contexts}
-            <Context contextGrp={contexts} on:remove={removeContext} />
-        {/each}
+            {#each $selectedUnit.contextGroups as contexts}
+                <Context contextGrp={contexts} on:remove={removeContext} />
+            {/each}
+        </div>
+        
 
         <div class="option">
-            <button on:click={addNote}
-                ><StickyNote size={16} /> Add Note...</button
-            >
-            <button on:click={addContexts}
-                ><StickyNote size={16} /> Add Contexts...</button
-            >
+            <button onclick={addNote}><StickyNote size={16} /> Add Note...</button>
+            <button onclick={addContexts}><StickyNote size={16} /> Add Contexts...</button>
         </div>
     </div>
 {/if}
@@ -80,6 +75,13 @@
 <style>
     .main {
         padding: 0.5rem;
+    }
+
+    .entries {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-bottom: 0.5rem;
     }
 
     .option {

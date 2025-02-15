@@ -1,6 +1,5 @@
 <script lang="ts">
-    export let tabs: any[];
-    export let selectedIndex: number;
+    let { tabs, selectedIndex = $bindable() }: { tabs: any[], selectedIndex: number } = $props();
 
     function onEntrySelected(i: number): void {
         selectedIndex = i;
@@ -11,11 +10,7 @@
     {#each tabs as item, i}
         {#if item != null}
             <li>
-                <button
-                    on:click={() => onEntrySelected(i)}
-                    on:keydown={() => onEntrySelected(i)}
-                    class:selected={selectedIndex == i}
-                >
+                <button onclick={() => onEntrySelected(i)} class:selected={selectedIndex == i}>
                     <span class="name">
                         {item.name}
                     </span>
@@ -69,7 +64,7 @@
         color: white;
         background-color: var(--highlight-color);
         padding: 0.25rem;
-        border-radius: 50px;
+        border-radius: 100rem;
         font-size: 0.75rem;
         width: 12px;
         height: 12px;

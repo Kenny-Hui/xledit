@@ -40,7 +40,7 @@
 <div class="unitinfo">
     {#if unit != null}
         <h1>ID</h1>
-        <input type="text" on:keyup={onPathType} value={unit.id} />
+        <input type="text" onkeyup={onPathType} value={unit.id} />
         <h1>Full Path</h1>
         <p>
             {#each unit.path as path}
@@ -54,20 +54,12 @@
             {#if attr.name != "id"}
                 <h1>
                     {attr.name}
-                    <IconButton
-                        tooltip="Delete Attribute"
-                        on:click={() => removeAttribute(attr.name)}
-                        ><Trash size={16} /></IconButton
-                    >
+                    <IconButton tooltip="Delete Attribute" onclick={() => removeAttribute(attr.name)}><Trash size={16} /></IconButton>
                 </h1>
-                <input
-                    type="text"
-                    on:keyup={() => ($selectedFile = $selectedFile)}
-                    bind:value={attr.value}
-                />
+                <input type="text" onkeyup={() => ($selectedFile = $selectedFile)} bind:value={attr.value} />
             {/if}
         {/each}
-        <button on:click={addAttribute}><Plus size={16} /> Add Attribute</button
+        <button onclick={addAttribute}><Plus size={16} /> Add Attribute</button
         >
     {/if}
 </div>
@@ -76,8 +68,8 @@
     .unitinfo {
         font-family: var(--primary-font-set);
         line-height: 1.5;
-        font-size: 16px;
-        padding: 1em;
+        padding: 1rem;
+        font-size: 1rem;
         border-bottom: 1px solid var(--border);
         word-break: break-all;
     }
@@ -110,7 +102,7 @@
         border: none;
         padding: 4px 0;
         font-weight: 400;
-        font-size: 14px;
+        font-size: .9rem;
         color: #666;
     }
 

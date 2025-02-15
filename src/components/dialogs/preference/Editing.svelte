@@ -19,10 +19,6 @@
     <label for="noteauthor" slot="key">Note Author</label>
     <p slot="description">Name to use when creating a new translation note</p>
     <div slot="value">
-        <input
-            name="noteauthor"
-            type="text"
-            bind:value={$preferences.editPane.noteAuthor}
-        />
+        <input name="noteauthor" type="text" bind:value={$preferences.editPane.noteAuthor}/>
     </div>
 </SettingsEntry>

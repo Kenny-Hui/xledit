@@ -1,6 +1,7 @@
 <script lang="ts">
     import SuggestionEntry from "./SuggestionEntry.svelte";
-    export let matchedUnit = [];
+
+    let { matchedUnit }: { matchedUnit: any[] } = $props();
 </script>
 
 {#if matchedUnit.length <= 0}

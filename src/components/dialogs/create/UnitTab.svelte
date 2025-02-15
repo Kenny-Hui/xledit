@@ -1,32 +1,14 @@
 <script lang="ts">
     import { DialogProperty } from "../../../utils/types";
-    import {
-        Unit,
-        TranslationFile,
-        Source,
-        Target,
-    } from "../../../../lib/types";
+    import { Unit, TranslationFile, Source, Target } from "../../../../lib/types";
+    import { createUnit } from "../../../../lib/util";
+    import { getDerivedFiles, selectedFile, selectedUnit} from "../../../stores/data";
     import Button from "../../shared/Button.svelte";
     import OptionEntry from "../../shared/OptionEntry.svelte";
-    import { createUnit } from "../../../../lib/util";
-    import {
-        getDerivedFiles,
-        selectedFile,
-        selectedUnit,
-    } from "../../../stores/data";
 
     export let dialog: DialogProperty;
 
-    let unit = new Unit(
-        "",
-        new Source(""),
-        new Target(""),
-        dialog.data.path,
-        [],
-        [],
-        [],
-        document.createElement("span").attributes,
-    );
+    let unit = new Unit( "", new Source(""), new Target(""), dialog.data.path, [], [], [], document.createElement("span").attributes);
 
     function createNewUnit() {
         let fileAffected: TranslationFile[] = getDerivedFiles($selectedFile);
@@ -75,9 +57,7 @@
 </OptionEntry>
 
 <div class="create-btn">
-    <Button disabled={unit.id.length == 0} on:click={createNewUnit} on:click
-        >Create</Button
-    >
+    <Button disabled={unit.id.length == 0} on:click={createNewUnit} on:click>Create</Button>
 </div>
 
 <style>
@@ -89,7 +69,7 @@
     }
 
     .note {
-        font-size: 14px;
+        font-size: .85rem;
         color: #444;
     }
 </style>

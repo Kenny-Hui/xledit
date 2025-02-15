@@ -1,8 +1,9 @@
 <script lang="ts">
     import { get } from "svelte/store";
-    export let checked = false;
-    export let tooltips: string = null;
     import { activeTooltip } from "../../stores/uiStores";
+
+    let { checked = false, tooltips = null }: { checked?: boolean, tooltips?: string } = $props();
+
     function onHover(e: any) {
         if (tooltips != null) {
             if (e === null) {
@@ -23,18 +24,12 @@
         $activeTooltip = null;
     }
 
-    $: if (tooltips) onHover(null);
+    $effect(() => {
+        if (tooltips) onHover(null);
+    });
 </script>
 
-<input
-    type="checkbox"
-    bind:checked
-    on:click
-    on:mouseover={onHover}
-    on:focus={onHover}
-    on:mouseleave={onLeave}
-    on:focusout={onLeave}
-/>
+<input type="checkbox" bind:checked onmouseover={onHover} onfocus={onHover} onmouseleave={onLeave} onfocusout={onLeave}/>
 
 <style>
     input {
@@ -45,9 +40,7 @@
         border: 2px solid #999;
         background-color: #fff;
         border-radius: 3px;
-        transition:
-            background-color 0.2s,
-            border 0.2s;
+        transition: background-color 0.2s, border 0.2s;
         margin: 0;
         user-select: none;
     }

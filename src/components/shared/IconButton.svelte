@@ -1,13 +1,11 @@
 <script lang="ts">
     import Tooltip from "./Tooltip.svelte";
-
-    export let disabled = false;
-    export let tooltip: string = null;
+    let { disabled = false, tooltip = null, onclick, onfocusout, children }: { disabled?: boolean, tooltip?: string, onclick: any, onfocusout?: any, children: any } = $props();
 </script>
 
 <Tooltip {tooltip}>
-    <button on:click on:focusout {disabled}>
-        <slot />
+    <button {onclick} {onfocusout} {disabled}>
+        {@render children()}
     </button>
 </Tooltip>
 

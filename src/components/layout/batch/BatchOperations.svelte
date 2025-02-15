@@ -1,12 +1,12 @@
 <script lang="ts">
     import { get } from "svelte/store";
-    import Button from "../../shared/Button.svelte";
     import { projects } from "../../../stores/data";
     import { Unit, type Group } from "../../../../lib/types";
     import { addToast } from "../../../stores/uiStores";
     import { forEachBlocking } from "../../../../lib/util";
     import { BookA, Play } from "lucide-svelte";
     import { fly } from "svelte/transition";
+    import Button from "../../shared/Button.svelte";
 
     let deleteEntry = false;
     let prefix = "";
@@ -25,11 +25,7 @@
             file = file;
         }
 
-        addToast(
-            `${deleteEntry ? "Deleted" : "Renamed"} ${removedElements} units in ${get(projects).files.length} files.`,
-            "success",
-            4000,
-        );
+        addToast(`${deleteEntry ? "Deleted" : "Renamed"} ${removedElements} units in ${get(projects).files.length} files.`, "success", 4000);
     }
 
     function removeDuplicated(grp: Group): number {
@@ -73,11 +69,7 @@
                 }
             });
         }
-        addToast(
-            `Replaced all instances of '${replaceFrom}' to '${replaceTo}'`,
-            "success",
-            4000,
-        );
+        addToast( `Replaced all instances of '${replaceFrom}' to '${replaceTo}'`, "success", 4000);
     }
 </script>
 
@@ -86,22 +78,10 @@
         <h1>Batch Operations</h1>
         <hr />
         <h2>Duplicated Unit ID</h2>
-        <input
-            id="a"
-            type="radio"
-            value={true}
-            bind:group={deleteEntry}
-            name="dupm"
-        />
+        <input id="a" type="radio" value={true} bind:group={deleteEntry} name="dupm"/>
         <label for="a">Delete entry</label>
 
-        <input
-            id="b"
-            type="radio"
-            value={false}
-            bind:group={deleteEntry}
-            name="dupm"
-        />
+        <input id="b" type="radio" value={false} bind:group={deleteEntry} name="dupm" />
         <label for="b">Rename entry ID</label>
 
         {#if !deleteEntry}
@@ -111,10 +91,7 @@
                 <input bind:value={suffix} placeholder="Suffix" />
             </div>
         {/if}
-        <Button
-            disabled={!deleteEntry && prefix.length == 0 && suffix.length == 0}
-            on:click={removeDuplicatedAction}><Play size={16} />Perform</Button
-        >
+        <Button disabled={!deleteEntry && prefix.length == 0 && suffix.length == 0} onclick={removeDuplicatedAction}><Play size={16} />Perform</Button>
     </div>
     <div>
         <h2>Find & Replace Text</h2>
@@ -131,10 +108,7 @@
             <input bind:value={replaceTo} placeholder="To" />
         </div>
 
-        <Button
-            disabled={(!replaceSrc && !replaceTrg) || replaceFrom.length == 0}
-            on:click={replaceAction}><BookA size={16} />Find & Replace</Button
-        >
+        <Button disabled={(!replaceSrc && !replaceTrg) || replaceFrom.length == 0} onclick={replaceAction}><BookA size={16} />Find & Replace</Button>
     </div>
 </main>
 
@@ -142,7 +116,9 @@
     main {
         width: 1024px;
         max-width: 100%;
-        margin: 2rem auto;
+        margin: 0 auto;
+        padding: 0 2rem;
+        box-sizing: border-box;
     }
 
     h1 {

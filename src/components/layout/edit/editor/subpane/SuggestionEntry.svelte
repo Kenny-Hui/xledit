@@ -1,9 +1,9 @@
 <script lang="ts">
     import { createEventDispatcher } from "svelte";
     import { copyToClipboard } from "../../../../../utils/util";
-    import Tooltip from "../../../../shared/Tooltip.svelte";
     import { ChevronRight, Copy, CornerUpLeft } from "lucide-svelte";
     import { selectedUnit, selectedFile } from "../../../../../stores/data";
+    import Tooltip from "../../../../shared/Tooltip.svelte";
 
     export let suggestion;
 
@@ -40,12 +40,7 @@
         </p>
         <p class="source">
             {#if suggestion.type === "XLEdit"}
-                <button
-                    class="link-button srcpath"
-                    class:matchpath={suggestion.unit.getFullPathStr() ==
-                        $selectedUnit?.getFullPathStr()}
-                    on:click={() => jumpToSuggestion(suggestion)}
-                >
+                <button class="link-button srcpath" class:matchpath={suggestion.unit.getFullPathStr() == $selectedUnit?.getFullPathStr()} onclick={() => jumpToSuggestion(suggestion)}>
                     {#each suggestion.unit.path as path}
                         {path}
                         <ChevronRight size={14} />
@@ -64,16 +59,13 @@
         <Tooltip tooltip="Copy">
             <button
                 class="action-button"
-                on:click={() => copyToClipboard(suggestion.unit.target.text)}
+                onclick={() => copyToClipboard(suggestion.unit.target.text)}
             >
                 <Copy size={18} />
             </button>
         </Tooltip>
         <Tooltip tooltip="Use">
-            <button
-                class="action-button"
-                on:click={() => setTargetText(suggestion.unit.target.text)}
-            >
+            <button class="action-button" onclick={() => setTargetText(suggestion.unit.target.text)}>
                 <CornerUpLeft size={18} />
             </button>
         </Tooltip>
@@ -105,7 +97,7 @@
     }
 
     .percentMatch {
-        font-size: 12px;
+        font-size: .75rem;
         color: #666;
         padding-right: 0.25em;
     }
@@ -113,7 +105,7 @@
     .percentage {
         color: var(--highlight-color);
         font-weight: 600;
-        font-size: 14px;
+        font-size: .85rem;
     }
 
     .percentSquare {

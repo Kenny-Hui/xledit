@@ -1,14 +1,14 @@
 <script lang="ts">
-    import { CheckCircle, AlertCircle, XCircle } from "lucide-svelte";
     import type { Toast } from "../../utils/types";
+    import { CheckCircle, AlertCircle, XCircle } from "lucide-svelte";
     import { activeToasts } from "../../stores/uiStores";
     import { fly } from "svelte/transition";
     import { onMount } from "svelte";
 
-    export let toast: Toast;
+    const { toast }: { toast: Toast } = $props();
 
     onMount(() => {
-        const timeout = setTimeout(() => {
+        setTimeout(() => {
             // Remove self
             let index = $activeToasts.indexOf(toast);
             if (index != -1) {
@@ -34,10 +34,7 @@
             </span>
             {toast.content}
         </p>
-        <span
-            class="timeline"
-            style="animation-duration:{toast.duration / 1000}s"
-        ></span>
+        <span class="timeline" style="animation-duration:{toast.duration / 1000}s"></span>
     </div>
 {/if}
 

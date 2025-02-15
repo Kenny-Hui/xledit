@@ -1,13 +1,7 @@
 <script lang="ts">
     import { createEventDispatcher } from "svelte";
     import { DialogProperty } from "../../utils/types";
-    import {
-        Context,
-        ContextGroup,
-        ContextGroupPurpose,
-        ContextType,
-        Unit,
-    } from "../../../lib/types";
+    import { Context, ContextGroup, ContextGroupPurpose, ContextType, Unit } from "../../../lib/types";
     import Button from "../shared/Button.svelte";
     import ContextComponent from "../layout/edit/editor/editing/Context.svelte";
     export let dialog: DialogProperty;

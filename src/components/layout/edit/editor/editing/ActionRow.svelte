@@ -1,14 +1,12 @@
 <script lang="ts">
     import { ClipboardList, ArrowDown, Globe, Undo } from "lucide-svelte";
-    import {
-        type Unit,
-        type TranslationFile,
-    } from "../../../../../../lib/types";
+    import { type Unit, type TranslationFile } from "../../../../../../lib/types";
     import { Translators } from "../../../../../utils/types";
     import { copyToClipboard } from "../../../../../utils/util";
     import { preferences } from "../../../../../stores/preferenceStore";
-    import IconButton from "../../../../shared/IconButton.svelte";
     import { createEventDispatcher } from "svelte";
+    import IconButton from "../../../../shared/IconButton.svelte";
+
     export let unit: Unit;
     export let selectedFile: TranslationFile;
     export let edited: boolean;
@@ -16,10 +14,7 @@
     const dispatch = createEventDispatcher();
 
     function undoChange() {
-        dispatch(
-            "setTargetText",
-            selectedFile.isSource ? unit.source.text : unit.target.text,
-        );
+        dispatch("setTargetText", selectedFile.isSource ? unit.source.text : unit.target.text);
     }
 
     function openTranslate() {
@@ -33,29 +28,20 @@
 </script>
 
 <div class="toolBox">
-    <IconButton
-        on:click={() => copyToClipboard(unit.source.text)}
-        tooltip="Copy Source"
-    >
+    <IconButton onclick={() => copyToClipboard(unit.source.text)} tooltip="Copy Source">
         <ClipboardList />
     </IconButton>
 
-    <IconButton
-        on:click={() => dispatch("setTargetText", unit.source.text)}
-        tooltip="Use Source"
-    >
+    <IconButton onclick={() => dispatch("setTargetText", unit.source.text)} tooltip="Use Source">
         <ArrowDown />
     </IconButton>
 
-    <IconButton on:click={undoChange} disabled={!edited} tooltip="Undo Change">
+    <IconButton onclick={undoChange} disabled={!edited} tooltip="Undo Change">
         <Undo />
     </IconButton>
 
     {#if selectedFile?.isSource == false}
-        <IconButton
-            on:click={openTranslate}
-            tooltip="Open {Translators[$preferences.editPane.translator].name}"
-        >
+        <IconButton onclick={openTranslate} tooltip="Open {Translators[$preferences.editPane.translator].name}">
             <Globe />
         </IconButton>
     {/if}

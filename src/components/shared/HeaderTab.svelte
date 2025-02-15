@@ -1,23 +1,16 @@
 <script lang="ts">
-    import { push, location } from "svelte-spa-router";
-    export let items: any[];
+    import { location } from "svelte-spa-router";
 
-    function onEntrySelected(i: number): void {
-        push(items[i].link);
-    }
+    let { items }: { items: any[] } = $props();
 </script>
 
 <ul class="header-tab">
     {#each items as item, i}
         {#if item != null}
             <li>
-                <button
-                    on:click={() => onEntrySelected(i)}
-                    on:keydown={() => onEntrySelected(i)}
-                    class:selected={$location == item.link}
-                >
+                <a href={`/#${items[i].link}`} class:selected={$location == item.link}>
                     {item.name}
-                </button>
+                </a>
             </li>
         {/if}
     {/each}
@@ -29,20 +22,23 @@
         gap: 0.75rem;
     }
 
-    button {
+    a[href] {
         font-weight: 400;
         padding: 0.5em;
         cursor: pointer;
+        display: inline-block;
+        text-decoration: none;
+        color: inherit;
         text-align: center;
         transition: background-color 0.1s;
         border-radius: 0.35rem;
     }
 
-    button:hover:not(.selected) {
+    a[href]:hover:not(.selected) {
         background-color: var(--highlight);
     }
 
-    .selected {
+    a[href].selected {
         background: var(--highlight-color);
         color: white;
     }

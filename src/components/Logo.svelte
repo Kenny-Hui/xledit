@@ -1,5 +1,5 @@
-<script>
-   export let darkMode;
+<script lang="ts">
+   let { darkMode }: { darkMode: boolean } = $props();
 </script>
 
 <div>

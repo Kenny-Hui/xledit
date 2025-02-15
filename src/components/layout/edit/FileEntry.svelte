@@ -76,12 +76,7 @@
     });
 </script>
 
-<button
-    bind:this={btn}
-    on:click={() => select()}
-    on:keydown={() => select()}
-    class:selected={$selectedFile === file}
->
+<button bind:this={btn} onclick={() => select()} onkeydown={() => select()} class:selected={$selectedFile === file}>
     <div>
         {#if canShowSource}
             {getLangName(displayFileName, file.sourceLanguage)}
@@ -100,7 +95,7 @@
 
     <div class="progress">
         <div class="progress-bar-wrapper">
-            <div class="progress-bar-total"></div>
+            <div class="progress-bar-total" class:selected={$selectedFile === file}></div>
             <div
                 class="progress-bar"
                 class:selected={$selectedFile === file}
@@ -117,17 +112,17 @@
 
 <style>
     button {
-        font-size: 18px;
+        font-size: 1.1rem;
         width: 100%;
-        padding: 0.5em 1em;
+        padding: 0.5rem 1rem;
         margin: 0.25rem 0;
-        border-radius: 10px 0 0 10px;
+        border-radius: .5rem 0 0 .5rem;
         cursor: pointer;
         transition: background-color 0.1s;
     }
 
     button:hover {
-        background-color: #eee;
+        background-color: var(--highlight);
     }
 
     .arrow {
@@ -145,8 +140,8 @@
         box-sizing: content-box;
         background-color: #00aa00;
         color: white;
-        padding: 4px 8px;
-        border-radius: 99px;
+        padding: .25rem .5rem;
+        border-radius: 100rem;
     }
 
     .progress-bar-wrapper {
@@ -158,12 +153,16 @@
 
     .progress-bar-total {
         position: absolute;
-        background: rgba(200, 200, 200, 0.5);
+        background-color: var(--highlight);
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        border-radius: 50px;
+        border-radius: 100rem;
+    }
+
+    .progress-bar-total.selected {
+        background-color: rgba(255, 255, 255, 0.5);
     }
 
     .progress-bar {
@@ -172,7 +171,7 @@
         top: 0;
         left: 0;
         height: 100%;
-        border-radius: 50px;
+        border-radius: 100rem;
     }
 
     .progress-bar.selected {
@@ -186,7 +185,7 @@
     }
 
     .progress-percent {
-        font-size: 14px;
-        padding-left: 0.5em;
+        font-size: .9rem;
+        margin-left: 0.5rem;
     }
 </style>

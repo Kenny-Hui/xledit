@@ -1,16 +1,11 @@
 <script lang="ts">
+    import { type Unit } from "../../../../../../lib/types";
+    import { getUnit } from "../../../../../../lib/util";
+    import { getDerivedFiles, selectedFile, selectedFile as selectedFileStore, selectedUnit } from "../../../../../stores/data";
+    import { onMount } from "svelte";
     import Button from "../../../../shared/Button.svelte";
     import UnitInfo from "./UnitInfo.svelte";
     import ActionRow from "./ActionRow.svelte";
-    import { type Unit } from "../../../../../../lib/types";
-    import { getUnit } from "../../../../../../lib/util";
-    import {
-        getDerivedFiles,
-        selectedFile,
-        selectedFile as selectedFileStore,
-        selectedUnit,
-    } from "../../../../../stores/data";
-    import { onMount } from "svelte";
 
     let srcElement: Node;
     let targetElement: HTMLElement;
@@ -63,9 +58,7 @@
         if (unit == null) {
             setTargetText("");
         } else {
-            setTargetText(
-                $selectedFile?.isSource ? unit.source.text : unit.target.text,
-            );
+            setTargetText($selectedFile?.isSource ? unit.source.text : unit.target.text);
         }
     }
 
@@ -101,10 +94,9 @@
             class:disabled={$selectedUnit == null}
             placeholder="Enter translated text here..."
             contenteditable={$selectedUnit != null ? "true" : "false"}
-            on:keyup={() => afterType()}
-        ></div>
+            on:keyup={() => afterType()}></div>
         <div class="save-button">
-            <Button on:click={save} disabled={$selectedUnit == null || !edited}>
+            <Button onclick={save} disabled={$selectedUnit == null || !edited}>
                 {$selectedFile?.isSource ? "Edit Source" : "Save Changes"}
             </Button>
         </div>
@@ -117,7 +109,7 @@
 
 <style>
     .editing {
-        font-size: 15px;
+        font-size: .9rem;
         line-height: 1.5;
     }
 
@@ -126,7 +118,7 @@
         border-top: 1px solid var(--border);
         border-bottom: 1px solid var(--border);
         min-height: 150px;
-        padding: 1em;
+        padding: 1rem;
         word-break: break-word;
     }
 
@@ -135,7 +127,7 @@
     }
 
     .editBox {
-        padding-bottom: 4em;
+        padding-bottom: 4rem;
         outline: none;
         white-space: pre-wrap;
     }
@@ -149,10 +141,10 @@
     }
 
     .source-string {
-        font-size: 0.75em;
+        font-size: 0.75rem;
         color: #aaa;
         text-transform: uppercase;
-        padding: 10px 0;
+        padding: .5rem 0;
     }
 
     .source-panel {

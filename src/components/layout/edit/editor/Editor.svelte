@@ -9,36 +9,29 @@
     }
 </script>
 
-<div class="editor-wrapper">
-    <div class="grid-container">
-        <div class="browser">
-            <Listing />
-        </div>
-        <div class="editor">
-            <EditingPane bind:this={editingPane} />
-        </div>
-        <div class="suggestion">
-            <SuggestionPane on:applyTargetText={setTargetText} />
-        </div>
+<div class="grid-container">
+    <div class="browser">
+        <Listing />
+    </div>
+    <div class="editor">
+        <EditingPane bind:this={editingPane} />
+    </div>
+    <div class="suggestion">
+        <SuggestionPane on:applyTargetText={setTargetText} />
     </div>
 </div>
 
 <style>
-    .editor-wrapper {
-        height: 100%;
-        overflow: hidden;
-    }
-
     .grid-container {
         width: 100%;
         height: 100%;
         display: grid;
         grid-template-columns: 2fr 1fr 1fr;
         grid-auto-rows: 50%;
-        border-top: 5px solid var(--highlight-color);
-        border-left: 5px solid var(--highlight-color);
-        border-radius: 8px;
-        overflow: hidden;
+        border-top: .3rem solid var(--highlight-color);
+        border-left: .3rem solid var(--highlight-color);
+        border-radius: 0.5rem;
+        border-bottom-left-radius: 0;
         box-sizing: border-box;
     }
 
@@ -47,9 +40,7 @@
         border: 1px solid var(--border);
     }
 
-    .browser,
-    .editor,
-    .suggestion {
+    .browser, .editor, .suggestion {
         grid-row: span 2;
     }
 

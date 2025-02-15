@@ -2,11 +2,7 @@
     import { Unit, type Group } from "../../../../../../lib/types";
     import { stringSimilarity } from "string-similarity-js";
     import { forEach } from "../../../../../../lib/util";
-    import {
-        projects,
-        selectedFile,
-        selectedUnit,
-    } from "../../../../../stores/data";
+    import { projects, selectedFile, selectedUnit } from "../../../../../stores/data";
     import HorizontalTab from "../../../../shared/HorizontalTab.svelte";
     import SuggestionPane from "./SuggestionView.svelte";
     import NotesPane from "./NoteContextView.svelte";
@@ -14,7 +10,7 @@
     const SUGGESTION_MATCH_PERCENTAGE = 0.75;
     let matchedUnit = [];
 
-    let tabs = [
+    const tabs = [
         {
             name: "Suggestions",
             count: 0,
@@ -22,7 +18,7 @@
         {
             name: "Notes/Contexts",
             count: 0,
-        },
+        }
     ];
     let selectedIndex = 0;
 
@@ -145,7 +141,7 @@
 
 <div class="suggestion">
     <div class="suggestion-tab">
-        <HorizontalTab bind:tabs bind:selectedIndex />
+        <HorizontalTab {tabs} bind:selectedIndex />
     </div>
     <div class="content">
         {#if selectedIndex == 0}

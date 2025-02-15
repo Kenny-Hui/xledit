@@ -1,20 +1,13 @@
 <script lang="ts">
 	import { fly } from "svelte/transition";
 	import { ChevronDown, ChevronRight, Plus, Trash } from "lucide-svelte";
-	import UnitRow from "./UnitRow.svelte";
 	import { openDialog } from "../../../../../stores/uiStores";
-	import CreateDialog from "../../../../dialogs/create/CreateDialog.svelte";
 	import { Group, Unit } from "../../../../../../lib/types";
-	import {
-		DialogProperty,
-		type SearchQuery,
-	} from "../../../../../utils/types";
-	import {
-		getDerivedFiles,
-		selectedFile,
-		selectedUnit,
-	} from "../../../../../stores/data";
+	import { DialogProperty, type SearchQuery } from "../../../../../utils/types";
+	import { getDerivedFiles, selectedFile, selectedUnit } from "../../../../../stores/data";
 	import { haveUnit, removeGroup } from "../../../../../../lib/util";
+	import UnitRow from "./UnitRow.svelte";
+	import CreateDialog from "../../../../dialogs/create/CreateDialog.svelte";
 	import Tooltip from "../../../../shared/Tooltip.svelte";
 	export let expanded = false;
 	export let group: Group;
@@ -28,9 +21,7 @@
 
 	function meetCriteria(data: Unit | Group, query: SearchQuery): boolean {
 		if (data instanceof Group) {
-			return query.searchTerm.length == 0
-				? true
-				: haveUnit(data, meetCriteria);
+			return query.searchTerm.length == 0 ? true : haveUnit(data, meetCriteria);
 		} else if (data instanceof Unit) {
 			if (!meetFilter(data, searchQuery)) return false;
 			if (searchQuery.searchTerm.length === 0) return true;
@@ -84,7 +75,7 @@
 
 <div>
 	<div class="group">
-		<button on:click={toggle} class="expandable">
+		<button onclick={toggle} class="expandable">
 			{#if group.isRoot}
 				<span class="root">
 					{group.id}
@@ -106,14 +97,12 @@
 		<div class="action-row">
 			{#if !group.isRoot}
 				<Tooltip tooltip="Delete Group">
-					<button class="remove" on:click={remove}
-						><Trash size={20} /></button
-					>
+					<button class="remove" onclick={remove}><Trash size={20} /></button>
 				</Tooltip>
 			{/if}
 
 			<Tooltip tooltip="Create...">
-				<button on:click={add}><Plus size={20} /></button>
+				<button onclick={add}><Plus size={20} /></button>
 			</Tooltip>
 		</div>
 	</div>
@@ -146,13 +135,13 @@
 
 <style>
 	* {
-		font-size: 18px;
+		font-size: 1.15rem;
 	}
 
 	.root {
 		background-color: var(--highlight-secondary);
 		padding: 0.15rem 0.7rem;
-		border-radius: 100px;
+		border-radius: 100rem;
 	}
 
 	ul {
@@ -211,7 +200,7 @@
 
 	.expandable {
 		transition: background-color 0.1s;
-		padding: 12px;
+		padding: .75rem;
 		display: block;
 		cursor: pointer;
 		width: 100%;

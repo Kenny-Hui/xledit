@@ -2,10 +2,11 @@
     import { type TranslationFile } from "../../../../lib/types";
     import { shortHandedLang } from "../../../utils/types";
     import { preferences } from "../../../stores/preferenceStore";
-    import FileEntry from "./FileEntry.svelte";
     import { parseAndAddFile } from "../../../utils/util";
     import { Import } from "lucide-svelte";
     import { fade } from "svelte/transition";
+    import FileEntry from "./FileEntry.svelte";
+    
     export let languages: TranslationFile[];
     $: displayFileName = $preferences.langSelect.displayName;
 
@@ -96,12 +97,12 @@
 
 <style>
     .file-pane {
-        margin-left: 10px;
+        margin-left: .5rem;
         min-width: 240px;
     }
 
     ul {
-        margin: 10px 0;
+        margin: .5rem 0;
     }
 
     .overlay {
@@ -141,7 +142,7 @@
     }
 
     .message > * {
-        margin: 0 20px;
+        margin: 0 1rem;
         text-align: center;
     }
 </style>

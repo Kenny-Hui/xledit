@@ -7,30 +7,15 @@
     <label for="indent" slot="key">Indentation</label>
     <p slot="description">Indentation to use when exporting XLIFF/JSON file</p>
     <div slot="value">
-        <input
-            name="indent"
-            type="radio"
-            value={true}
-            bind:group={$preferences.export.useTab}
-        />
+        <input name="indent" type="radio" value={true} bind:group={$preferences.export.useTab} />
         Use Tab
-        <input
-            name="indent"
-            type="radio"
-            value={false}
-            bind:group={$preferences.export.useTab}
-        />
+        <input name="indent" type="radio" value={false} bind:group={$preferences.export.useTab} />
         Use Space
 
         {#if !$preferences.export.useTab}
             <br />
             No. of space
-            <input
-                type="number"
-                min="1"
-                size="4"
-                bind:value={$preferences.export.spaceChar}
-            />
+            <input type="number" min="1" size="4" bind:value={$preferences.export.spaceChar} />
         {/if}
     </div>
 </SettingsEntry>
@@ -39,11 +24,7 @@
     <label for="ab" slot="key">File name for Export All</label>
     <p slot="description">Default filename when exporting via 'Export All'</p>
     <div slot="value">
-        <input
-            name="ab"
-            type="text"
-            bind:value={$preferences.export.filename}
-        />.zip
+        <input name="ab" type="text" bind:value={$preferences.export.filename} />.zip
     </div>
 </SettingsEntry>
 

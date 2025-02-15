@@ -60,7 +60,7 @@
                 />
             {/each}
             <IconButton
-                on:click={() => {
+                onclick={() => {
                     newPath = [...newPath, ""];
                 }}><PlusIcon size={16} /></IconButton
             >
@@ -68,11 +68,7 @@
     </OptionEntry>
 
     <div class="move-btn">
-        <Button
-            disabled={newPath.join("/") === dialog.data.unit.path.join("/") ||
-                findGroup($selectedFile.rootGroup, newPath) == null}
-            on:click={moveUnit}
-            on:click>Move</Button
+        <Button disabled={newPath.join("/") === dialog.data.unit.path.join("/") || findGroup($selectedFile.rootGroup, newPath) == null} on:click={moveUnit} on:click>Move</Button
         >
     </div>
 </div>

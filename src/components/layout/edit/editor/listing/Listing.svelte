@@ -21,19 +21,13 @@
       <div class="search-icon">
         <Search size={20} />
       </div>
-      <input
-        placeholder="Search Here..."
-        type="text"
-        bind:value={searchQuery.searchTerm}
-      />
+      <input placeholder="Search Here..." type="text" bind:value={searchQuery.searchTerm}/>
       <div class="filter-icon">
-        <IconButton tooltip="Filter..." on:click={() => (visible = !visible)}
-          ><span
-            class:filter-active={!searchQuery.showTranslated ||
-              !searchQuery.showUntranslated ||
-              !searchQuery.showNumericOnly}><Filter size={20} /></span
-          ></IconButton
-        >
+        <IconButton tooltip="Filter..." onclick={() => (visible = !visible)}>
+          <span class:filter-active={!searchQuery.showTranslated || !searchQuery.showUntranslated || !searchQuery.showNumericOnly}>
+            <Filter size={20} />
+          </span>
+        </IconButton>
         {#if visible}
           <div class="filter-popmenu" on:focusout={() => (visible = false)}>
             <p>Search Filter...</p>
@@ -72,7 +66,7 @@
     margin-top: 0.25rem;
     background-color: var(--background);
     box-shadow: 0 0 6px black;
-    border-radius: 8px;
+    border-radius: .5rem;
     padding: 0.5rem;
     width: max-content;
   }
@@ -89,7 +83,7 @@
     padding: 0.25rem;
     align-items: center;
     box-sizing: border-box;
-    gap: 8px;
+    gap: .5rem;
     background: var(--background);
     border: 1px solid var(--border);
     z-index: 1;
@@ -99,7 +93,7 @@
     border: 0;
     flex: 1;
     padding: 0.4rem;
-    font-size: 18px;
+    font-size: 1.1rem;
     color: #666;
     font-family: var(--primary-font-set);
   }

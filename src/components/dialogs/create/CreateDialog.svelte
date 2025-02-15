@@ -1,9 +1,9 @@
 <script lang="ts">
     import { createEventDispatcher } from "svelte";
+    import { DialogProperty } from "../../../utils/types";
     import UnitTab from "./UnitTab.svelte";
     import HorizontalTab from "../../shared/HorizontalTab.svelte";
     import GroupTab from "./GroupTab.svelte";
-    import { DialogProperty } from "../../../utils/types";
 
     export let dialogTitle;
     dialogTitle = "Create";
@@ -34,11 +34,7 @@
         <HorizontalTab {tabs} bind:selectedIndex={selectedPane} />
     </div>
     <div>
-        <svelte:component
-            this={tabs[selectedPane].component}
-            on:click={closeDialog}
-            {dialog}
-        />
+        <svelte:component this={tabs[selectedPane].component} on:click={closeDialog} {dialog} />
     </div>
 </div>
 

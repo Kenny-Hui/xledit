@@ -1,14 +1,12 @@
 <script lang="ts">
     import Tooltip from "./Tooltip.svelte";
 
-    export let link: string;
-    export let target: string = "_self";
-    export let tooltip: string = null;
+    let { link, target = "_self", tooltip = null, children }: { link: string, target?: string, tooltip?: string, children: any } = $props();
 </script>
 
 <Tooltip {tooltip}>
     <a class="icon" href={link} {target}>
-        <slot />
+        {@render children()}
     </a>
 </Tooltip>
 

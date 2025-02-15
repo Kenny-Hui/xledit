@@ -8,13 +8,7 @@
     let dialogTitle = "";
 </script>
 
-<div
-    class="dialog"
-    role="dialog"
-    on:keydown={(e) => {
-        if (e.key === "Escape") closeDialog();
-    }}
->
+<div class="dialog" role="dialog">
     <div class="header">
         <div class="title">
             <h1>{dialogTitle}</h1>
@@ -38,12 +32,12 @@
         width: max-content;
         background: #fff;
         border-radius: 0.5rem;
-        box-shadow: 0 0 16px 0px #333;
+        box-shadow: 0 0 1rem 0 #333;
     }
 
     h1 {
         font-size: 1.5em;
-        margin: 0.5em 0px;
+        margin: 0.5em 0;
     }
 
     .close-button {

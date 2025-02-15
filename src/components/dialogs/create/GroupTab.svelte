@@ -1,10 +1,10 @@
 <script lang="ts">
     import { Group, TranslationFile } from "../../../../lib/types";
     import { DialogProperty } from "../../../utils/types";
-    import Button from "../../shared/Button.svelte";
-    import OptionEntry from "../../shared/OptionEntry.svelte";
     import { createGroup } from "../../../../lib/util";
     import { projects, selectedFile } from "../../../stores/data";
+    import Button from "../../shared/Button.svelte";
+    import OptionEntry from "../../shared/OptionEntry.svelte";
 
     export let dialog: DialogProperty;
 
@@ -57,14 +57,14 @@
 </OptionEntry>
 
 <div class="create-btn">
-    <Button disabled={group.id.length == 0} on:click={createNewGroup} on:click
-        >Create</Button
-    >
+    <Button disabled={group.id.length == 0} on:click={createNewGroup} on:click>
+        Create
+    </Button>
 </div>
 
 <style>
     .note {
-        font-size: 14px;
+        font-size: .85rem;
         color: #444;
     }
 </style>

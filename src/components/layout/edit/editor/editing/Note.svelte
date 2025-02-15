@@ -58,7 +58,7 @@
 
         {#if !embedded}
             <div class="action-buttons">
-                <IconButton on:click={remove} tooltip="Delete note">
+                <IconButton onclick={remove} tooltip="Delete note">
                     <Trash size={16} color="red" />
                 </IconButton>
             </div>
@@ -67,25 +67,14 @@
 </div>
 
 <style>
-    @keyframes expand {
-        from {
-            max-height: 0;
-        }
-        to {
-            max-height: 400px;
-        }
-    }
-
     .container {
         position: relative;
         background-color: var(--highlight-secondary);
         border: 1px solid var(--border);
-        border-radius: 4px;
-        padding: 0.5em 0.75em;
-        font-size: 18px;
+        border-radius: .25rem;
+        padding: 0.5rem 0.75rem;
+        font-size: 1.1rem;
         line-height: 2;
-        margin-bottom: 5px;
-        /* animation: expand 1s linear; */
         overflow: hidden;
         color: #222;
     }
@@ -100,17 +89,14 @@
         justify-content: space-between;
     }
 
-    [contenteditable],
-    input,
-    select {
+    [contenteditable], input, select {
         background: none;
         border: 1px solid rgba(0, 0, 0, 0.2);
         border-radius: 4px;
         padding: 0.1rem;
     }
 
-    [contenteditable]:hover,
-    input:hover {
+    [contenteditable]:hover, input:hover {
         border: 1px solid gray;
         border-radius: 3px;
     }
@@ -122,7 +108,7 @@
     }
 
     .content {
-        font-size: 14px;
+        font-size: .9rem;
     }
 
     .action-buttons {

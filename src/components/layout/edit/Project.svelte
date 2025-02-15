@@ -1,36 +1,24 @@
 <script lang="ts">
-    import JSZip from "jszip";
-    import XmlBeautify from "xml-beautify";
     import { Plus, FileDown, FolderDown, RefreshCw } from "lucide-svelte";
     import { get } from "svelte/store";
-    import {
-        getDerivedFiles,
-        projects,
-        selectedFile,
-    } from "../../../stores/data";
+    import { getDerivedFiles, projects, selectedFile } from "../../../stores/data";
     import { parseAndAddFile } from "../../../utils/util";
+    import { Group, TranslationFormats, Unit, type TranslationFile, type TranslationFormat } from "../../../../lib/types";
+    import { Project, type ExportOptions } from "../../../utils/types";
+    import { preferences } from "../../../stores/preferenceStore";
+    import { createGroup, createUnit, findGroup, forEachBlocking, getUnit } from "../../../../lib/util";
+    import { addToast } from "../../../stores/uiStores";
+    import { fly } from "svelte/transition";
+    import JSZip from "jszip";
+    import XmlBeautify from "xml-beautify";
     import Editor from "./editor/Editor.svelte";
     import Button from "../../shared/Button.svelte";
     import DropdownButton from "../../shared/DropdownButton.svelte";
     import FilePane from "./FilePane.svelte";
-    import {
-        Group,
-        TranslationFormats,
-        Unit,
-        type TranslationFile,
-        type TranslationFormat,
-    } from "../../../../lib/types";
-    import type { ExportOptions } from "../../../utils/types";
-    import { preferences } from "../../../stores/preferenceStore";
-    import {
-        createGroup,
-        createUnit,
-        findGroup,
-        forEachBlocking,
-        getUnit,
-    } from "../../../../lib/util";
-    import { addToast } from "../../../stores/uiStores";
-    import { fly } from "svelte/transition";
+
+    if($projects == null) {
+        $projects = new Project("Untitled");
+    }
 
     function addFiles() {
         let element = document.createElement("input");
@@ -129,10 +117,7 @@
         let files = get(projects).files;
         let zip = new JSZip();
         for (let file of files) {
-            zip.file(
-                file.filename + format.extension,
-                exportFileContent([file], format),
-            );
+            zip.file(file.filename + format.extension, exportFileContent([file], format));
         }
         zip.generateAsync({ type: "blob", compression: "DEFLATE" }).then(
             (content) => {
@@ -168,33 +153,25 @@
 
 <main in:fly={{ duration: 400, y: -20 }}>
     <div class="add-button">
-        <Button on:click={addFiles}>
+        <Button onclick={addFiles}>
             <Plus size={18} /> Add Files
         </Button>
     </div>
 
     <div class="btn-row">
-        <DropdownButton
-            disabled={$projects.files.length == 0}
-            datas={Object.values(TranslationFormats)}
-            on:select={(val) => onExport(val.detail)}
-        >
-            <FileDown /> Export...
+        <DropdownButton disabled={$projects.files.length == 0} datas={Object.values(TranslationFormats)} onselect={(val) => onExport(val)}>
+            <FileDown size={20} /> Export...
         </DropdownButton>
-        <DropdownButton
-            disabled={$projects.files.length <= 1}
-            datas={Object.values(TranslationFormats)}
-            on:select={(val) => onExportAll(val.detail)}
-        >
-            <FolderDown /> Export All
+        <DropdownButton disabled={$projects.files.length <= 1} datas={Object.values(TranslationFormats)} onselect={(val) => onExportAll(val)}>
+            <FolderDown size={20} /> Export All
         </DropdownButton>
-        <Button
-            disabled={$projects.files.length <= 1 ||
-                getDerivedFiles($selectedFile).length <= 1}
-            on:click={syncUnits}
-        >
-            <RefreshCw size={18} /> Sync derived file
-        </Button>
+        {#if getDerivedFiles($selectedFile).length > 1}
+            <div>
+                <Button onclick={syncUnits}>
+                    <RefreshCw size={18} /> Sync derived file
+                </Button>
+            </div>
+        {/if}
     </div>
 
     <div>
@@ -209,11 +186,11 @@
 <style>
     main {
         min-width: 900px;
-        height: calc(100vh - 65px - 15px);
+        height: 100%;
         position: relative;
         display: grid;
         grid-template:
-            "add-file btn-row" 50px
+            "add-file btn-row" 3rem
             "file-pane d" auto;
         grid-template-columns: auto 1fr;
     }
@@ -225,14 +202,12 @@
     }
 
     .add-button {
-        margin: 0 16px;
+        margin-left: 1rem;
     }
 
     .btn-row {
         display: flex;
-        flex-direction: row;
-        gap: 16px;
-        height: 40px;
-        overflow: visible;
+        gap: 1rem;
+        overflow: visible; /* Allow dropdown to show */
     }
 </style>

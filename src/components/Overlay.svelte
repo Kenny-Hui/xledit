@@ -1,20 +1,11 @@
 <script lang="ts">
-    import {
-        activeToasts,
-        activeDialog,
-        activeTooltip,
-        closeDialog,
-    } from "../stores/uiStores";
-    import Toast from "./shared/Toast.svelte";
+    import { activeToasts, activeDialog, activeTooltip, closeDialog } from "../stores/uiStores";
     import { circOut } from "svelte/easing";
+    import Toast from "./shared/Toast.svelte";
     import BaseDialog from "./dialogs/BaseDialog.svelte";
 
     function popAnim(A) {
-        return {
-            duration: 200,
-            easing: circOut,
-            css: (t) => `transform: scale(${0.85 + t * 0.15}); opacity:${t}`,
-        };
+        return { duration: 200, easing: circOut, css: (t) => `transform: scale(${0.85 + t * 0.15}); opacity:${t}` };
     }
 </script>
 
@@ -32,12 +23,7 @@
         </div>
     {/each}
     {#if $activeTooltip != null}
-        <div
-            class="tooltips"
-            style="top: {$activeTooltip.rect.top - 5}px; left: {$activeTooltip
-                .rect.right -
-                $activeTooltip.rect.width / 2}px"
-        >
+        <div class="tooltips" style="top: {$activeTooltip.rect.top - 5}px; left: {$activeTooltip.rect.right - $activeTooltip.rect.width / 2}px">
             <div class="tooltip">
                 {$activeTooltip.content}
             </div>
@@ -60,9 +46,9 @@
     }
 
     .tooltip {
-        font-size: 14px;
+        font-size: .9rem;
         padding: 0.45rem;
-        transform: translateX(-50%) translateY(-2em);
+        transform: translateX(-50%) translateY(-2rem);
         border-radius: 0.25rem;
         background-color: rgba(60, 60, 60, 0.75);
         color: white;
@@ -71,7 +57,7 @@
     .toasts {
         position: fixed;
         left: 50%;
-        bottom: 0px;
+        bottom: 0;
         transform: translate(-50%, 0%);
         margin-bottom: 1rem;
     }

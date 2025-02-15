@@ -1,11 +1,11 @@
 <script>
     import { onMount } from "svelte";
-    import Button from "../../shared/Button.svelte";
     import { Pencil } from "lucide-svelte";
     import { push } from "svelte-spa-router";
     import { fly } from "svelte/transition";
+    import Button from "../../shared/Button.svelte";
 
-    let versions = [];
+    let versions = $state([]);
 
     onMount(() => {
         fetch("https://api.github.com/repos/Kenny-Hui/xledit/releases")
@@ -25,9 +25,7 @@
             Language format.
         </p>
         <div class="action-row">
-            <Button on:click={() => push("/edit")}
-                ><Pencil size={16} />Get Started!</Button
-            >
+            <Button onclick={() => push("/edit")}><Pencil size={16} />Get Started!</Button>
         </div>
     </section>
     <section>
@@ -53,12 +51,12 @@
         box-sizing: border-box;
         margin: auto;
         max-width: 100%;
-        font-size: 18px;
+        font-size: 1.1rem;
         line-height: 1.5;
     }
 
     section img {
-        max-height: 400px;
+        max-height: 26rem;
         max-width: 100%;
         box-shadow: 0 0 12px #000;
         border-radius: 0.5rem;

@@ -9,13 +9,7 @@
     <p slot="description">The accent color to use for the user interface</p>
     <div class="color-list" slot="value">
         {#each Object.entries(themes) as [key, value]}
-            <button
-                class="color-pick"
-                class:color-picked={$preferences.appearance.color == key}
-                title="Accent color {key}"
-                on:click={() => ($preferences.appearance.color = key)}
-                style="background-color: rgb({value});outline-color: rgb({value})"
-            ></button>
+            <button class="color-pick" aria-label="Accent color {key}" class:color-picked={$preferences.appearance.color == key} title="Accent color {key}" onclick={() => ($preferences.appearance.color = key)} style="background-color: rgb({value});outline-color: rgb({value})"></button>
         {/each}
     </div>
 </SettingsEntry>
@@ -60,8 +54,8 @@
     }
 
     .color-pick {
-        width: 32px;
-        height: 32px;
+        width: 2rem;
+        height: 2rem;
         border-radius: 50%;
         cursor: pointer;
         border: 2px solid var(--background);

@@ -25,7 +25,7 @@
 </script>
 
 <div class="inner">
-    <div>
+    <div class="tab">
         <VertTab items={tabs} bind:selectedIndex={selectedPane} />
     </div>
     <div class="pane">
@@ -36,17 +36,14 @@
 <style>
     .inner {
         min-width: 512px;
-        height: 256px;
-        display: grid;
-        grid-template-columns: auto 2fr;
-        gap: 10px;
-    }
-
-    .inner > div:nth-child(1) {
-        border-right: 4px solid var(--highlight-color);
+        height: 16rem;
+        display: flex;
     }
 
     .pane {
+        border-left: 4px solid var(--highlight-color);
+        flex: 1;
+        padding: 0 0.25rem;
         overflow: auto;
     }
 </style>

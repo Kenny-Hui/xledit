@@ -1,35 +1,36 @@
 <script lang="ts">
     import { ChevronDown } from "lucide-svelte";
-    import { createEventDispatcher } from "svelte";
     import { fly } from "svelte/transition";
 
-    export let disabled = false;
-    export let datas: Array<any>;
-    let toggled = false;
+    let expanded = $state(false);
 
-    const dispatcher = createEventDispatcher();
-
-    function onSelect(i: number) {
-        dispatcher("select", i);
-    }
+    let { disabled = false, datas, onselect, children }: { disabled: boolean, datas: Array<any>, onselect: any, children: any } = $props();
 </script>
 
-<button {disabled} on:click={() => (toggled = !toggled)} class:toggled>
-    <slot /><ChevronDown size={18} />
-    {#if toggled}
+<div class="dropdown-container">
+    <button {disabled} onclick={() => (expanded = !expanded)} class:expanded>
+        {@render children() } <ChevronDown size={18} />
+    </button>
+    {#if expanded}
         <ul class="dropdown" transition:fly={{ duration: 150, y: -10 }}>
             {#each datas as data, i}
                 <li>
-                    <button on:click={() => onSelect(i)} class="dropdown-btn"
-                        >{data.name}</button
-                    >
+                    <button onclick={() => {
+                        onselect(i);
+                        expanded = false;
+                    }} class="dropdown-btn">{data.name}</button>
                 </li>
             {/each}
         </ul>
     {/if}
-</button>
+</div>
+
 
 <style>
+    .dropdown-container {
+        position: relative;
+    }
+    
     button {
         position: relative;
         display: flex;
@@ -39,10 +40,9 @@
         font-family: var(--secondary-font-set);
         background-color: var(--highlight-color);
         color: white;
-        padding: 0.75em;
-        border-radius: 0.45em;
-        font-size: 15px;
-        z-index: 4;
+        padding: 0.7rem;
+        border-radius: 0.4rem;
+        z-index: 3;
     }
 
     button:hover:not(:disabled) {
@@ -69,15 +69,15 @@
         transform: scale(0.97);
     }
 
-    button.toggled {
+    button.expanded {
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
     }
 
     .dropdown {
         position: absolute;
+        z-index: 4;
         left: 0;
-        top: 100%;
         width: 100%;
         box-sizing: border-box;
         border: 3px solid var(--highlight-color);
