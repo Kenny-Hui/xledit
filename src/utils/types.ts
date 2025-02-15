@@ -1,6 +1,7 @@
-import { SvelteComponent, type ComponentType } from "svelte";
+import { type Component } from "svelte";
 import { getISO639 } from "./util";
 import { TranslationFile } from "../../lib/types";
+import type { Component } from "lucide-svelte";
 
 export const FieldIndentStep = 15;
 export const cjkRegex = /[\u4E00-\u9FFF]|[一-龯]/;
@@ -78,12 +79,12 @@ export const Translators = {
 } as const;
 
 export class DialogProperty {
-  component: typeof SvelteComponent;
+  component: Component;
   data: any;
   callback: Function;
 
   constructor(
-    component: ComponentType,
+    component: Component,
     data: any = null,
     callback: Function = null,
   ) {

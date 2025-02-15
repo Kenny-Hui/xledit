@@ -53,12 +53,12 @@
                     <option value={val}>{val}</option>
                 {/each}
             </select>
-            <td
+            <div
                 class="content"
                 contenteditable
                 bind:textContent={context.content}
                 style="flex:1"
-            ></td>
+            ></div>
             <IconButton
                 on:click={() => removeContext(context)}
                 tooltip="Delete Context"
